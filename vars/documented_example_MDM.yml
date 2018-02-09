@@ -1,0 +1,59 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+ibm_infosvr_metadata_asset_mgr_import_areas:
+
+############### IBM InfoSphere Master Data Management ###############
+# The IBM InfoSphere Master Data Management bridge imports virtual and physical definitions and related database objects from XMI files that were exported from InfoSphere MDM. You can use the imported database tables and columns in InfoSphere DataStage® and QualityStage® jobs.
+# The following types of objects are imported:
+# 
+#     MDM assets:
+#         MDM model
+#         Member type
+#         Attribute
+#         Attribute type
+#         Field
+#         Entity type
+#         Composite view
+#         Physical object
+#         Physical object attribute
+#         Transaction
+#         Transaction parameter
+#         External service
+#         External service operation
+#         External Service operation parameter
+#     Implemented data resources
+#         Host
+#         Database
+#         Database schema
+#         Database table
+#         Database column
+# 
+# For more information, see Assets imported from InfoSphere Master Data Management.
+# Prerequisites
+# 
+# In InfoSphere MDM, export virtual definitions or physical definitions to an XMI file. 
+
+  - 
+    name: FULL_MDM_ImportArea
+    type: MDM
+    description: "A full sample (all options) for an MDM import area"
+    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    # Browse to select an XMI file that contains definitions that were exported from InfoSphere MDM.
+    file: "/some/directory/filename.xmi"                # full path to the XMI file to load
+    # Specify what action to take if an imported asset matches an existing asset in the metadata repository. You can keep the existing description, or overwrite the existing description with the description of the imported asset. If either description is null, the non-null description is used, regardless of which option you specify. The default behavior is to replace the existing description.
+    existing_asset: Keep_existing_description           # or "Replace_existing_description" (default)

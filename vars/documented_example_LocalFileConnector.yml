@@ -1,0 +1,91 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+ibm_infosvr_metadata_asset_mgr_import_areas:
+
+############### File Connector - Engine Tier ###############
+# The File connector imports metadata about the contents of file systems from Hadoop Distributed File System(HDFS) or from files on the engine tier of InfoSphere Information Server. Selecting File Connector - Engine Tier indicates that your import source is a computer on the engine tier.
+# 
+# You select the desired engine tier computer by selecting a metadata interchange server in the New Import Area window of InfoSphere Metadata Asset Manager. For connectors, all metadata interchange servers are on engine tier computers.
+# 
+# You can browse the assets and view data lineage in InfoSphere Information Governance Catalog.
+# The following types of metadata are imported and stored in the metadata repository of InfoSphere Information Server:
+# 
+# Data file folders
+#     Data file folders can contain other data file folders and data files.
+# Data files
+#     Data files can contain one or more data file structures. In the case of the File connector, each data file that is imported contains a single data file structure.
+# Data file structures
+#     Data file structures are the file equivalent of database tables. 
+# Data file fields
+#     Data file fields are contained by data file structures. Data file fields are similar to database columns.
+# Data file definitions
+#     Data file definitions define the structure of data files. A data file definition does not represent a file asset that is imported into the metadata repository or a file that physically exists in the real world. It represents the structure of files that might be created and imported later. A data file can implement a data file definition.
+# Data file definition structures
+#     Data file definition structures represent table-like objects within data file definitions. A data file structure can implement a data file definition structure.
+# Data file definition fields
+#     Data file definition fields are column-like elements within data file definition structures. A data file field can implement a data file definition field.
+# 
+# You can choose to import just the data file folders and data files, without importing data file definitions and data file structures. When you select the parameter Import file structure, information from .osh schema files about the structure of the folders and files is imported, along with header information in the files that defines data file structures. If you do not select Import file structure, only data file folders and data files are imported.
+# 
+# For more information on the File connector, see Importing File connector metadata.
+# https://www.ibm.com/support/knowledgecenter/SSZJPZ_11.7.0/com.ibm.swg.im.iis.conn.filecon.usage.doc/topics/fileconn_t_importing_metadata.html
+#
+# Prerequisites
+# 
+# If you do not have metadata about files and folders in the engine tier file system, specify column metadata and metadata about how a file is formatted by using one of the metadata formatting options (https://www.ibm.com/support/knowledgecenter/SSZJPZ_11.7.0/com.ibm.swg.im.iis.conn.filecon.usage.doc/topics/r_metadata_parent.html).
+# InfoSphere Metadata Asset Manager imports metadata that is specified in one of the following ways:
+# 
+#     As the first row of the file.
+#     In an .osh schema file that is in the same folder and is named file.osh or folder.osh, where file is the name of a file in the folder and folder is the name of the folder. For example, if fileA.txt is in the sample directory, metadata can be specified in the fileA.txt.osh or sample.osh files.
+# 
+# Data connection parameters
+# Specify values for the following parameters when you create a data connection to the engine tier. Your credentials for InfoSphere Metadata Asset Manager are used to connect to the engine tier computer and are not saved with the data connection.
+# 
+# Name
+#     Specify the name of the data connection.
+# Description
+#     Specify a description of the data connection. 
+  - 
+    name: FULL_LocalFileConnector_ImportArea
+    type: LocalFileConnector
+    description: "A full sample (all options) for a LocalFileConnector import area"
+    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    # Browse to select from existing data connections, or create a data connection to use. After the import is shared, the data connection cannot be changed on reimport, though the password can be changed if the test connection fails.
+    dcn:
+      name: LOCALFS
+      description: "Data connection for sample data from the local file system of the engine tier"
+    # Specify file types filter: a list of allowed extensions. For example, csv, log, txt.
+    file_types:
+      - "csv"                                           # include files with .csv extension
+      - "dat"                                           # include files with .dat extension
+    # Browse to select the data file folders and data files to import.
+    assets_to_import:
+      - "folder[/data/TPC/loadable]"                    # to load all files in /data/TPC/loadable (of file_types above)
+      - "file[/data/TPC/loadable/filename.dat]"         # to load only the file "filename.dat" within /data/TPC/loadable directory
+    # Select to import data file definitions and data file structures that define the structure of the imported data file folders and data files.
+    # If you do not select Import file structure, only data file folders and data files are imported.
+    # NOTE: to import structure, you'll likely need either an OSH sidecar file for each data file (in same directory as the data file), or some QEXT.INI configuration
+    import_file_structure: True
+    # Select to ignore errors when trying to access data files during the import.
+    # This option is valuable if some of your data files might not be accessible but you want to complete the import of the rest of the metadata.
+    ignore_asset_errors: False
+    # Specify what action to take if an imported asset matches an existing asset in the metadata repository. You can keep the existing description, or overwrite the existing description with the description of the imported asset. If either description is null, the non-null description is used, regardless of which option you specify. The default behavior is to replace the existing description.
+    existing_asset: Keep_existing_description           # or "Replace_existing_description" (default)
+    # Type the name of the computer or browse the metadata repository to select the computer that hosts or will host the data file, or data file folder. This value is important for creating and reconciling the identity of the asset in the repository.
+    # You can specify a different name than the name of the source computer. For example, you might specify the computer that will host this data file during development or production.
+    hostname: "IS-SERVER.IBM.COM"

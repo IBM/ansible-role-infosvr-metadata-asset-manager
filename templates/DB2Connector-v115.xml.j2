@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+-->
+<ImportParameters bridgeDisplayName="IBM InfoSphere DB2 Connector" bridgeId="CAS/DB2Connector__9.1" bridgeVersion="9.1_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
+  <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
+    <Parameter isRequired="true" displayName="Name" id="dcName_">
+      <value>{{ item.dcn.name }}</value>
+    </Parameter>
+    <Parameter displayName="Description" id="dcDescription_">
+{% if item.dcn.description is defined %}
+      <value>{{ item.dcn.description }}</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+    <Parameter isRequired="true" displayName="Database/Location" id="Database">
+      <value>{{ item.dcn.database }}</value>
+    </Parameter>
+    <Parameter displayName="User name" id="Username">
+      <value>{{ item.dcn.username }}</value>
+    </Parameter>
+    <Parameter displayName="Password" id="Password">
+      <value>{{ item.dcn.password }}</value>
+    </Parameter>
+    <Parameter displayName="Instance" id="Instance">
+{% if item.dcn.instance is defined %}
+      <value>{{ item.dcn.instance }}</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+  </CompositeParameter>
+  <Parameter displayName="Include tables" id="includeTables" type="BOOLEAN">
+{% if item.include_tables is defined %}
+    <value>{{ item.include_tables|capitalize }}</value>
+{% else %}
+    <value>True</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Include views" id="includeViews" type="BOOLEAN">
+{% if item.include_views is defined %}
+    <value>{{ item.include_views|capitalize }}</value>
+{% else %}
+    <value>True</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Include nicknames" id="includeNicknames" type="BOOLEAN">
+{% if item.include_nicknames is defined %}
+    <value>{{ item.include_nicknames|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Include aliases" id="includeAliases" type="BOOLEAN">
+{% if item.include_aliases is defined %}
+    <value>{{ item.include_aliases|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="XML columns as LOBs" id="importXmlAsLob" type="BOOLEAN">
+{% if item.include_xml_as_lob is defined %}
+    <value>{{ item.include_xml_as_lob|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Include system objects" id="IncludeSystemObjects" type="BOOLEAN">
+{% if item.include_system_objects is defined %}
+    <value>{{ item.include_system_objects|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Import assets as&#xa;databases from z/OS" id="ImportAssetsAsDatabases" type="BOOLEAN">
+{% if item.import_as_zos is defined %}
+    <value>{{ item.import_as_zos|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Schema name filter" id="SchemaNameFilter">
+{% if item.schema_name_filter is defined %}
+    <value>{{ item.schema_name_filter }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Use regular expression in schema&#xa;name filter" id="UseRegexInSchemaNameFilter" type="BOOLEAN">
+{% if item.use_regex_for_schema_name_filter is defined %}
+    <value>{{ item.use_regex_for_schema_name_filter|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Table name filter" id="TableNameFilter">
+{% if item.table_name_filter is defined %}
+    <value>{{ item.table_name_filter }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Assets to import" id="AssetsToImport">
+{% if item.assets_to_import is defined %}
+    <value>{{ item.assets_to_import|join(";") }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Import schema structure" id="ImportSchemaStructure" type="BOOLEAN">
+{% if item.import_schema_structure is defined %}
+    <value>{{ item.import_schema_structure|capitalize }}</value>
+{% else %}
+    <value>True</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Import table structure" id="ImportTableStructure" type="BOOLEAN">
+{% if item.import_table_structure is defined %}
+    <value>{{ item.import_table_structure|capitalize }}</value>
+{% else %}
+    <value>True</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Ignore table access&#xa;errors" id="IgnoreTableAccessErrors" type="BOOLEAN">
+{% if item.ignore_table_access_errors is defined %}
+    <value>{{ item.ignore_table_access_errors|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
+{% if item.existing_asset is defined and item.existing_asset == 'Keep_existing_description' %}
+    <displayValue>Keep the existing description</displayValue>
+    <value>{{ item.existing_asset }}</value>
+{% else %}
+    <displayValue>Replace the existing description</displayValue>
+    <value>Replace_existing_description</value>
+{% endif %}
+  </Parameter>
+  <Parameter isRequired="true" displayName="Host system name" id="AP_Host system name">
+    <value>{{ item.hostname }}</value>
+  </Parameter>
+  <Parameter displayName="Database name" id="AP_Database name">
+{% if item.database_name is defined %}
+    <value>{{ item.database_name }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="DBMS server instance&#xa;name" id="AP_DBMS server instance name">
+{% if item.instance_name is defined %}
+    <value>{{ item.instance_name }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+</ImportParameters>

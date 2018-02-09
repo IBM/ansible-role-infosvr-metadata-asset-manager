@@ -1,0 +1,74 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+- name: check if data connection exists
+  uri:
+    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
+    method: POST
+    user: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}"
+    password: "{{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}"
+    body: '{"properties":["name"],"types":["data_connection"],"where":{"conditions":[{"value":"{{ item.name }}","property":"name","operator":"="}],"operator":"and"}}'
+    body_format: json
+    validate_certs: no
+    status_code: 200
+    headers:
+      Content-Type: "application/json"
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+  register: ibm_infosvr_metadata_asset_manager_existing_dcn
+
+# TODO: Cognos (and others?) have just item.password ...
+#- name: encrypt any password information
+#  no_log: True
+#  shell: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh {{ item.dcn.password }}"
+#  args:
+#    executable: /bin/bash
+#  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+#  changed_when: False
+#  register: encrypted_passwords
+
+- name: transfer data connection templates
+  template:
+    src: DCN_{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2
+    dest: /tmp/DCN_{{ item.name }}-{{ item.type }}.xml
+    owner: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
+    group: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_group }}"
+    mode: 0600
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+
+- name: create data connection
+  shell: >
+          source ~/.bashrc &&
+          cd `cat /.dshome` &&
+          . dsenv &&
+          {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
+          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
+          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
+          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
+          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -a createDC
+          -fp /tmp/DCN_{{ item.item.name }}-{{ item.item.type }}.xml
+          -mn {{ ibm_infosvr_metadata_asset_mgr_services_host }}
+  args:
+    executable: /bin/bash
+  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
+  become: yes
+  when: item.json.paging.numTotal == 0
+  with_items: "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.results }}"
+
+- name: remove data connection configuration files
+  file: state=absent path=/tmp/DCN_{{ item.name }}-{{ item.type }}.xml
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"

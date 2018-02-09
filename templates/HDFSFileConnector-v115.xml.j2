@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+-->
+<ImportParameters bridgeDisplayName="File Connector - HDFS" bridgeId="CAS/HDFSFileConnector__1.6" bridgeVersion="1.6_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
+  <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
+    <Parameter isRequired="true" displayName="Name" id="dcName_">
+      <value>{{ item.dcn.name }}</value>
+    </Parameter>
+    <Parameter displayName="Description" id="dcDescription_">
+{% if item.dcn.description is defined %}
+      <value>{{ item.dcn.description }}</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+    <Parameter isRequired="true" displayName="File system" id="FileSystem">
+      <displayValue>{{ item.dcn.file_system }}</displayValue>
+{% if item.dcn.file_system == 'WebHDFS' %}
+      <value>1</value>
+{% elif item.dcn.file_system == 'HttpFS' %}
+      <value>2</value> <!-- CONFIRM THIS IS CORRECT? -->
+{% endif %}
+    </Parameter>
+    <Parameter displayName="Use SSL (HTTPS)" id="ssl" type="BOOLEAN">
+      <value>false</value>
+    </Parameter>
+    <Parameter displayName="Use Kerberos" id="Kerberos" type="BOOLEAN">
+      <value>false</value>
+    </Parameter>
+    <Parameter displayName="Use keytab" id="UseKeytab" type="BOOLEAN">
+{% if item.dcn.keytab is defined and item.dcn.keytab != "" %}
+      <value>true</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+    <Parameter isRequired="true" displayName="Keytab" id="Keytab">
+{% if item.dcn.keytab is defined %}
+      <value>{{ item.dcn.keytab }}</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+    <Parameter displayName="Service principal" id="ServicePrincipal">
+{% if item.dcn.service_principal is defined %}
+      <value>{{ item.service_principal }}</value>
+{% endif %}
+    </Parameter>
+    <Parameter displayName="Use custom URL" id="UseCustomURL" type="BOOLEAN">
+{% if item.dcn.custom_url is defined and item.dcn.custom_url != "" %}
+      <value>true</value>
+{% else %}
+      <value>false</value>
+{% endif %}
+    </Parameter>
+    <Parameter isRequired="true" displayName="Custom URL" id="CustomURL">
+{% if item.dcn.custom_url is defined %}
+      <value>{{ item.dcn.custom_url }}</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+    <Parameter isRequired="true" displayName="Host" id="Host">
+      <value>{{ item.dcn.host }}</value>
+    </Parameter>
+    <Parameter displayName="Port" id="Port">
+{% if item.dcn.port is defined %}
+      <value>{{ item.dcn.port }}</value>
+{% elif item.dcn.use_ssl is defined and item.dcn.use_ssl and item.dcn.file_system == 'WebHDFS' %}
+      <value>50470</value>
+{% elif item.dcn.use_ssl is defined and item.dcn.use_ssl and item.dcn.file_system == 'HttpFS' }
+      <value>14443</value>
+{% else %}
+      <value>50070</value>
+{% endif %}
+    </Parameter>
+    <Parameter isRequired="true" displayName="User name" id="Username">
+      <value>{{ item.dcn.username }}</value>
+    </Parameter>
+    <Parameter displayName="Password" id="Password">
+{% if item.dcn.password is defined %}
+      <value>{{ item.dcn.password }}</value>
+{% else %}
+      <value></value>
+{% endif %}
+    </Parameter>
+  </CompositeParameter>
+  <Parameter displayName="File types filter" id="FileTypeFilter">
+{% if item.file_types is defined %}
+    <value>{{ item.file_types|join(",") }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Assets to import" id="DirectoryContents">
+{% if item.assets_to_import is defined %}
+    <value>{{ item.assets_to_import|join(";") }}</value>
+{% else %}
+    <value></value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Import file structure" id="ImportFileStructure" type="BOOLEAN">
+{% if item.import_file_structure is defined %}
+    <value>{{ item.import_file_structure|capitalize }}</value>
+{% else %}
+    <value>True</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="Ignore metadata access errors" id="IgnoreAccessError" type="BOOLEAN">
+{% if item.ignore_access_errors is defined %}
+    <value>{{ item.ignore_access_errors|capitalize }}</value>
+{% else %}
+    <value>False</value>
+{% endif %}
+  </Parameter>
+  <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
+{% if item.existing_asset is defined and item.existing_asset == 'Keep_existing_description' %}
+    <displayValue>Keep the existing description</displayValue>
+    <value>{{ item.existing_asset }}</value>
+{% else %}
+    <displayValue>Replace the existing description</displayValue>
+    <value>Replace_existing_description</value>
+{% endif %}
+  </Parameter>
+  <Parameter isRequired="true" displayName="Host system name" id="Identity_HostSystem">
+    <value>{{ item.hostname }}</value>
+  </Parameter>
+</ImportParameters>

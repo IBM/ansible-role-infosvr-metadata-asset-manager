@@ -1,0 +1,88 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+ibm_infosvr_metadata_asset_mgr_import_areas:
+
+############### IBM InfoSphere Data Architect MetaBroker ###############
+# The IBM InfoSphere Data Architect MetaBroker imports physical data models (DBM) and logical data models (LDM) from IBM InfoSphere Data Architect, Version 7.5.1 through 9.1.1.
+# 
+# The IBM® InfoSphere Data Architect MetaBroker® does not support transferring naming models and glossary metadata between the metadata repository and InfoSphere Data Architect. For that purpose, use the import and export functionality in InfoSphere Information Governance Catalog.
+# 
+# When you import a physical data model, you have the option on the Identity Parameters screen to create a database schema that implements the physical data model. Both the schema and the physical data model are stored in the metadata repository.
+# Importing referenced files
+# 
+# Models in InfoSphere Data Architect can have relationships to multiple other models. When you use the IBM InfoSphere Data Architect MetaBroker, you select a single DBM or LDM file to import, but it is possible to import multiple referenced LDM and DBM files with the same import.
+# 
+# To also import files that are referenced by that file, you must place the files on the metadata interchange server in the correct relative path to each other. For the File location parameter, select Metadata interchange server. Do not select Local computer.
+# Referenced files are imported in the following manner. In all cases, for a referenced file to be imported, it must be on the metadata interchange server, in the correct relative path from the file that references it.
+# 
+#     If you import an LDM file that has references to one or more LDM files, then all the referenced LDM files are imported, along with any other LDM files that they reference, and so on. For a referenced file to be imported it must be in the correct relative path from the file that references it.
+#     If you import a DBM file that has references to other LDM and DBM files, and you select Import LDM assets with DBM, then all the referenced LDM and DBM files and all the LDM or DBM files that they reference, and so on, are imported. Implementation relationships are established between all DBM files that are imported and all the LDM files that are imported that they implement.
+#     If you import a DBM file that has references to other LDM and DBM files, and you do not select Import LDM assets with DBM, then only the referenced DBM files and the DBM files that they reference are imported. However, linkpoints are created to the referenced LDM files. If you import any of the referenced LDM files in the future, the implementation references are instantiated.
+# 
+# Importing multiple files in this manner can make the import take much longer than importing a single LDM file or a single DBM file and one related LDM file.
+  - 
+    name: FULL_IDA1_ImportArea
+    type: IDA1
+    description: "A full sample (all options) for an IBM InfoSphere Data Architect Metabroker import area"
+    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    # Required. Select the physical data model (DBM) file or logical data model (LDM) file to import. Ensure that you have also selected Metadata interchange server for the File location parameter.
+    # For information on importing referenced models at the same time, see the section Importing referenced files on the bridge help page of the import wizard.
+    model_file: "C:\\somewhere\\something.dbm"
+    # Required. Select the version of InfoSphere Data Architect that was used to create the import file:
+    #    7.5. InfoSphere Data Architect Version 7.5.1, 7.5.2, or 7.5.3. Imports are not supported from IBM Rational Data Architect, Version 7.5.
+    #    7.6. InfoSphere Data Architect Version 7.6.
+    #    8.1. InfoSphere Data Architect Version 8.1.
+    #    8.5. InfoSphere Data Architect Version 8.5.
+    #    9.1. InfoSphere Data Architect Version 9.1.
+    model_version: "7.5"
+    # Select if you are importing a DBM file and you want to also import related LDM assets. The files that the specified DBM file references must be on the metadata interchange server, in the correct path that matches the references in the DBM file. The import preserves the relationships between the assets. 
+    import_ldm_with_dbm: True
+    # Specify what action to take if an imported asset matches an existing asset in the metadata repository. You can keep the existing description, or overwrite the existing description with the description of the imported asset. If either description is null, the non-null description is used, regardless of which option you specify. The default behavior is to replace the existing description.
+    existing_asset: Replace_existing_description    # or "Keep_existing_description"
+    # Required. Specify a namespace value for the logical or physical data model. This value is combined with the name of the data model to set the identity of the data model. Specifying a unique namespace value is important when you might import different logical or physical data models that have the same name.
+    # If you are importing logical and physical data models at the same time, the namespace value that you specify is used for each of them.
+    model_namespace: "SAMPLE"
+    # Select to create a database schema and database tables from the physical data model. Both the physical data model and the database schema are stored in the metadata repository on import. After you select this option, specify the host name, database name, and DBMS name in the identity parameters to create a valid identity for the database schema.
+    create_schema_from_pdm: False
+    # Type the name of the computer or browse the metadata repository to select the computer that hosts or will host the database, data file, or data file folder. This value is important for creating and reconciling the identity of the asset in the repository.
+    # You can specify a different name than the name of the source computer. For example, you might specify the computer that will host this database during development or production.
+    # Required: if 'create_schema_from_pdm' is True
+    hostname: ""
+    # Type the name of the database or browse to select the database that will contain the imported tables. This value is important for creating and reconciling the identity of the database in the repository.
+    # You can specify a different name than the name of the source database. For example, you might specify the database that will contain the tables during development or production.
+    # For connector imports, if you leave this value empty, the value specified in the data connection is used.
+    # This parameter is ignored if you are importing from multiple databases on IBM z/OS.
+    # Required: if 'create_schema_from_pdm' is True
+    database_name: ""
+    # If you specify a value for the Database name parameter, choose one of the following options:
+    #    Use database name to override bridge value. The database name that you specify replaces any value that is returned by the bridge.
+    #    Use database name if bridge value is empty. The database name that you specify is used only if the bridge returns no database name.
+    # If you override the bridge value and the import includes more than one database, the database name that you specify is used only to replace empty values. If you override the bridge value but you specify no value for database name, the bridge value is not changed.
+    database_name_override_bridge: False
+    # Select or type the name of the DBMS (database management system) that hosts or will host the database.
+    # The DBMS name is part of the identity of the target database. You can specify a different DBMS than the one that hosts the source database. The DBMS name must be appropriate for the value that you entered in the Database name field on this screen.
+    # Required: if 'create_schema_from_pdm' is True
+    dbms_name: "DB2"                                # or "ACCESS" or "EXCEL" or "Informix" or "Microsoft SQL Server" or "Oracle" or "SQL Server" or "Teradata" or "Text" or "XML"
+    # Options:
+    #    True:  The DBMS name that you specify replaces any value that is returned by the bridge.
+    #    False: Use DBMS name to replace empty bridge value. The DBMS name that you specify is used only if the bridge returns no DBMS name.
+    # If you choose to override the bridge value and the import includes more than one DBMS, the DBMS name that you specify is used only to replace empty values. If you choose to override the bridge value but you specify no DBMS name, the bridge value is not changed.
+    dbms_name_override_bridge: False
+    # If applicable, type the name of the DBMS server instance that hosts or will host the database. Some database management systems do not have the concept of DBMS server instance.
+    # DBMS server instance name is part of the identity of the target database. You can specify a different DBMS server instance name than the one that hosts the source database. The DBMS server instance name must be appropriate for the value that you entered in the Database name field on this screen.
+    dbms_server_instance: ""

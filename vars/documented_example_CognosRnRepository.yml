@@ -1,0 +1,193 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+ibm_infosvr_metadata_asset_mgr_import_areas:
+
+############### IBM Cognos Content Manager ###############
+# The IBM Cognos BI Reporting - Content Manager bridge supports Cognos BI Reporting Content Manager functionality in Cognos ReportNet and Cognos versions 8 to 8.4 and 10, 10.2 and 11. The bridge imports a complete package of business intelligence (BI) models, BI reports, and related implemented data resources, such as database tables and columns.
+# 
+# You use the Assets to import parameter to import models, reports, and implemented data resources. You can also import cube-related metadata from Cognos PowerPlay Transformer by using the Transformer import configuration parameter. You can view data lineage for all the imported assets in .
+# 
+# BI reports are report templates that are created within the reporting tools Cognos Report Studio and Cognos Query Studio. BI reports include BI queries and query members that source and aggregate the information to display from BI models that are created in Cognos Framework Manager.
+# Note: The following known limitations are applicable when you use the bridge with Cognos 10.2.
+# 
+#     Metadata that is imported with the updated bridge might not fully reconcile with the metadata that was imported by using the earlier version of the same bridge.
+#     When you run metadata imports with the updated bridge from multi-server Cognos environments, the connection to the repository might be reset and the import might fail.
+# 
+# Prerequisites
+# 
+# Ensure that the following prerequisites are met before you run the bridge:
+# 
+# Connectivity
+# 
+#     Before you can access Cognos Content Manager, its web services must be operational. Setting up these web services might require working with the networking proxy and firewall.
+# 
+#     To test the connection, connect to Cognos Content Manager by using a web browser to make sure that it is accessible from the client computer. An example URL is http://localhost:9300/p2pd/servlet. If Cognos Content Manager is running and accessible, you can see a status page. The state of the server must be running.
+# 
+#     Before you use the bridge for imports, test if your authentication parameters work by using the web client tool from Cognos to verify the availability of the connection and authentication. Connect to http://localhost:port_number/c8/cm_tester.htm or, for Cognos 10.2, http://localhost:9300/p2pd/cm_tester.htm, substituting the appropriate IP name and port number. The bridge does not work if connection and authentication are not available at those addresses.
+# 
+#     Cognos must be able to locate a gateway or dispatcher that is running on a web server that supports chunking and attachments to handle large volumes of data. If there is no firewall between users and Cognos, components use the default setting. If there is a firewall, you must have access to at least one web server that supports chunking outside of the firewall.
+#     The http or https protocol prefix indicates whether SSL is required. You can find the value in the Cognos installation directory in the file configuration\cogstartup.xml file. For example:
+# 
+#     <crn:parameter name="cdk"
+#     <crn:value xsi-Type="xsd:anyURI">
+#     http://localhost:9300/p2pd/servlet/dispatch</crn:value>
+#     </crn:parameter>
+# 
+#     Contact your Cognos administrator or Cognos support if necessary.
+# 
+#     For more information on connecting to Cognos by using SSL, see the following technote http://www.ibm.com/support/docview.wss?&uid=swg21679093.
+# Permissions for users
+# 
+#     IBM Cognos has five types of permissions: Read, Execute, Traverse, Write, and Set Policy. These permissions can be assigned or restricted for a user, group, or role.
+# 
+#     Ensure that the user has the Read, Execute, and Traverse permissions assigned for all entries that are included in the import, (not just Execute and Traverse, as often recommended by the IBM Cognos documentation). Such entries include folders, reports, queries, analysis, packages, and connections. These permissions are read-only and do not change the Cognos contents. Many entries depend upon others. For example, packages use connections, reports use packages, and so on.
+# 
+#     Data sources in IBM Cognos can be secured against multiple namespaces. In some environments, the namespace that is used to secure the data source is not the primary namespace that is used for access to IBM Cognos Connection. The bridge might need to access a report or other entry that is associated with a data source that secured against multiple namespaces. In such cases you must specify a user that has permissions for the required primary namespace. See the IBM Cognos documentation on permissions and security for more details.
+# 
+# Frequently asked questions
+# 
+# Why are multiple versions of a package extracted from Content Manager?
+#     You can edit or update any design model in Cognos Framework Manager and publish it as a new version of a Framework Manager package in Content Manager. The Cognos development lifecycle requires that you then migrate any related reports to use this new version of the package in Content Manager. If you do not complete that migration for all such reports, some reports might still use an old version of a package. Remove old versions of a package that are longer be used. Some new versions of a package might not be used yet by any version. In such cases, multiple versions of a package might be used by different reports and thus imported.
+# How can I extract only the latest version of a package from Content Manager?
+#     Select a single package to import, and set the Add dependent objects parameter to False. Only the latest version of the package is extracted. 
+# What should I do about import log warnings such as Could not get model reference for Report XXX?
+#     The report metadata might not have a valid reference to the model that is based on the report or query. Open the report or query in Report Studio or Query Studio and save it without making changes, then reimport the report or query. Saving the report or query updates the references in the repository. 
+#     It is also possible that the model the report or query is based upon is no longer accessible, perhaps because it was deleted or renamed. In this case, fix the report or the query to refer to the correct model.
+# 
+# Troubleshooting
+# To provide metadata for support cases, export your metadata from the Cognos 8.4 or Cognos 10 server into an archive file, such as a ZIP file:
+# 
+#     Connect to IBM Cognos Connection by using the web browser.
+#     Click Launch > IBM Cognos Administration.
+#     Click Configuration.
+#     Click Content Administration.
+#     Click New Export.
+#     Follow the instructions in the export wizard to export the metadata.
+#         Avoid exporting the whole content store. To export specific folders and directory content, click Select public folders and directory content and follow the wizard pages to choose only the packages and folders that you want.
+#         Do not include access permissions and references to namespaces other than IBM Cognos.
+#         Set entry ownership to the user who performs the import in the target environment.
+#         If you create a deployment archive, do not use spaces in the name.
+#     After you run the export, send the archive file to the support team. The export can result in a single compressed file or a multi-volume archive file. The exported archive is usually located on the server in the folder C:\Program Files\cognos\c8\deployment.
+# 
+# For more information, see the IBM Cognos documentation for details about exporting metadata from your version Cognos.
+  - 
+    name: FULL_CognosRnRepository_ImportArea
+    type: CognosRnRepository
+    description: "A full sample (all options) for a IBM Cognos Content Manager import area"
+    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    # Required. Select the version of Cognos server that you want to import from. Select Cognos 10 to import from Cognos 10.1 or 10.2.
+    cognos_version: "Auto detect"                   # or "Cognos 10" or ...
+    # Required. Type the URI that is used by the Framework Manager, Metrics Designer, or SDK to send requests to Cognos.
+    # The value typically corresponds to the External dispatcher URI of one of the dispatchers in your installation, for example http://Server:9300/p2pd/server/dispatch. You must use the specific network host name or IP address instead of localhost. If the Framework Manager, Metrics Designer, or SDK clients connect to Cognos through an intermediary such as a load balancer or proxy, specify the host and port of the intermediary. For more information, see the bridge prerequisites.
+    dispatcher_url: "http://cog-server:9300/p2pd/servlet/dispatch"
+    # Leave blank if Cognos authentication is not configured.
+    # A namespace defines a collection of user accounts from an authentication provider. See Authentication Providers in the Cognos ReportNet Installation and Configuration Guide.
+    namespace: ""
+    # Type the user name to use if Cognos authentication is configured. Leave blank if Cognos authentication is not configured.
+    # This import bridge is read-only and never affects the IBM Cognos contents. It is safe to attempt the initial metadata import as Administrator in order to ensure that the entire content is extracted without access permission issues. Eventually, the administrator can set up a read-only user or group. For more information, see the bridge prerequisites.
+    username: "{{ cognos_user }}"
+    # Type the password if Cognos authentication is configured. Leave blank if Cognos authentication is not configured.
+    password: "{{ cognos_user_pwd }}"
+    # Specify what types of objects are retrieved when you browse the Cognos repository. To see all available content, select the default, All, which retrieves the tree of packages, folders, queries, and reports.
+    # This parameter is used only if you browse for assets in the Assets to import field. It is not used if you type a content string that specifies search paths.
+    content_browsing_mode: "All"                    # or "Connections only" or "Packages only"
+    # Browse to select the assets that you want to import, or type a content string that specifies one or more search paths. Always select a smaller set of objects than the whole server content, which is the default.
+    # Once you specify a selection, you can return to the previous page of the import wizard and test the data connection again, if desired, to make sure that you have permission to import all the assets that you selected.
+    # A content string is a semicolon-separated list of individual Cognos search paths that are used to retrieve objects from Cognos. The following object types are supported: package, folder, model, report, query, and shortcut. See the Cognos documentation for the full search path syntax.
+    # Search paths that attempt to retrieve everything under a certain folder or content root are inefficient. The import might run for a long time or cause errors on the Cognos server. Instead of using //*, use more specific search paths, such as these search paths:
+    #     //*[@objectClass='query'
+    #     @objectClass='report'
+    #     @objectClass='model']
+    # 
+    # Use a backslash character (\) to escape each semicolon (;) and or backslash character in the content string. You can retrieve models by package name, for example /content/package[@name='GO Sales and Retailers']/model. If there are multiple published versions, the latest is imported.
+    # You can retrieve reports by using the complete search path. To find the complete search path in Cognos, click View the search path on the properties page for the report. An example is /content/package[@name='GO Sales and Retailers']/folder[ @name='Documentation Report Samples']/report[@name='Create a Prompt'].
+    # If a query returns multiple models or reports, only the last model or report is imported. The following queries return multiple reports:
+    #     //report returns all reports
+    #     /content/package[@name='GO Sales and Retailers']//report returns all reports in a package
+    assets_to_import: "//*[@objectClass='query' or @objectClass='report' or @objectClass='model']"
+    # Select whether to add dependent objects to the initial selection of Cognos objects that you selected with the parameter Cognos assets to import. 
+    dependent_objects: "Packages referenced by selected reports"  # or "All" or "None"
+    # Keep this parameter selected. When you reimport from the same source, the bridge uses cached information to determine which objects did not change since the previous import. Only changed objects are reimported. Using the cached information can increase performance for large imports.
+    # For new imports, or when the cache is deleted or corrupted, the bridge imports all objects from the source regardless of the selection that is specified.
+    incremental_import: True
+    # Accept the default value, Ignore, which ignores folders from Cognos Framework Manager. The default automatically captures the Cognos server and the package or folder location of the report.
+    folder_representation: "Ignore"                 # or "Flat" or "Hierarchical"
+    # To import cube-related metadata from Cognos PowerPlay Transformer, you can supply an XML file that describes mappings between Cognos Content Manager data sources and PowerPlay Transformer models. Choose whether to import the file from the metadata interchange server or the local computer. The bridge uses the connection information provided in the XML file to import the cube-related metadata. On import, relationships are established in the metadata repository between the cube assets and the related assets that you import by using the Assets to import parameter. You can view the data lineage of these assets in
+    # Multiple Content Manager data sources can refer to a PowerCube that is generated from a single Transformer model. The bridge assumes a one-to-one mapping between a PowerCube and the Transformer model.
+    # Each <Model> element corresponds to a single Transformer model file with either .mdl or .pyj file extension. The <Model> element lists all Content Manager data sources that refer to the PowerCube for that model. Optionally, you can list Impromptu Query Definition data sources, which are <iqd> child elements that require a specific database type other than the default. The configuration file can have multiple <Model> elements.
+    # XML format example:
+    # <ImportConfiguration database="Teradata" dbVersion="1.0.0">
+    #   <!-- database attribute specifies default database -->
+    #   <!-- Impromptu Query Definition (IQD) SQL statements -->
+    #   <!-- dbVersion attribute format: major version.minor version.release-->
+    #   <Model path="directory_name\model_name.mdl">
+    #   <!--Transformer model (.mdl or .pyj) -->
+    #   <cmDataSource name="A_Cognos_datasource_name" />
+    #   <!-- List IQD data sources for databases other than default -->
+    #   <iqd name="Customers" database="Oracle" dbVersion="11.1.0"/>
+    #   <iqd name="Products" database="MS SQL Server" dbVersion="8.0.0"/>
+    #   </Model>
+    # </ImportConfiguration>
+    transformer_import_configuration_file: ""       # full path to file on metadata interchange server
+    # Specify the number of worker threads to retrieve metadata asynchronously from the source. For the most reliable performance, leave the parameter blank to have the bridge compute the value, between 1 and 6, based on JVM architecture and the number of available CPU cores.
+    # If you need to experiment with increasing retrieval speed, specify a number from 1 to 6 to provide the actual number of threads. If the value specified is invalid, a warning is issued and the number 1 is used instead. If you experience out-of-memory conditions when importing metadata asynchronously, experiment with smaller numbers. If your computer has a large amount of available memory, for example, 10 GB or more, you can try larger numbers when retrieving many documents. However, setting the number too high can decrease performance due to resource contention.
+    number_of_threads: ""                           # blank to auto-calculate; otherwise number of threads
+    # You can import joins that are defined in the BI model. By default, joins are not imported.
+    import_joins: False
+    # When the option is selected, levels and hierarchies that are defined in the BI model are imported. By default, levels and hierarchies are not imported.
+    import_levels: False
+    # Perform a consistency check on the selected metadata before it is imported into the metadata repository. It is possible to save metadata in source tools in ways that cause problems when the assets are imported into the metadata repository or used in other tools. For example, a foreign key might have no connection to a primary key or to an alternate key. In some cases, the metadata might be so semantically inconsistent that the bridge cannot import it.
+    # The metadata consistency check returns warnings and errors in the log file.
+    # 'basic'
+    #     The default. Performs the minimum consistency checks necessary to validate the metadata, including checking for missing relationships and foreign keys that are not connected to primary or alternate keys.
+    #     In some cases, the basic check might be more rigorous than necessary and you can ignore certain errors or warnings.
+    # 'detailed'
+    #     Performs the basic check plus more advanced semantic checks specific to the type of metadata that is imported. This level can be used when the source tool cannot validate the metadata. 
+    # 'none'
+    #     Use with extreme caution. Selecting this option might result in the import of duplicates or invalid identities and might cause serious problems with your use of suite tools and the metadata repository.
+    metadata_consistency_check: "basic"             # or "detailed" or "none"
+    # Specify what action to take if an imported asset matches an existing asset in the metadata repository. You can keep the existing description, or overwrite the existing description with the description of the imported asset. If either description is null, the non-null description is used, regardless of which option you specify. The default behavior is to replace the existing description.
+    existing_asset: Replace_existing_description    # or "Keep_existing_description"
+    # Required. Type the name of the computer or browse the metadata repository to select the computer that hosts or will host the database. This value is important for creating and reconciling the identity of the asset in the repository.
+    # If you are importing from a database, you can specify a different name than the name of the source computer. For example, you might specify the computer that will host this database during development or production.
+    hostname: "COG-SERVER.IBM.COM"
+    # Required. Type the name of the database or browse to select the database that will contain the imported tables. This value is important for creating and reconciling the identity of the database in the repository.
+    # You can specify a different name than the name of the source database. For example, you might specify the database that will contain the tables during development or production.
+    database_name: "DBNAME"
+    # Options:
+    #    True:  The database name that you specify replaces any value returned by the bridge.
+    #    False: The database name that you specify is used only if the bridge returns no database name.
+    # If you override the bridge value and the import includes more than one database, the database name that you specify is used only to replace empty values. If you override the bridge value but you specify no value for database name, the bridge value is not changed.
+    database_name_override_bridge: True
+    # Required. Select or type the name of the DBMS (database management system) that hosts or will host the database.
+    # The DBMS name is part of the identity of the target database. You can specify a different DBMS than the one that hosts the source database. The DBMS name must be appropriate for the value that you entered in the Database name field on this screen.
+    dbms_name: "DB2"                                # or "ACCESS" or "EXCEL" or "Informix" or "Microsoft SQL Server" or "Oracle" or "SQL Server" or "Teradata" or "Text" or "XML"
+    # Options:
+    #    True:  The DBMS name that you specify replaces any value that is returned by the bridge.
+    #    False: Use DBMS name to replace empty bridge value. The DBMS name that you specify is used only if the bridge returns no DBMS name.
+    # If you choose to override the bridge value and the import includes more than one DBMS, the DBMS name that you specify is used only to replace empty values. If you choose to override the bridge value but you specify no DBMS name, the bridge value is not changed.
+    dbms_name_override_bridge: True
+    # If applicable, type the name of the DBMS server instance that hosts or will host the database. Some database management systems do not have the concept of DBMS server instance.
+    # DBMS server instance name is part of the identity of the target database. You can specify a different DBMS server instance name than the one that hosts the source database. The DBMS server instance name must be appropriate for the value that you entered in the Database name field on this screen.
+    dbms_server_instance: ""
+    # For imports from Business Intelligence (BI) tools and databases, type the name of the database schema or browse to select the schema that will contain the imported tables. This value is important for creating and reconciling the identity of the schema in the repository.
+    schema_name: ""
+    # If you specify a value for the Schema name parameter, choose one of the following options:
+    #    True:  The schema name that you specify replaces any value returned by the bridge.
+    #    False: The schema name that you specify is used only if the bridge returns no schema name.
+    schema_name_override_bridge: True

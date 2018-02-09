@@ -1,0 +1,121 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+ibm_infosvr_metadata_asset_mgr_import_areas:
+
+############### IBM InfoSphere DB2 Connector ###############
+# The IBM DB2 connector imports implemented data resources, including database schemas and database tables, from supported versions of IBM DB2.
+# For more information on the IBM DB2 connector, see Importing DB2 metadata.
+# https://www.ibm.com/support/knowledgecenter/SSZJPZ_11.7.0/com.ibm.swg.im.iis.conn.db2db.usage.doc/topics/iisdb2_importingmetadata.html
+  - 
+    name: FULL_DB2Connector_ImportArea
+    type: DB2Connector
+    description: "A full sample (all options) for a DB2Connector import area"
+    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    # Browse to select from existing data connections, or create a data connection to use. After the import is shared, the data connection cannot be changed on reimport, though the password can be changed if the test connection fails.
+    dcn:
+      name: IADB
+      description: "DCN for the schema containing Information Analyzer analysis database"
+      database: IADB
+      username: "{{ infosvr_ia_user }}"
+      password: "{{ infosvr_ia_user_pwd }}"
+      instance: ""
+    # Specify whether to include tables in the list of objects to be imported.
+    include_tables: True
+    # Specify whether to include views in the list of objects to be imported.
+    include_views: True
+    # Specify whether to include nicknames in the list of objects to be imported. This option requires support for federated databases.
+    include_nicknames: False
+    # Specify whether to include aliases in the list of objects to be imported.
+    include_aliases: False
+    # Specifies that XML columns are treated as LOBs when importing table definitions.
+    include_xml_as_lob: False
+    # Specify whether to include system tables in the import.
+    include_system_objects: False
+    # Specify whether to import assets as databases from IBM z/OS. When this option is selected, the Assets to import dialog shows the databases available at the location of z/OS.
+    import_as_zos: False
+    # Applies to v11.7 only -- ???
+    perform_delta: False
+    # Type a text string that represents a sequence of characters that might appear in a schema name. Only schemas whose names match the string are returned. For example, a filter of CAT would match CATEGORY, SCATHE and BIG_CAT.
+    schema_name_filter: ""
+    # Select to use a regular expression in the schema name filter to match the schema name. Only schemas whose name matches the pattern are returned. For example, a filter of CAT.* would match CATEGORY, CATHE and CAT_BIG.
+    # The following wildcards are supported:
+    # Table 1. Supported Wildcards. Shows available wildcards and their descriptions.
+    # Wildcard   Example   Description
+    # .          X.        (dot) any character
+    # *          X*        X, zero or more times
+    # ?          X?        X, once or not at all
+    # +          X+        X, one or more times
+    # |          X|Y       (pipe) either X or Y
+    # [] represents a character class and can be used in the following ways:
+    # Table 2. Character Class Wildcards. Shows available character class wildcards and their descriptions.
+    # Character Class Wildcards   Description
+    # [^]                         negates following characters within a class
+    # [abc]                       a, b, or c (simple class).
+    # [ˆabc]                      any character except a, b, or c (negation).
+    # [a-zA-Z]                    a through z or A through Z, inclusive (range).
+    # [a-d[m-p]]                  a through d or m through p: [a-dm-p] (union).
+    # [a-z&&[def]]                d, e, or f (intersection)
+    # [a-z&&[ˆbc]]                a through z, except for b and c (subtraction)
+    # [a-z&&[ˆm-p]]               a through z and not m through p (subtraction)
+    # Table 3. Boundary matchers. Shows available boundary wildcards and their descriptions.
+    # Boundary Wildcard   Example   Description
+    # ^                   ^test     The beginning of a line
+    # $                   test$     The end of a line
+    # Table 4. Supported wildcard usage with examples. Shows wildcard usage and their description. Strings DEMO, DEMO1 and DEMO2 are used in the examples.
+    # Example               Description
+    # DEMO                  Matches exact string DEMO
+    # DEMO.                 Matches DEMO1 and DEMO2
+    # DEMO1*                Matches DEMO and DEMO1
+    # DEMO1|DEMO2           Matches DEMO1 and DEMO2
+    # DEMO[0-2]             Matches DEMO1 and DEMO2
+    # DEMO.*                Matches DEMO, DEMO1 and DEMO2
+    # (?!DEMO1).*           Matches DEMO and DEMO2
+    # (?!DEMO1|DEMO2).*     Matches only DEMO
+    # This parameter is ignored if you are importing from multiple databases on IBM z/OS.
+    use_regex_for_schema_names: False
+    # Type a text string that represents a sequence of characters that might appear in a table name. Only tables whose names match the string are returned. For example, a filter of CAT would match CATEGORY, SCATHE and BIG_CAT.
+    # This parameter is ignored if you are importing from multiple databases on IBM z/OS.
+    table_name_filter: ""
+    # Click to select the assets that you want to import.
+    assets_to_import:
+      - "database[IADB]"                            # to include only database IADB (and its contained schemas, tables, etc)
+      - "schema[IADB|IAUSER]"                       # to include only schema IAUSER (and its contained tables, etc), within database IADB
+      - "table[IADB|IAUSER|COLUMN_ANALYSIS_MAP]"    # to include only table COLUMN_ANALYSIS_MAP (and its contained columns), within schema IAUSER, within database IADB
+    # Select to import schemas and tables. If you do not select Import schema structure, only schemas are imported.
+    import_schema_structure: True
+    # Select to import tables and columns. This option should be selected along with Import schema structure to import schemas, tables and columns.
+    # If you do not select Import table structure, only tables are imported without the columns.
+    import_table_structure: True
+    # Select this parameter if you want to import all available tables and ignore any database tables that cannot be imported due to access issues.
+    # Access issues can include insufficient user permissions, alias tables that point to schemas that are not accessible, and similar issues. If you do not select this parameter and a table in the source cannot be accessed, the import fails.
+    # After the import runs, you can use the import log to check which tables were skipped. Download a copy of the log from the Summary section of the Staged Imports tab of InfoSphere Metadata Asset Manager.
+    ignore_table_access_errors: False
+    # Specify what action to take if an imported asset matches an existing asset in the metadata repository. You can keep the existing description, or overwrite the existing description with the description of the imported asset. If either description is null, the non-null description is used, regardless of which option you specify. The default behavior is to replace the existing description.
+    existing_asset: Replace_existing_description    # or "Keep_existing_description"
+    # Type the name of the computer or browse the metadata repository to select the computer that hosts or will host the database, data file, or data file folder. This value is important for creating and reconciling the identity of the asset in the repository.
+    # You can specify a different name than the name of the source computer. For example, you might specify the computer that will host this database during development or production.
+    hostname: "IADB.IS-SERVER.IBM.COM"
+    # Type the name of the database or browse to select the database that will contain the imported tables. This value is important for creating and reconciling the identity of the database in the repository.
+    # You can specify a different name than the name of the source database. For example, you might specify the database that will contain the tables during development or production.
+    # For connector imports, if you leave this value empty, the value specified in the data connection is used.
+    # This parameter is ignored if you are importing from multiple databases on IBM z/OS.
+    database_name: IADB
+    # If applicable, type the name of the DBMS server instance that hosts or will host the database. Some database management systems do not have the concept of DBMS server instance.
+    # DBMS server instance name is part of the identity of the target database. You can specify a different DBMS server instance name than the one that hosts the source database. The DBMS server instance name must be appropriate for the value that you entered in the Database name field on this screen.
+    # This parameter is ignored if you are importing from multiple databases on IBM z/OS.
+    instance_name: ""
