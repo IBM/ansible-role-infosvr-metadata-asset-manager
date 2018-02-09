@@ -25,14 +25,14 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: FULL_DB2Connector_ImportArea
     type: DB2Connector
     description: "A full sample (all options) for a DB2Connector import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     # Browse to select from existing data connections, or create a data connection to use. After the import is shared, the data connection cannot be changed on reimport, though the password can be changed if the test connection fails.
     dcn:
       name: IADB
       description: "DCN for the schema containing Information Analyzer analysis database"
       database: IADB
-      username: "{{ infosvr_ia_user }}"
-      password: "{{ infosvr_ia_user_pwd }}"
+      username: "iauser"
+      password: "iauserpassword"
       instance: ""
     # Specify whether to include tables in the list of objects to be imported.
     include_tables: True

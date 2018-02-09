@@ -39,7 +39,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: FULL_IDA1_ImportArea
     type: IDA1
     description: "A full sample (all options) for an IBM InfoSphere Data Architect Metabroker import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    metadata_interchange_server: "client.is-server.ibm.com"
     # Required. Select the physical data model (DBM) file or logical data model (LDM) file to import. Ensure that you have also selected Metadata interchange server for the File location parameter.
     # For information on importing referenced models at the same time, see the section Importing referenced files on the bridge help page of the import wizard.
     model_file: "C:\\somewhere\\something.dbm"

@@ -22,7 +22,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_LocalFileConnector_ImportArea
     type: LocalFileConnector
     description: "A simple sample (setting only required fields) for a LocalFileConnector import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     dcn:
       name: LOCALFS
     assets_to_import:
@@ -34,7 +34,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_HDFSFileConnector_ImportArea
     type: HDFSFileConnector
     description: "A simple sample (setting only required fields) for an HDFSFileConnector import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     dcn:
       name: HDFS
       description: "Data connection for sample data from a remote HDFS"
@@ -53,7 +53,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_DB2Connector_ImportArea
     type: DB2Connector
     description: "A simple sample (setting only required fields) for a DB2Connector import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     dcn:
       name: IADB
       database: IADB
@@ -66,7 +66,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_CognosRnRepository_ImportArea
     type: CognosRnRepository
     description: "A full sample (all options) for a IBM Cognos Content Manager import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    metadata_interchange_server: "client.is-server.ibm.com"
     cognos_version: "Auto detect"
     dispatcher_url: "http://cog-server:9300/p2pd/servlet/dispatch"
     hostname: "COG-SERVER.IBM.COM"
@@ -78,7 +78,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_IDA1_ImportArea
     type: IDA1
     description: "A simple sample (only required options specified) for an IBM InfoSphere Data Architect Metabroker import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    metadata_interchange_server: "client.is-server.ibm.com"
     model_file: "C:\\somewhere\\something.dbm"
     model_version: "7.5"
     model_namespace: "SAMPLE"
@@ -88,7 +88,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_CaErwin8Xml_ImportArea
     type: CaErwin8Xml
     description: "A simple sample (only required options specified) for an ERwin 8 Data Modeler (File) import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    metadata_interchange_server: "client.is-server.ibm.com"
     model_file: "C:\\somewhere\\something.xml"
     model_namespace: "SAMPLE"
 
@@ -97,7 +97,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_CSV_ImportArea
     type: CSV
     description: "A simple sample (only required options specified) for a CSV import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     file: "/some/directory/filename.csv"
 
 ############### IBM InfoSphere Master Data Management ###############
@@ -105,5 +105,5 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: Simple_MDM_ImportArea
     type: MDM
     description: "A simple sample (only required options specified) for an MDM import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     file: "/some/directory/filename.xmi"

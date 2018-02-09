@@ -67,7 +67,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: FULL_CaErwin8Xml_ImportArea
     type: CaErwin8Xml
     description: "A full sample (all options) for an ERwin 8 Data Modeler (File) import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    metadata_interchange_server: "client.is-server.ibm.com"
     # Required. Specify the XML file or ERWIN file to import. To import ERWIN files you must install erwin Data Modeler 8 on the same computer that the bridge is installed on.
     model_file: "C:\\somewhere\\something.xml"
     # SEMI-SUPPORTED: A UDP is usually defined with a property definition object that has a default value. Objects that the property applies to might also specify an explicit value for this property. The objects might specify no value at all, in which case the default value of the property definition applies. supports importing UDPs only by appending the property name and value to the description property of the object. To append the property name and value, even if implicit, to the description property of an object, select In description, migrate default values. If you select any other value for this parameter, the UDP information is not imported.

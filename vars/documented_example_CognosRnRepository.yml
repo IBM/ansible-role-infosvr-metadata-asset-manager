@@ -89,7 +89,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: FULL_CognosRnRepository_ImportArea
     type: CognosRnRepository
     description: "A full sample (all options) for a IBM Cognos Content Manager import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_client_host]['ansible_hostname']|lower }}"
+    metadata_interchange_server: "client.is-server.ibm.com"
     # Required. Select the version of Cognos server that you want to import from. Select Cognos 10 to import from Cognos 10.1 or 10.2.
     cognos_version: "Auto detect"                   # or "Cognos 10" or ...
     # Required. Type the URI that is used by the Framework Manager, Metrics Designer, or SDK to send requests to Cognos.

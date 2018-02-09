@@ -47,7 +47,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: FULL_CSV_ImportArea
     type: CSV
     description: "A full sample (all options) for a CSV import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     # Browse to select a CSV file.
     file: "/some/directory/filename.csv"                # full path to the CSV file to load
     # Specify what action to take if an imported asset matches an existing asset in the metadata repository. You can keep the existing description, or overwrite the existing description with the description of the imported asset. If either description is null, the non-null description is used, regardless of which option you specify. The default behavior is to replace the existing description.

@@ -64,7 +64,7 @@ ibm_infosvr_metadata_asset_mgr_import_areas:
     name: FULL_LocalFileConnector_ImportArea
     type: LocalFileConnector
     description: "A full sample (all options) for a LocalFileConnector import area"
-    metadata_interchange_server: "{{ hostvars[infosvr_engine_host]['ansible_fqdn']|lower }}"
+    metadata_interchange_server: "engine.is-server.ibm.com"
     # Browse to select from existing data connections, or create a data connection to use. After the import is shared, the data connection cannot be changed on reimport, though the password can be changed if the test connection fails.
     dcn:
       name: LOCALFS
