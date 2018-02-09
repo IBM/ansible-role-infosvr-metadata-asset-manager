@@ -44,7 +44,7 @@
 
 - name: transfer import area templates
   template:
-    src: "{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2"
+    src: "{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace('.', '') }}.xml.j2"
     dest: "/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml"
     owner: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
     group: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_group }}"
