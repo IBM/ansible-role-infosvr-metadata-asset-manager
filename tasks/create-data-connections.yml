@@ -61,7 +61,7 @@
           -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
           -a createDC
           -fp /tmp/DCN_{{ item.item.name }}-{{ item.item.type }}.xml
-          -mn {{ ibm_infosvr_metadata_asset_mgr_services_host }}
+          -mn {{ ibm_infosvr_metadata_asset_mgr_engine_host }}
   args:
     executable: /bin/bash
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"

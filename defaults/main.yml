@@ -21,6 +21,7 @@ ibm_infosvr_metadata_asset_mgr_install_location: /opt/IBM/InformationServer
 # Credentials (override in vault, etc as needed)
 ibm_infosvr_metadata_asset_mgr_services_host: is-server.ibm.com
 ibm_infosvr_metadata_asset_mgr_services_console_port: 9445
+ibm_infosvr_metadata_asset_mgr_engine_host: "{{ ibm_infosvr_metadata_asset_mgr_services_host }}"
 ibm_infosvr_metadata_asset_mgr_admin_user: isadmin
 ibm_infosvr_metadata_asset_mgr_admin_user_pwd: isadmin
 
