@@ -16,19 +16,19 @@
 ###
 
 # Locations
-ibm_infosvr_metadata_asset_mgr_install_location: /opt/IBM/InformationServer
+ibm_infosvr_metadata_asset_mgr_install_location: "{% if ibm_infosvr_locations is defined %}{{ ibm_infosvr_locations.linux }}{% else %}/opt/IBM/InformationServer{% endif %}"
 
 # Credentials (override in vault, etc as needed)
-ibm_infosvr_metadata_asset_mgr_services_host: is-server.ibm.com
-ibm_infosvr_metadata_asset_mgr_services_console_port: 9445
-ibm_infosvr_metadata_asset_mgr_engine_host: "{{ ibm_infosvr_metadata_asset_mgr_services_host }}"
-ibm_infosvr_metadata_asset_mgr_admin_user: isadmin
-ibm_infosvr_metadata_asset_mgr_admin_user_pwd: isadmin
+ibm_infosvr_metadata_asset_mgr_services_host: "{% if ibm_infosvr_hosts is defined %}{{ ibm_infosvr_hosts.domain }}{% else %}is-server.ibm.com{% endif %}"
+ibm_infosvr_metadata_asset_mgr_services_console_port: "{% if ibm_infosvr_ports_ext is defined %}{{ ibm_infosvr_ports_ext.console }}{% else %}9445{% endif %}"
+ibm_infosvr_metadata_asset_mgr_engine_host: "{% if ibm_infosvr_hosts is defined %}{{ ibm_infosvr_hosts.engine }}{% else %}{{ ibm_infosvr_metadata_asset_mgr_services_host }}{% endif %}"
+ibm_infosvr_metadata_asset_mgr_admin_user: "{% if ibm_infosvr_users is defined %}{{ ibm_infosvr_users.isadmin }}{% else %}isadmin{% endif %}"
+ibm_infosvr_metadata_asset_mgr_admin_user_pwd: "{% if ibm_infosvr_upwds is defined %}{{ ibm_infosvr_upwds.isadmin }}{% else %}isadmin{% endif %}"
 
 # These are used to set restrictive permissions for transferred
 # import area / data connection XML files
-ibm_infosvr_metadata_asset_mgr_dsadm_user: dsadm
-ibm_infosvr_metadata_asset_mgr_dsadm_group: dstage
+ibm_infosvr_metadata_asset_mgr_dsadm_user: "{% if ibm_infosvr_users is defined %}{{ ibm_infosvr_users.dsadm }}{% else %}dsadm{% endif %}"
+ibm_infosvr_metadata_asset_mgr_dsadm_group: "{% if ibm_infosvr_groups is defined %}{{ ibm_infosvr_groups.dsadm }}{% else %}dstage{% endif %}"
 
 # List of import area objects, and their parameters, for 
 # import areas that should be created and loaded
