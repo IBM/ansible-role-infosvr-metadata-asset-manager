@@ -1,4 +1,4 @@
-# ansible-role-ibm-infosvr-metadata-asset-manager
+# ansible-role-infosvr-metadata-asset-manager
 
 Ansible role for automating the deployment of metadata using IBM Metadata Asset Manager brokers and bridges.
 
@@ -20,7 +20,7 @@ The role is primarily inteded to be imported into other playbooks as-needed for 
 The following example will create an import area, and run the import, for metadata of any files found in `/data/loadable` on the file system of the Information Server engine tier (and record the hostname on which they are found as 'IS-SERVER.IBM.COM').
 
 ```
-- import_role: name=cmgrote.ibm-infosvr-metadata-asset-manager
+- import_role: name=IBM.infosvr-metadata-asset-manager
   vars:
     ibm_infosvr_metadata_asset_mgr_import_areas:
       - 
