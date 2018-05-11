@@ -35,12 +35,14 @@
 # TODO: Cognos (and others?) have just item.password ...
 #- name: encrypt any password information
 #  no_log: True
-#  shell: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh {{ item.dcn.password }}"
+#  shell: >
+#          {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
+#          {% if item.dcn is defined %}{{ item.dcn.password }}{% else if item.password is defined %}{{ item.password }}{% endif %}
 #  args:
 #    executable: /bin/bash
 #  with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
 #  changed_when: False
-#  register: encrypted_passwords
+#  register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords
 
 - name: transfer import area templates
   template:
