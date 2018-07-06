@@ -120,6 +120,14 @@
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
         and (item.file is not defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+  register: __ibm_infosvr_metadata_asset_mgr_reimport
+  failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport.rc == 246)
+
+- name: list any imports that require review (skipping local files)
+  debug:
+    msg: "Import of '{{ item.item.name }}' included a potentially destructive change -- requires reviewing in Metadata Asset Manager prior to sharing."
+  when: item.rc == 246
+  with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport.results }}"
 
 - name: re-import existing import areas via IMAM (with local files)
   shell: >
@@ -139,3 +147,11 @@
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
         and (item.file is defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+  register: __ibm_infosvr_metadata_asset_mgr_reimport_local
+  failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 246)
+
+- name: list any imports that require review (with local files)
+  debug:
+    msg: "Import of '{{ item.item.name }}' included a potentially destructive change -- requires reviewing in Metadata Asset Manager prior to sharing."
+  when: item.rc == 246
+  with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport_local.results }}"
