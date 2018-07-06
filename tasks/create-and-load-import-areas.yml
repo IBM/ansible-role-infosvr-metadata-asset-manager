@@ -127,7 +127,7 @@
   debug:
     msg: "Import includes a potentially destructive change -- requires manual review in Metadata Asset Manager prior to sharing."
   changed_when: True
-  when: (not item.skipped) and (item.rc == 246)
+  when: item.rc is defined and item.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport.results }}"
   loop_control:
     label: "{{ item.item.name }}"
@@ -157,7 +157,7 @@
   debug:
     msg: "Import includes a potentially destructive change -- requires manual review in Metadata Asset Manager prior to sharing."
   changed_when: True
-  when: (not item.skipped) and (item.rc == 246)
+  when: item.rc is defined and item.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport_local.results }}"
   loop_control:
     label: "{{ item.item.name }}"
