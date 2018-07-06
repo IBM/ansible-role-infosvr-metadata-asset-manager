@@ -103,4 +103,39 @@
   file: state=absent path=/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
 
-# TODO: Re-import any import areas that already exist
+- name: re-import existing import areas via IMAM (skipping local files)
+  shell: >
+          cd `cat /.dshome` &&
+          . dsenv &&
+          {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
+          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
+          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
+          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
+          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -a reimport
+          -i '{{ item.name }}'
+  args:
+    executable: /bin/bash
+  when: >
+        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
+        and (item.file is not defined)
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+
+- name: re-import existing import areas via IMAM (with local files)
+  shell: >
+          cd `cat /.dshome` &&
+          . dsenv &&
+          {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
+          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
+          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
+          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
+          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -a reimport
+          -i '{{ item.name }}'
+          -l {{ item.file }}
+  args:
+    executable: /bin/bash
+  when: >
+        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
+        and (item.file is defined)
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
