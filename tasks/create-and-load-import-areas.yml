@@ -126,7 +126,9 @@
 - name: list any imports that require review (skipping local files)
   debug:
     msg: "Import of '{{ item.item.name }}' included a potentially destructive change -- requires reviewing in Metadata Asset Manager prior to sharing."
-  when: item.rc == 246
+  no_log: True
+  changed_when: True
+  when: __ibm_infosvr_metadata_asset_mgr_reimport.results is defined and item.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport.results }}"
 
 - name: re-import existing import areas via IMAM (with local files)
@@ -153,5 +155,7 @@
 - name: list any imports that require review (with local files)
   debug:
     msg: "Import of '{{ item.item.name }}' included a potentially destructive change -- requires reviewing in Metadata Asset Manager prior to sharing."
-  when: item.rc == 246
+  no_log: True
+  changed_when: True
+  when: __ibm_infosvr_metadata_asset_mgr_reimport_local.results is defined and item.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport_local.results }}"
