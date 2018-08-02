@@ -15,6 +15,9 @@
 # limitations under the License.
 ###
 
+- name: odbc_entries - load type to driver mappings
+  include_vars: file=odbc.yml
+
 - name: odbc_entries - remove any existing ODBC entries with the same name
   ini_file:
     path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
@@ -25,14 +28,25 @@
   become: yes
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
 
-- name: odbc_entries - add ODBC entries
+- name: odbc_entries - add ODBC sections
   blockinfile:
     dest: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
     insertafter: EOF
     marker: "# {mark} ANSIBLE MANAGED ENTRY for {{ item.name }}"
-    backup: yes
     block: |
       {{ lookup('template', 'templates/odbc/' + item.type + '.j2') }}
+  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
+  become: yes
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+
+- name: odbc_entries - add ODBC entries
+  ini_file:
+    path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
+    section: "ODBC Data Sources"
+    option: "{{ item.name }}"
+    value: "{{ __ibm_infosvr_metadata_asset_mgr_odbc_drivers[item.type] }}"
+    state: present
+    no_extra_spaces: yes
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
