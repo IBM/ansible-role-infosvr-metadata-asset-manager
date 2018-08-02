@@ -49,7 +49,7 @@
     dest: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
     insertafter: EOF
     marker: "# {mark} IBM.infosvr-metadata-asset-manager MANAGED ENTRY for {{ item.name }}"
-    backuop: yes
+    backup: yes
     block: |
       {{ lookup('template', 'templates/odbc/' + item.type + '.j2') }}
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
