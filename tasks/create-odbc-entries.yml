@@ -18,35 +18,56 @@
 - name: odbc_entries - load type to driver mappings
   include_vars: file=odbc.yml
 
-- name: odbc_entries - remove any existing ODBC entries with the same name
+- name: odbc_entries - check for any pre-existing managed ODBC entries with same name
+  lineinfile:
+    path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
+    line: "# BEGIN IBM.infosvr-metadata-asset-manager MANAGED ENTRY for {{ item.name }}"
+    state: present
+  check_mode: yes
+  register: __ibm_infosvr_metadata_asset_mgr_odbc_entry_mgd
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: odbc_entries - fail if any pre-existing unmanaged ODBC entries have the same name
   ini_file:
     path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
-    section: "{{ item.name }}"
+    section: "{{ item.item.name }}"
     state: absent
-    backup: yes
+  check_mode: yes
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  register: __ibm_infosvr_metadata_asset_mgr_odbc_entry_unmgd
+  when: item is changed
+  failed_when: __ibm_infosvr_metadata_asset_mgr_odbc_entry_unmgd is changed
+  with_items: "{{ __ibm_infosvr_metadata_asset_mgr_odbc_entry_mgd.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
 
 - name: odbc_entries - add ODBC sections
   blockinfile:
     dest: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
     insertafter: EOF
-    marker: "# {mark} ANSIBLE MANAGED ENTRY for {{ item.name }}"
+    marker: "# {mark} IBM.infosvr-metadata-asset-manager MANAGED ENTRY for {{ item.name }}"
+    backuop: yes
     block: |
       {{ lookup('template', 'templates/odbc/' + item.type + '.j2') }}
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: odbc_entries - add ODBC entries
   ini_file:
     path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/.odbc.ini"
     section: "ODBC Data Sources"
     option: "{{ item.name }}"
-    value: "{{ __ibm_infosvr_metadata_asset_mgr_odbc_drivers[item.type] }}"
+    value: "{{ item.description | default(__ibm_infosvr_metadata_asset_mgr_odbc_drivers[item.type]) }}"
     state: present
     no_extra_spaces: yes
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  loop_control:
+    label: "{{ item.name }}"
