@@ -61,6 +61,29 @@ Generally the required keys within each of these objects are:
 
 Since each ODBC driver for different platforms supports a variety of platform-specific options, these can also be (optionally) specified. See the templates in `templates/odbc/*.j2` for the options that can be additionally provided; any that are not mandatory (listed above) will be automatically set to their default values in the ODBC configuration if you do not specify other values for them.
 
+Finally, if you are aware of additional properties that you want to add to a particular entry, which have no default values (ie. are not already listed in the template mentioned above), add them to an `extras` entry as key-value pairs.
+
+**Examples**:
+
+```
+ibm_infosvr_metadata_asset_mgr_odbc_entries:
+  - name: IADB on DB2
+    description: Connection to IADB on DB2
+    type: db2
+    database: IADB
+    host: infosvr.vagrant.ibm.com
+  - name: Test database on Oracle
+    description: Connection to some test data set on Oracle
+    type: oracle
+    database: TESTDB
+    host: infosvr.vagrant.ibm.com
+    SID: TESTDB
+    extras:
+      - QueryTimeout: -1
+      - ColumnSizeAsCharacter: 1
+      - ColumnsAsChar: 1
+```
+
 ## License
 
 Apache 2.0
