@@ -1,0 +1,26 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMora00.so
+Description={{ item.description | default('DataDirect Oracle Wire Protocol driver') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+ArraySize={{ item.ArraySize | default('60000') }}
+CachedCursorLimit={{ item.CachedCursorLimit | default('32') }}
+CachedDescLimit={{ item.CachedDescLimit | default('0') }}
+CatalogIncludesSynonyms={{ item.CatalogIncludesSynonyms | default('1') }}
+CatalogOptions={{ item.CatalogOptions | default('0') }}
+DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
+DescribeAtPrepare={{ item.DescribeAtPrepare | default('0') }}
+EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
+EnableNcharSupport={{ item.EnableNcharSupport | default('0') }}
+EnableScrollableCursors={{ item.EnableScrollableCursors | default('1') }}
+EnableStaticCursorsForLongData={{ item.EnableStaticCursorsForLongData | default('0') }}
+EnableTimestampWithTimeZone={{ item.EnableTimestampWithTimeZone | default('0') }}
+HostName={{ item.host }}
+LocalTimeZoneOffset={{ item.LocalTimeZoneOffset | default('') }}
+LockTimeOut={{ item.LockTimeOut | default('-1') }}
+LogonID={{ item.LogonID | default('') }}
+Password={{ item.Password | default('') }}
+PortNumber={{ item.port | default('1521') }}
+ProcedureRetResults={{ item.ProcedureRetResults | default('0') }}
+SID={{ item.SID | default('') }}
+UseCurrentSchema={{ item.UseCurrentSchema | default('1') }}

@@ -1,0 +1,34 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMgplm00.so
+Description={{ item.description | default('DataDirect 7.0 Greenplum Wire Protocol') }}
+AlternateServers={{ item.AlternateServers | default('') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+ConnectionReset={{ item.ConnectionReset | default('0') }}
+ConnectionRetryCount={{ item.ConnectionRetryCount | default('0') }}
+ConnectionRetryDelay={{ item.ConnectionRetryDelay | default('3') }}
+CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
+Database={{ item.database }}
+EnableDescribeParam={{ item.EnableDescribeParam | default('1') }}
+ExtendedColumnMetadata={{ item.ExtendedColumnMetadata | default('0') }}
+FailoverGranularity={{ item.FailoverGranularity | default('0') }}
+FailoverMode={{ item.FailoverMode | default('0') }}
+FailoverPreconnect={{ item.FailoverPreconnect | default('0') }}
+FetchRefCursor={{ item.FetchRefCursor | default('1') }}
+FetchTSWTZasTimestamp={{ item.FetchTSWTZasTimestamp | default('0') }}
+FetchTWFSasTime={{ item.FetchTWFSasTime | default('0') }}
+HostName={{ item.host }}
+InitializationString={{ item.InitializationString | default('') }}
+LoadBalanceTimeout={{ item.LoadBalanceTimeout | default('0') }}
+LoadBalancing={{ item.LoadBalancing | default('0') }}
+LoginTimeout={{ item.LoginTimeout | default('15') }}
+LogonID={{ item.LogonID | default('') }}
+MaxPoolSize={{ item.MaxPoolSize | default('100') }}
+MinPoolSize={{ item.MinPoolSize | default('0') }}
+Password={{ item.Password | default('') }}
+Pooling={{ item.Pooling | default('0') }}
+PortNumber={{ item.port | default('5432') }}
+QueryTimeout={{ item.QueryTimeout | default('0') }}
+ReportCodepageConversionErrors={{ item.ReportCodepageConversionErrors | default('0') }}
+TransactionErrorBehavior={{ item.TransactionErrorBehavior | default('1') }}
+XMLDescribeType={{ item.XMLDescribeType | default('-10') }}

@@ -1,0 +1,21 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMdb200.so
+Description={{ item.description | default('DataDirect DB2 Wire Protocol Driver') }}
+AddStringToCreateTable={{ item.AddStringToCreateTable | default('') }}
+AlternateID={{ item.AlternateID | default('') }}
+Collection={{ item.Collection | default('') }}
+CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
+Database={{ item.database }}
+DynamicSections={{ item.DynamicSections | default('100') }}
+GrantAuthid={{ item.GrantAuthid | default('PUBLIC') }}
+GrantExecute={{ item.GrantExecute | default('1') }}
+IpAddress={{ item.host | upper }}
+IsolationLevel={{ item.IsolationLevel | default('CURSOR_STABILITY') }}
+Location={{ item.Location | default('') }}
+LogonID={{ item.LogonID | default('') }}
+Password={{ item.Password | default('') }}
+Package={{ item.Package | default('') }}
+PackageOwner={{ item.PackageOwner | default('') }}
+TcpPort={{ item.port | default('50000') }}
+WithHold={{ item.WithHold | default('1') }}

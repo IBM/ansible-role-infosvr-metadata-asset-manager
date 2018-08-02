@@ -1,0 +1,24 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMor800.so
+Description={{ item.description | default('DataDirect Oracle driver') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+ArraySize={{ item.ArraySize | default('60000') }}
+CatalogIncludesSynonyms={{ item.CatalogIncludesSynonyms | default('1') }}
+CatalogOptions={{ item.CatalogOptions | default('0') }}
+CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
+DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
+DescribeAtPrepare={{ item.DescribeAtPrepare | default('0') }}
+EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
+EnableNcharSupport={{ item.EnableNcharSupport | default('0') }}
+EnableScrollableCursors={{ item.EnableScrollableCursors | default('1') }}
+EnableStaticCursorsForLongData={{ item.EnableStaticCursorsForLongData | default('0') }}
+EnableTimestampWithTimeZone={{ item.EnableTimestampWithTimeZone | default('0') }}
+LocalTimeZoneOffset={{ item.LocalTimeZoneOffset | default('') }}
+LockTimeOut={{ item.LockTimeOut | default('-1') }}
+LogonID={{ item.LogonID | default('') }}
+OptimizeLongPerformance={{ item.OptimizeLongPerformance | default('0') }}
+Password={{ item.Password | default('') }}
+ProcedureRetResults={{ item.ProcedureRetResults | default('0') }}
+ServerName={{ item.host }}
+UseCurrentSchema={{ item.UseCurrentSchema | default('1') }}

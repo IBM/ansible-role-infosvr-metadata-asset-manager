@@ -1,0 +1,24 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMsfrc00.so
+Description={{ item.description | default('DataDirect Salesforce') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+ConnectionReset={{ item.ConnectionReset | default('0') }}
+CreateDB={{ item.CreateDB | default('2') }}
+EnableBulkLoad={{ item.EnableBulkLoad | default('False') }}
+Database={{ item.database }}
+ExtendedOptions={{ item.ExtendedOptions | default('') }}
+FetchSize={{ item.FetchSize | default('100') }}
+HostName={{ item.host }}
+JVMArgs={{ item.JVMArgs | default('-Xmx256m') }}
+JVMClasspath={{ item.JVMClasspath | default('') }}
+LoginTimeout={{ item.LoginTimeout | default('15') }}
+LogonID={{ item.LogonID | default('') }}
+MaxPoolSize={{ item.MaxPoolSize | default('100') }}
+MinPoolSize={{ item.MinPoolSize | default('0') }}
+Password={{ item.Password | default('') }}
+Querytimeout={{ item.Querytimeout | default('0') }}
+ReportCodePageConversionErrors={{ item.ReportCodePageConversionErrors | default('0') }}
+ReadOnly={{ item.ReadOnly | default('0') }}
+TransactionMode={{ item.TransactionMode | default('0') }}
+WSTimeout={{ item.WSTimeout | default('120') }}

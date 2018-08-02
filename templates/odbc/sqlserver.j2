@@ -1,0 +1,10 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMmsss00.so
+Description={{ item.description | default('DataDirect SQL Server Wire Protocol driver') }}
+Database={{ item.database }}
+LogonID={{ item.LogonID | default('') }}
+Password={{ item.Password | default('') }}
+Address={{ item.host }},{{ item.port | default('1433') }}
+QuotedId={{ item.QuotedId | default('No') }}
+AnsiNPW={{ item.AnsiNPW | default('No') }}

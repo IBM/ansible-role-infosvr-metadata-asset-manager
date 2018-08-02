@@ -17,6 +17,9 @@
 
 - import_tasks: get_version.yml
 
+- import_tasks: create-odbc-entries.yml
+  when: ibm_infosvr_metadata_asset_mgr_odbc_entries is defined
+
 - import_tasks: create-data-connections.yml
   when: >
         ibm_infosvr_metadata_asset_mgr_data_connections is defined

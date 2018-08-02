@@ -1,0 +1,24 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMhive00.so
+Description={{ item.description | default('DataDirect Apache Hive Wire Protocol') }}
+ArraySize={{ item.ArraySize | default('16384') }}
+AuthenticationMethod={{ item.AuthenticationMethod | default('0') }}
+Database={{ item.database | default('default') }}
+DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
+EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
+GSSClient={{ item.GSSClient | default('native') }}
+HostName={{ item.host }}
+LoginTimeout={{ item.LoginTimeout | default('30') }}
+LogonID={{ item.LogonID | default('') }}
+MaxVarcharSize={{ item.MaxVarcharSize | default('8192') }}
+Password={{ item.Password | default('') }}
+PortNumber={{ item.port | default('10000') }}
+ProxyUser={{ item.ProxyUser | default('') }}
+RemoveColumnQualifiers={{ item.RemoveColumnQualifiers | default('0') }}
+ServicePrincipalName={{ item.ServicePrincipalName | default('') }}
+StringDescribeType={{ item.StringDescribeType | default('12') }}
+TransactionMode={{ item.TransactionMode | default('0') }}
+UseNativeCatalogFunctions={{ item.UseNativeCatalogFunctions | default('0') }}
+UseCurrentSchema={{ item.UseCurrentSchema | default('0') }}
+WireProtocolVersion={{ item.WireProtocolVersion | default('0') }}

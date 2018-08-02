@@ -1,0 +1,18 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMtxt00.so
+Description={{ item.description | default('DataDirect TextFile(*.*) Driver') }}
+AllowUpdateAndDelete={{ item.AllowUpdateAndDelete | default('0') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+CacheSize={{ item.CacheSize | default('4') }}
+CenturyBoundary={{ item.CenturyBoundary | default('20') }}
+Database={{ item.database }}
+DataFileExtension={{ item.DataFileExtension | default('TXT') }}
+DecimalSymbol={{ item.DecimalSymbol | default('.') }}
+Delimiter={{ item.Delimiter | default('') }}
+FileOpenCache={{ item.FileOpenCache | default('0') }}
+FirstLineNames={{ item.FirstLineNames | default('0') }}
+IntlSort={{ item.IntlSort | default('0') }}
+ScanRows={{ item.ScanRows | default('25') }}
+TableType={{ item.TableType | default('Comma') }}
+UndefinedTable={{ item.UndefinedTable | default('GUESS') }}

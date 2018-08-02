@@ -1,0 +1,24 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMsyiq00.so
+Description={{ item.description | default('DataDirect Sybase IQ Wire Protocol Driver') }}
+AlternateServers={{ item.AlternateServers | default('') }}
+ApplicationName={{ item.ApplicationName | default('') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+ArraySize={{ item.ArraySize | default('50') }}
+Charset={{ item.Charset | default('') }}
+CursorCacheSize={{ item.CursorCacheSize | default('1') }}
+Database={{ item.database }}
+DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
+EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
+EnableQuotedIdentifiers={{ item.EnableQuotedIdentifiers | default('0') }}
+InitializationString={{ item.InitializationString | default('') }}
+Language={{ item.Language | default('') }}
+LogonID={{ item.LogonID | default('') }}
+MaxPoolSize={{ item.MaxPoolSize | default('100') }}
+MinPoolSize={{ item.MinPoolSize | default('0') }}
+NetworkAddress={{ item.host }},{{ item.port | default('2638') }}
+OptimizePrepare={{ item.OptimizePrepare | default('1') }}
+PacketSize={{ item.PacketSize | default('0') }}
+Password={{ item.Password }}
+RaiseErrorPositionBehavior={{ item.RaiseErrorPositionBehavior | default('0') }}

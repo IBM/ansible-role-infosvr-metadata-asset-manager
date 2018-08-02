@@ -35,6 +35,31 @@ The following example will create an import area, and run the import, for metada
         hostname: "IS-SERVER.IBM.COM"
 ```
 
+## Possible variables
+
+### ibm_infosvr_metadata_asset_mgr_import_areas
+
+Use this variable to provide a list (array) of complex structures, each of which defines an import area for Metadata Asset Manager. If the import area does not yet exist, it will be created and then loaded; if an import area by the same name already exists its metadata will be re-imported (the import area will not be replaced).
+
+Example structures, fully documented, can be found under `vars/documented_*.yml`. Simple structures can be found under `vars/simple_examples.yml`.
+
+### ibm_infosvr_metadata_asset_mgr_data_connections
+
+Available only for v11.7+, this variable can be used to define just data connections rather than a complete import area. This is useful if, for example, you want to make use of the automated Discovery capability available from v11.7+ onwards (ie. leveraging the Open Discovery Framework's ability to pipeline the harvesting of metadata, followed by automated column analysis, etc).
+
+### ibm_infosvr_metadata_asset_mgr_odbc_entries
+
+Use this variable to define any ODBC entries that should be added to the `{DSHOME}/.odbc.ini` file. This is often necessary in order to ensure appropriate connectivity, eg. by the ODBC Connector in DataStage and by various server-side connectors in Metadata Asset Manager.
+
+Generally the required keys within each of these objects are:
+- `name`: the (unique) name of the ODBC entry
+- `type`: the type of ODBC entry, one of `db2`, `dbase`, `informix`, `oracle`, `oraclewire`, `sqlserver`, `sqlservernative`, `sybase`, `sybaseiq`, `salesforce`, `text`, `teradata`, `openedge`, `mysql`, `postgres`, `greenplum`, `hive`, `impala`
+- `database`: the name of the database (for RDBMS entries)
+- `host`: the hostname or IP address of the system hosting the data source
+- `port`: the port number (for RDBMS entries) -- generally this will also be defaulted to the default port for the particular database type
+
+Since each ODBC driver for different platforms supports a variety of platform-specific options, these can also be (optionally) specified. See the templates in `templates/odbc/*.j2` for the options that can be additionally provided; any that are not mandatory (listed above) will be automatically set to their default values in the ODBC configuration if you do not specify other values for them.
+
 ## License
 
 Apache 2.0

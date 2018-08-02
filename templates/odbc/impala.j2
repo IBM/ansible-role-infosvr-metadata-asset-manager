@@ -1,0 +1,19 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMimpala00.so
+Description={{ item.description | default('DataDirect Impala Wire Protocol Driver') }}
+ArraySize={{ item.ArraySize | default('16384') }}
+Database={{ item.database }}
+DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
+DefaultOrderByLimit={{ item.DefaultOrderByLimit | default('-1') }}
+EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
+HostName={{ item.host }}
+LoginTimeout={{ item.LoginTimeout | default('30') }}
+LogonID={{ item.LogonID | default('') }}
+MaxVarcharSize={{ item.MaxVarcharSize | default('') }}
+Password={{ item.Password | default('') }}
+PortNumber={{ item.PortNumber | default('10000') }}
+RemoveColumnQualifiers={{ item.RemoveColumnQualifiers | default('0') }}
+StringDescribeType={{ item.StringDescribeType | default('12') }}
+TransactionMode={{ item.TransactionMode | default('0') }}
+UseCurrentSchema={{ item.UseCurrentSchema | default('0') }}

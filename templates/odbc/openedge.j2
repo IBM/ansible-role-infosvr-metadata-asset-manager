@@ -1,0 +1,11 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMoe00.so
+Description={{ item.description | default('DataDirect Progress OpenEdge Wire Protocol') }}
+DatabaseName={{ item.database }}
+EnableTimestampWithTimezone={{ item.EnableTimestampWithTimezone | default('1') }}
+HostName={{ item.host }}
+LogonID={{ item.LogonID | default('') }}
+Password={{ item.Password | default('') }}
+PortNumber={{ item.port | default('20931') }}
+CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}

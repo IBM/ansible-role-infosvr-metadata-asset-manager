@@ -1,0 +1,13 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMifcl00.so
+Description={{ item.description | default('DataDirect Informix Wire Protocol driver') }}
+Database={{ item.database }}
+LogonID={{ item.LogonID | default('') }}
+Password={{ item.Password | default('') }}
+HostName={{ item.host }}
+PortNumber={{ item.port | default('1500') }}
+ServerName={{ item.ServerName | default('informixserver') }}
+CancelDetectInterval={{ item.CancelDetectInterval | default('0') }}
+TrimBlankFromIndexName={{ item.TrimBlankFromIndexName | default('1') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}

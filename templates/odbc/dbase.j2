@@ -1,0 +1,16 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMdbf00.so
+Description={{ item.description | default('DataDirect dBaseFile(*.dbf) Driver') }}
+ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+CacheSize={{ item.CacheSize | default('4') }}
+CreateType={{ item.CreateType | default('dBASE5') }}
+Database={{ item.database }}
+IntlSort={{ item.IntlSort | default('0') }}
+Locking={{ item.Locking | default('RECORD') }}
+UseLongNames={{ item.UseLongNames | default('0') }}
+UseLongQualifiers={{ item.UseLongQualifiers | default('') }}
+DataFileExtension={{ item.DataFileExtension | default('DBF') }}
+ExtensionCase={{ item.ExtensionCase | default('UPPER') }}
+FileOpenCache={{ item.FileOpenCache | default('0') }}
+LockCompatibility={{ item.LockCompatibility | default('dBASE') }}

@@ -1,0 +1,24 @@
+
+[{{ item.name }}]
+Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMtera00.so
+Description={{ item.description | default('DataDirect Teradata') }}
+AccountString={{ item.AccountString | default('') }}
+CharacterSet={{ item.CharacterSet | default('ASCII') }}
+DBCName={{ item.host }}
+Database={{ item.database }}
+EnableDataEncryption={{ item.EnableDataEncryption | default('No') }}
+EnableLOBs={{ item.EnableLOBs | default('Yes') }}
+EnableReconnect={{ item.EnableReconnect | default('No') }}
+IntegratedSecurity={{ item.IntegratedSecurity | default('No') }}
+LoginTimeout={{ item.LoginTimeout | default('20') }}
+MapCallEscapeToExec={{ item.MapCallEscapeToExec | default('No') }}
+MaxRespSize={{ item.MaxRespSize | default('8192') }}
+Password={{ item.Password | default('') }}
+PortNumber={{ item.port | default('1025') }}
+PrintOption={{ item.PrintOption | default('N') }}
+ProcedureWithSplSource={{ item.ProcedureWithSplSource | default('Y') }}
+ReportCodePageConversionErrors={{ item.ReportCodePageConversionErrors | default('0') }}
+SecurityMechanism={{ item.SecurityMechanism | default('') }}
+SecurityParameter={{ item.SecurityParameter | default('') }}
+ShowSelectableTables={{ item.ShowSelectableTables | default('Yes') }}
+UserID={{ item.UserID | default('') }}
