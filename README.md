@@ -49,7 +49,7 @@ Available only for v11.7+, this variable can be used to define just data connect
 
 ### ibm_infosvr_metadata_asset_mgr_odbc_entries
 
-Use this variable to define any ODBC entries that should be added to the `{DSHOME}/.odbc.ini` file. This is often necessary in order to ensure appropriate connectivity, eg. by the ODBC Connector in DataStage and by various server-side connectors in Metadata Asset Manager.
+Use this variable to define any ODBC entries that should be added to the `{DSHOME}/.odbc.ini` file. This is necessary in order to ensure appropriate connectivity via ODBC, eg. by the ODBC connections in DataStage and IMAM.
 
 Generally the required keys within each of these objects are:
 - `name`: the (unique) name of the ODBC entry
