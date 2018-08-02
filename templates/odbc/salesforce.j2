@@ -22,3 +22,10 @@ ReportCodePageConversionErrors={{ item.ReportCodePageConversionErrors | default(
 ReadOnly={{ item.ReadOnly | default('0') }}
 TransactionMode={{ item.TransactionMode | default('0') }}
 WSTimeout={{ item.WSTimeout | default('120') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

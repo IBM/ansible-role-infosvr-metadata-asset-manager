@@ -21,3 +21,10 @@ Password={{ item.Password | default('') }}
 RaiseErrorPositionBehavior={{ item.RaiseErrorPositionBehavior | default('0') }}
 SelectMethod={{ item.SelectMethod | default('0') }}
 WorkStationID={{ item.WorkStationID | default('') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

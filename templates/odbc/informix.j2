@@ -11,3 +11,10 @@ ServerName={{ item.ServerName | default('informixserver') }}
 CancelDetectInterval={{ item.CancelDetectInterval | default('0') }}
 TrimBlankFromIndexName={{ item.TrimBlankFromIndexName | default('1') }}
 ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

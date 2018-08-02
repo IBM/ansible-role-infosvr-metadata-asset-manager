@@ -19,3 +19,10 @@ Package={{ item.Package | default('') }}
 PackageOwner={{ item.PackageOwner | default('') }}
 TcpPort={{ item.port | default('50000') }}
 WithHold={{ item.WithHold | default('1') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

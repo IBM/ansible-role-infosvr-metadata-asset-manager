@@ -22,3 +22,10 @@ SecurityMechanism={{ item.SecurityMechanism | default('') }}
 SecurityParameter={{ item.SecurityParameter | default('') }}
 ShowSelectableTables={{ item.ShowSelectableTables | default('Yes') }}
 UserID={{ item.UserID | default('') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

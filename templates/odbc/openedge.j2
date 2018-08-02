@@ -9,3 +9,10 @@ LogonID={{ item.LogonID | default('') }}
 Password={{ item.Password | default('') }}
 PortNumber={{ item.port | default('20931') }}
 CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

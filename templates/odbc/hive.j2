@@ -22,3 +22,10 @@ TransactionMode={{ item.TransactionMode | default('0') }}
 UseNativeCatalogFunctions={{ item.UseNativeCatalogFunctions | default('0') }}
 UseCurrentSchema={{ item.UseCurrentSchema | default('0') }}
 WireProtocolVersion={{ item.WireProtocolVersion | default('0') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

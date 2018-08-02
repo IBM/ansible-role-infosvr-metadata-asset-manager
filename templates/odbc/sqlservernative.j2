@@ -48,3 +48,10 @@ TrustStorePassword={{ item.TrustStorePassword | default('') }}
 ValidateServerCertificate={{ item.ValidateServerCertificate | default('1') }}
 WorkStationID={{ item.WorkStationID | default('') }}
 XML Describe Type={{ item.XML_Describe_Type | default('-10') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

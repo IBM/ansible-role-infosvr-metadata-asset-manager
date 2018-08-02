@@ -14,3 +14,10 @@ DataFileExtension={{ item.DataFileExtension | default('DBF') }}
 ExtensionCase={{ item.ExtensionCase | default('UPPER') }}
 FileOpenCache={{ item.FileOpenCache | default('0') }}
 LockCompatibility={{ item.LockCompatibility | default('dBASE') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

@@ -36,3 +36,10 @@ TreatBinaryAsChar={{ item.TreatBinaryAsChar | default('0') }}
 TrustStore={{ item.TrustStore | default('') }}
 TrustStorePassword={{ item.TrustStorePassword | default('') }}
 ValidateServerCertificate={{ item.ValidateServerCertificate | default('1') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}

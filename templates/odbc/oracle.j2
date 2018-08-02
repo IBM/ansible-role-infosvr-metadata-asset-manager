@@ -22,3 +22,10 @@ Password={{ item.Password | default('') }}
 ProcedureRetResults={{ item.ProcedureRetResults | default('0') }}
 ServerName={{ item.host }}
 UseCurrentSchema={{ item.UseCurrentSchema | default('1') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}
