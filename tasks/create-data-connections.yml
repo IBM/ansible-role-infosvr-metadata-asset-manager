@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-- name: check if data connection exists
+- name: data_connections - check if data connection exists
   uri:
     url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
     method: POST
@@ -31,7 +31,7 @@
   register: ibm_infosvr_metadata_asset_manager_existing_dcn
 
 # TODO: Cognos (and others?) have just item.password ...
-#- name: encrypt any password information
+#- name: data_connections - encrypt any password information
 #  no_log: True
 #  shell: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh {{ item.dcn.password }}"
 #  args:
@@ -40,7 +40,7 @@
 #  changed_when: False
 #  register: encrypted_passwords
 
-- name: transfer data connection templates
+- name: data_connections - transfer data connection templates
   template:
     src: DCN_{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2
     dest: /tmp/DCN_{{ item.name }}-{{ item.type }}.xml
@@ -49,7 +49,7 @@
     mode: 0600
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
 
-- name: create data connection
+- name: data_connections - create data connection
   shell: >
           source ~/.bashrc &&
           cd `cat /.dshome` &&
@@ -69,6 +69,6 @@
   when: item.json.paging.numTotal == 0
   with_items: "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.results }}"
 
-- name: remove data connection configuration files
+- name: data_connections - remove data connection configuration files
   file: state=absent path=/tmp/DCN_{{ item.name }}-{{ item.type }}.xml
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"

@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-- name: check existing connectivity
+- name: import_areas - check existing connectivity
   shell: >
           cd `cat /.dshome` &&
           . dsenv &&
@@ -44,7 +44,7 @@
 #  changed_when: False
 #  register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords
 
-- name: transfer import area templates
+- name: import_areas - transfer import area templates
   template:
     src: "{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace('.', '') }}.xml.j2"
     dest: "/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml"
@@ -54,7 +54,7 @@
   when: ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
 
-- name: configure import areas via IMAM (skipping local files)
+- name: import_areas - configure import areas via IMAM (skipping local files)
   shell: >
           cd `cat /.dshome` &&
           . dsenv &&
@@ -76,7 +76,7 @@
         and (item.file is not defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
 
-- name: configure import areas via IMAM (with local files)
+- name: import_areas - configure import areas via IMAM (with local files)
   shell: >
           cd `cat /.dshome` &&
           . dsenv &&
@@ -99,11 +99,11 @@
         and (item.file is defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
 
-- name: remove connectivity configuration files
+- name: import_areas - remove connectivity configuration files
   file: state=absent path=/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
 
-- name: re-import existing import areas via IMAM (skipping local files)
+- name: import_areas - re-import existing import areas via IMAM (skipping local files)
   shell: >
           cd `cat /.dshome` &&
           . dsenv &&
@@ -123,7 +123,7 @@
   register: __ibm_infosvr_metadata_asset_mgr_reimport
   failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport.rc == 246)
 
-- name: list any imports that require review (skipping local files)
+- name: import_areas - list any imports that require review (skipping local files)
   debug:
     msg: "Import includes a potentially destructive change -- requires manual review in Metadata Asset Manager prior to sharing."
   changed_when: True
@@ -132,7 +132,7 @@
   loop_control:
     label: "{{ item.item.name }}"
 
-- name: re-import existing import areas via IMAM (with local files)
+- name: import_areas - re-import existing import areas via IMAM (with local files)
   shell: >
           cd `cat /.dshome` &&
           . dsenv &&
@@ -153,7 +153,7 @@
   register: __ibm_infosvr_metadata_asset_mgr_reimport_local
   failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 246)
 
-- name: list any imports that require review (with local files)
+- name: import_areas - list any imports that require review (with local files)
   debug:
     msg: "Import includes a potentially destructive change -- requires manual review in Metadata Asset Manager prior to sharing."
   changed_when: True
