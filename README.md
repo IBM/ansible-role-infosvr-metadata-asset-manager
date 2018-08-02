@@ -53,6 +53,7 @@ Use this variable to define any ODBC entries that should be added to the `{DSHOM
 
 Generally the required keys within each of these objects are:
 - `name`: the (unique) name of the ODBC entry
+- `description`: a description of the ODBC entry (should not use the character `=` anywhere)
 - `type`: the type of ODBC entry, one of `db2`, `dbase`, `informix`, `oracle`, `oraclewire`, `sqlserver`, `sqlservernative`, `sybase`, `sybaseiq`, `salesforce`, `text`, `teradata`, `openedge`, `mysql`, `postgres`, `greenplum`, `hive`, `impala`
 - `database`: the name of the database (for RDBMS entries)
 - `host`: the hostname or IP address of the system hosting the data source
