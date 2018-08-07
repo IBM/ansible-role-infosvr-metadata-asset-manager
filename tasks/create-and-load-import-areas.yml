@@ -51,6 +51,8 @@
     mode: 0600
   when: ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - configure import areas via IMAM (skipping local files)
   shell: >
@@ -73,6 +75,8 @@
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
         and (item.file is not defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - configure import areas via IMAM (with local files)
   shell: >
@@ -96,10 +100,14 @@
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
         and (item.file is defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - remove connectivity configuration files
   file: state=absent path=/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - re-import existing import areas via IMAM (skipping local files)
   shell: >
@@ -120,6 +128,8 @@
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
   register: __ibm_infosvr_metadata_asset_mgr_reimport
   failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport.rc == 246)
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - list any imports that require review (skipping local files)
   debug:
@@ -150,6 +160,8 @@
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
   register: __ibm_infosvr_metadata_asset_mgr_reimport_local
   failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 246)
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - list any imports that require review (with local files)
   debug:
