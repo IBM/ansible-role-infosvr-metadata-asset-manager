@@ -35,8 +35,6 @@
     section: "{{ item.item.name }}"
     state: absent
   check_mode: yes
-  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-  become: yes
   register: __ibm_infosvr_metadata_asset_mgr_odbc_entry_unmgd
   when: item is changed
   failed_when: __ibm_infosvr_metadata_asset_mgr_odbc_entry_unmgd is changed
@@ -52,8 +50,6 @@
     backup: yes
     block: |
       {{ lookup('template', 'templates/odbc/' + item.type + '.j2') }}
-  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-  become: yes
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
   loop_control:
     label: "{{ item.name }}"
@@ -66,8 +62,6 @@
     value: "{{ item.description | default(__ibm_infosvr_metadata_asset_mgr_odbc_drivers[item.type]) }}"
     state: present
     no_extra_spaces: yes
-  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-  become: yes
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
   loop_control:
     label: "{{ item.name }}"

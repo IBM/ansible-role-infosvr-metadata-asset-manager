@@ -48,8 +48,6 @@
   template:
     src: "{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace('.', '') }}.xml.j2"
     dest: "/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml"
-    owner: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-    group: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_group }}"
     mode: 0600
   when: ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"

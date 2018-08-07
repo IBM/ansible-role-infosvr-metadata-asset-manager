@@ -44,8 +44,6 @@
   template:
     src: DCN_{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2
     dest: /tmp/DCN_{{ item.name }}-{{ item.type }}.xml
-    owner: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-    group: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_group }}"
     mode: 0600
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
 
@@ -64,8 +62,6 @@
           -mn {{ ibm_infosvr_metadata_asset_mgr_engine_host }}
   args:
     executable: /bin/bash
-  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-  become: yes
   when: item.json.paging.numTotal == 0
   with_items: "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.results }}"
 
