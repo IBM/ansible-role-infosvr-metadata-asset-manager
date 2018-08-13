@@ -6,6 +6,7 @@ Ansible role for automating the deployment of metadata using IBM Metadata Asset 
 
 - Ansible v2.4.x
 - 'dsadm'-become-able network access to an IBM Information Server environment
+- Inventory group names setup the same as `IBM.infosvr` role
 
 ## Role Variables
 
