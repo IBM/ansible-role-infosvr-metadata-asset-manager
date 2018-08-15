@@ -21,7 +21,7 @@
     state: directory
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
   loop_control:
-    label: "{{ item.ddl }}"
+    label: "{{ item.dest }}"
 
 - name: osh_schemas - copy DDL for generation
   copy:
