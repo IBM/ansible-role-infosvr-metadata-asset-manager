@@ -83,7 +83,7 @@ def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
     iDefnStart = ddlCreateTable.find("(")
     iDefnEnd = ddlCreateTable.rfind(")")
     tblName = ddlCreateTable[(len("CREATE TABLE ")):iDefnStart]
-    tblName = tblName.replace('"', '').replace("'", "")
+    tblName = tblName.replace('"', '').replace("'", "").strip()
     tblDefn = ddlCreateTable[(iDefnStart + 1):iDefnEnd]
     aNaiveColDefns = tblDefn.split(",") # not quite so simple, since DECIMAL(5,2) will be split in the middle...
     aActualColDefns = []
