@@ -90,8 +90,8 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
-warnings:
-  description: A list of any warnings regarding the OSH schema generation (eg. defaulted types)
+unmapped:
+  description: A list of any warnings regarding the OSH schema generation mappings (eg. defaulted types)
   returned: always
   type: list
 schemas:
@@ -127,7 +127,7 @@ def main():
 
     result = dict(
         changed=False,
-        warnings=[],
+        unmapped=[],
         schemas=[]
     )
 

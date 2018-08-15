@@ -47,8 +47,8 @@
 - name: osh_schemas - check for any unmapped DDL
   assert:
     that:
-      - item.warnings | length == 0
-    msg: "Unimplemented mappings in DDL: {{ item.warnings }}"
+      - item.unmapped | length == 0
+    msg: "Unimplemented mappings in DDL: {{ item.unmapped }}"
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_osh_schemas.results }}"
   loop_control:
     label: "{{ item.item.ddl }}"

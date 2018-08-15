@@ -53,7 +53,7 @@ def getOSHSchemaTypeForSQLType(result, sqlType):
             else:
                 oshSchemaType += "[" + sqlTypeLength + "]"
     else:
-        result['warnings'].append("Unsupported SQL data type: " + ucaseSQL)
+        result['unmapped'].append("Unsupported SQL data type: " + ucaseSQL)
     return oshSchemaType
 
 
