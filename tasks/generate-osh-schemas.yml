@@ -46,9 +46,9 @@
 
 - name: osh_schemas - create blank data files
   file:
-    path: "{{ item.1 }}"
+    path: "{{ item.1 | replace('.osh', '') }}"
     state: touch
-  with_nested:
+  with_subelements:
     - "{{ __ibm_infosvr_metadata_asset_mgr_osh_schemas.results }}"
     - schemas
   loop_control:
