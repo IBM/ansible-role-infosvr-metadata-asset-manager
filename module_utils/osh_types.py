@@ -34,7 +34,7 @@ sql_type_to_osh_type = {
     "VARCHAR": "string",
     "NVARCHAR2": "string"
 }
-
+regex = re.compile(r"\s\s+")
 
 def getOSHSchemaTypeForSQLType(result, sqlType):
     # http://www.ibm.com/support/knowledgecenter/en/SSZJPZ_11.5.0/com.ibm.swg.im.iis.ds.parjob.adref.doc/topics/r_deeadvrf_ImportExport_Properties.html
@@ -42,7 +42,7 @@ def getOSHSchemaTypeForSQLType(result, sqlType):
     sqlTypeLength = ""
     if sqlType.find("(") > 0:
         sqlTypeAlone = sqlType[0:sqlType.find("(")]
-        sqlTypeLength = sqlType[(sqlType.find("(") + 1):sqlType.find(")")]
+        sqlTypeLength = regex.sub(string=sqlType[(sqlType.find("(") + 1):sqlType.find(")")], repl='')
     ucaseSQL = sqlTypeAlone.upper()
     oshSchemaType = "string"
     if ucaseSQL in sql_type_to_osh_type:
@@ -59,11 +59,9 @@ def getOSHSchemaTypeForSQLType(result, sqlType):
 
 def getCreateTableStatementsFromDDL(ddlString):
     tblStatments = []
-#    ddlString = fs.readFileSync(ddlFile, 'utf8')
     aLinesDDL = ddlString.split("\n")
     currentTableDef = "";
     idx = 0
-    regex = re.compile(r"\s\s+")
     for line in aLinesDDL:
         line = line.strip().upper();
         if line.startswith("CREATE TABLE"):
@@ -107,7 +105,10 @@ def convertColumnDefinitionToOSHSchemaFieldDefinition(result, ddlCol):
     remainder = remainder[len(colName):].strip()
     colType = remainder
     extras = ""
-    if remainder.find(" ") > 0:
+    if remainder.find(")") > 0:
+        colType = remainder[0:(remainder.find(")") + 1)]
+        extras = remainder[len(colType):].strip()
+    elif remainder.find(" ") > 0:
         colType = remainder[0:remainder.find(" ")]
         extras = remainder[len(colType):].strip()
     if extras == "NOT NULL":
