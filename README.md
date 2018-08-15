@@ -85,6 +85,36 @@ ibm_infosvr_metadata_asset_mgr_odbc_entries:
       - ColumnsAsChar: 1
 ```
 
+### ibm_infosvr_metadata_asset_mgr_osh_schemas
+
+Use this variable to define any DDL files (containing CREATE TABLE statements) that should be used to generate OSH schema files for data files that would capture the same content as the database tables.
+
+All parameters are required, except for the `tables` parameter -- if not specified, an OSH schema will be generated for every CREATE TABLE statement found in the specified `ddl`.
+
+This will create the following:
+- one (blank) data file under the specified `dest` directory for each CREATE TABLE statement in the specified `ddl` (limited by the tables defined in the optional `tables` parameter), using the specified `fileext` as the file extension
+- one OSH schema file under the same specified `dest` directory for each of the blank data files created, appending `.osh` as an additional file extension
+
+**Examples**:
+
+```
+ibm_infosvr_metadata_asset_mgr_osh_schemas:
+  - ddl: /some/location/MYDB.sql
+    structure: "file_format: 'delimited', header: 'false'"
+    recordfmt: "delim='|', final_delim=end, null_field='', charset=UTF-8"
+    dest: /some/target/directory
+    fileext: csv
+    tables:
+      - TABLE1
+      - TABLE2
+```
+
+The example above will create:
+- `/some/target/directory/TABLE1.csv`
+- `/some/target/directory/TABLE1.csv.osh`
+- `/some/target/directory/TABLE2.csv`
+- `/some/target/directory/TABLE2.csv.osh`
+
 ## License
 
 Apache 2.0
