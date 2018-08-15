@@ -156,7 +156,7 @@ def main():
     tablesToFields = {};
     for table in aCreateTbls:
         tblObj = getColumnDefinitionsFromCreateTableStatement(table)
-        if module.params['tables']
+        if module.params['tables']:
             if tblObj['table'] in module.params['tables']:
                 tablesToFields[tblObj['table']] = tblObj['columns']
         else:
