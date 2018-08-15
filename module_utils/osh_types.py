@@ -83,6 +83,7 @@ def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
     iDefnStart = ddlCreateTable.find("(")
     iDefnEnd = ddlCreateTable.rfind(")")
     tblName = ddlCreateTable[(len("CREATE TABLE ")):iDefnStart]
+    tblName = tblName.replace('"', '').replace("'", "")
     tblDefn = ddlCreateTable[(iDefnStart + 1):iDefnEnd]
     aNaiveColDefns = tblDefn.split(",") # not quite so simple, since DECIMAL(5,2) will be split in the middle...
     aActualColDefns = []
@@ -91,9 +92,10 @@ def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
         if candidateCol.find("(") > 0:
             # If we find an opening (, then greedily consume into the same column until we find the corresponding closing )
             while candidateCol.find(")") < 0:
-                candidateCol += "," + aNaiveColDefns[++idx]
+                idx += 1
+                candidateCol += "," + aNaiveColDefns[idx]
         if not candidateCol.startswith("PRIMARY KEY"):
-            aActualColDefns.append(candidateCol)
+            aActualColDefns.append(candidateCol.replace('"', '').replace('"', ""))
         idx += 1
     return { "table": tblName, "columns": aActualColDefns }
 
