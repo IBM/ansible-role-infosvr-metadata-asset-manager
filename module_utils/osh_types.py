@@ -70,7 +70,7 @@ def getCreateTableStatementsFromDDL(ddlString):
             if currentTableDef != "":
                 tblStatments.push(currentTableDef)
             currentTableDef = regex.sub(string=line, repl=' ')
-        else if not line.startswith("--") and line != "":
+        elif not line.startswith("--") and line != "":
             currentTableDef += regex.sub(string=line, repl=' ')
         # Also ensure the very last create table statement is included
         if aLinesDDL.length == (idx + 1) and currentTableDef.startswith("CREATE TABLE"):
