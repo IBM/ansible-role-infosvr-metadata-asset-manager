@@ -88,7 +88,8 @@ def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
     aNaiveColDefns = tblDefn.split(",") # not quite so simple, since DECIMAL(5,2) will be split in the middle...
     aActualColDefns = []
     idx = 0
-    for candidateCol in aNaiveColDefns:
+    while idx < len(aNaiveColDefns):
+        candidateCol = aNaiveColDefns[idx]
         if candidateCol.find("(") > 0:
             # If we find an opening (, then greedily consume into the same column until we find the corresponding closing )
             while candidateCol.find(")") < 0:
