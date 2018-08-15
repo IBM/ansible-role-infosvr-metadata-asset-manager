@@ -58,14 +58,20 @@ options:
       - For example: "delim='|', final_delim=end, null_field='', charset=UTF-8"
     required: true
     type: str
-  table:
+  ext:
     description:
-      - The table for which to generate an OSH schema
+      - Filename extension to expect for the data files
+      - For example: "csv"
     required: true
     type: str
+  tables:
+    description:
+      - A list of tables for which to generate an OSH schema
+    required: false
+    type: list
   dest:
     description:
-      - The target file into which to write the generated OSH schema
+      - The target directory into which to write the generated OSH schema(s)
     required: true
     type: path
 '''
@@ -76,13 +82,20 @@ EXAMPLES = '''
     ddl: mydb.sql
     structure: "file_format: 'delimited', header: 'false'"
     recordfmt: "delim='|', final_delim=end, null_field='', charset=UTF-8"
-    table: MY_TABLE
-    dest: /some/location/MY_TABLE.csv.osh
+    ext: csv
+    tables:
+      - MY_TABLE1
+      - MY_TABLE2
+    dest: /some/location
 '''
 
 RETURN = '''
 warnings:
   description: A list of any warnings regarding the OSH schema generation (eg. defaulted types)
+  returned: always
+  type: list
+schemas:
+  description: A list of OSH schema files that were created
   returned: always
   type: list
 '''
@@ -101,7 +114,8 @@ def main():
         ddl=dict(type='path', required=True),
         structure=dict(type='str', required=True),
         recordfmt=dict(type='str', required=True),
-        table=dict(type='str', required=True),
+        ext=dict(type='str', required=True),
+        tables=dict(type='list', required=False),
         dest=dict(type='path', required=True),
         unsafe_writes=dict(type='bool', required=False, default=False)
     )
@@ -113,7 +127,8 @@ def main():
 
     result = dict(
         changed=False,
-        warnings=[]
+        warnings=[],
+        schemas=[]
     )
 
     # if the user is working with this module in only check mode we do not
@@ -123,6 +138,8 @@ def main():
         return result
 
     ddl = module.params['ddl']
+    dest = module.params['dest']
+    ext = module.params['ext']
 
     if os.path.isdir(ddl):
         module.fail_json(rc=256, msg='DDL %s is a directory !' % ddl)
@@ -139,52 +156,56 @@ def main():
     tablesToFields = {};
     for table in aCreateTbls:
         tblObj = getColumnDefinitionsFromCreateTableStatement(table)
-        tablesToFields[tblObj['table']] = tblObj['columns']
+        if module.params['tables']
+            if tblObj['table'] in module.params['tables']:
+                tablesToFields[tblObj['table']] = tblObj['columns']
+        else:
+            tablesToFields[tblObj['table']] = tblObj['columns']
 
     oshSchema = "// FileStructure: " + module.params['structure'] + "\n"
     oshSchema += "record { " + module.params['recordfmt'] + " } ("
 
-    ucaseTblName = tableName.upper()
-    if not ucaseTblName in tablesToFields:
-        module.fail_json(rc=1, msg='Unable to find table name: %s' % ucaseTblName)
+    for tableName in tablesToFields:
+        ucaseTblName = tableName.upper()
+        if not ucaseTblName in tablesToFields:
+            module.fail_json(rc=1, msg='Unable to find table name: %s' % ucaseTblName)
 
-    fieldDefinitions = tablesToFields[ucaseTblName]
-    for field in fieldDefinitions:
-        colDefn = convertColumnDefinitionToOSHSchemaFieldDefinition(result, field)
-        oshSchema += "\n    " + colDefn;
+        fieldDefinitions = tablesToFields[ucaseTblName]
+        for field in fieldDefinitions:
+            colDefn = convertColumnDefinitionToOSHSchemaFieldDefinition(result, field)
+            oshSchema += "\n    " + colDefn;
 
-    oshSchema += "\n)"
+        oshSchema += "\n)"
 
-    fs.writeFileSync(sidecarName, oshSchema, 'utf8');
+        # Write temporary file with the OSH output,
+        # and then move to specified dest location
+        try:
+            tmpfd, tmpfile = tempfile.mkstemp()
+            f = os.fdopen(tmpfd, 'wb')
+            f.write(oshSchema)
+            f.close()
+        except IOError:
+            module.fail_json(msg='Unable to create temporary file to output OSH schema', **result)
 
-    # Write temporary file with the OSH output,
-    # and then move to specified dest location
-    try:
-        tmpfd, tmpfile = tempfile.mkstemp()
-        f = os.fdopen(tmpfd, 'wb')
-        f.write(oshSchema)
-        f.close()
-    except IOError:
-        module.fail_json(msg='Unable to create temporary file to output OSH schema', **result)
+        # Checksumming to identify change...
+        checksum_src = module.sha1(tmpfile)
+        checksum_dest = None
+        destfile = dest + os.sep + ucaseTblName + "." + ext + ".osh"
+        b_dest = to_bytes(destfile, errors='surrogate_or_strict')
+        if os.access(b_dest, os.R_OK):
+            checksum_dest = module.sha1(destfile)
 
-    # Checksumming to identify change...
-    checksum_src = module.sha1(tmpfile)
-    checksum_dest = None
-    dest = module.params['dest']
-    b_dest = to_bytes(dest, errors='surrogate_or_strict')
-    if os.access(b_dest, os.R_OK):
-        checksum_dest = module.sha1(dest)
-
-    # If the file does not already exist and/or checksums are different,
-    # move the new file over the old one and mark it as changed; otherwise
-    # leave the original file (delete the tmpfile) and that there was no change
-    if checksum_src != checksum_dest:
-        module.atomic_move(tmpfile,
-                        to_native(os.path.realpath(b_dest), errors='surrogate_or_strict'),
-                        unsafe_writes=module.params['unsafe_writes'])
-        result['changed'] = True
-    else:
-        os.unlink(tmpfile)
+        # If the file does not already exist and/or checksums are different,
+        # move the new file over the old one and mark it as changed; otherwise
+        # leave the original file (delete the tmpfile) and that there was no change
+        if checksum_src != checksum_dest:
+            module.atomic_move(tmpfile,
+                            to_native(os.path.realpath(b_dest), errors='surrogate_or_strict'),
+                            unsafe_writes=module.params['unsafe_writes'])
+            result['schemas'].append(destfile)
+            result['changed'] = True
+        else:
+            os.unlink(tmpfile)
 
     module.exit_json(**result)
 
