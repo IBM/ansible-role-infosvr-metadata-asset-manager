@@ -40,9 +40,9 @@ def getOSHSchemaTypeForSQLType(result, sqlType):
     # http://www.ibm.com/support/knowledgecenter/en/SSZJPZ_11.5.0/com.ibm.swg.im.iis.ds.parjob.adref.doc/topics/r_deeadvrf_ImportExport_Properties.html
     sqlTypeAlone = sqlType
     sqlTypeLength = ""
-    if sqlType.index("(") > 0:
-        sqlTypeAlone = sqlType[0:sqlType.index("(")]
-        sqlTypeLength = sqlType[(sqlType.index("(") + 1):sqlType.index(")")]
+    if sqlType.find("(") > 0:
+        sqlTypeAlone = sqlType[0:sqlType.find("(")]
+        sqlTypeLength = sqlType[(sqlType.find("(") + 1):sqlType.find(")")]
     ucaseSQL = sqlTypeAlone.upper()
     oshSchemaType = "string"
     if ucaseSQL in sql_type_to_osh_type:
@@ -80,17 +80,17 @@ def getCreateTableStatementsFromDDL(ddlString):
 
 
 def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
-    iDefnStart = ddlCreateTable.index("(")
-    iDefnEnd = ddlCreateTable.rindex(")")
+    iDefnStart = ddlCreateTable.find("(")
+    iDefnEnd = ddlCreateTable.rfind(")")
     tblName = ddlCreateTable[(len("CREATE TABLE ")):iDefnStart]
     tblDefn = ddlCreateTable[(iDefnStart + 1):iDefnEnd]
     aNaiveColDefns = tblDefn.split(",") # not quite so simple, since DECIMAL(5,2) will be split in the middle...
     aActualColDefns = []
     idx = 0
     for candidateCol in aNaiveColDefns:
-        if candidateCol.index("(") > 0:
+        if candidateCol.find("(") > 0:
             # If we find an opening (, then greedily consume into the same column until we find the corresponding closing )
-            while candidateCol.index(")") < 0:
+            while candidateCol.find(")") < 0:
                 candidateCol += "," + aNaiveColDefns[++idx]
         if not candidateCol.startswith("PRIMARY KEY"):
             aActualColDefns.append(candidateCol)
@@ -100,12 +100,12 @@ def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
 
 def convertColumnDefinitionToOSHSchemaFieldDefinition(result, ddlCol):
     remainder = ddlCol
-    colName = remainder[0:remainder.index(" ")]
+    colName = remainder[0:remainder.find(" ")]
     remainder = remainder[len(colName):].strip()
     colType = remainder
     extras = ""
-    if remainder.index(" ") > 0:
-        colType = remainder[0:remainder.indexOf(" ")]
+    if remainder.find(" ") > 0:
+        colType = remainder[0:remainder.find(" ")]
         extras = remainder[len(colType):].strip()
     if extras == "NOT NULL":
         extras = "not nullable"
