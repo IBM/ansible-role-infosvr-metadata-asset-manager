@@ -102,7 +102,7 @@ schemas:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils._text import to_bytes, to_native
-from ansible.module_utils.infosvr_types import getCreateTableStatementsFromDDL, getColumnDefinitionsFromCreateTableStatement, convertColumnDefinitionToOSHSchemaFieldDefinition
+from ansible.module_utils.osh_types import getCreateTableStatementsFromDDL, getColumnDefinitionsFromCreateTableStatement, convertColumnDefinitionToOSHSchemaFieldDefinition
 import os
 import os.path
 import tempfile
