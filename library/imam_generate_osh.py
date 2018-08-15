@@ -162,10 +162,10 @@ def main():
         else:
             tablesToFields[tblObj['table']] = tblObj['columns']
 
-    oshSchema = "// FileStructure: " + module.params['structure'] + "\n"
-    oshSchema += "record { " + module.params['recordfmt'] + " } ("
-
     for tableName in tablesToFields:
+        oshSchema = "// FileStructure: " + module.params['structure'] + "\n"
+        oshSchema += "record { " + module.params['recordfmt'] + " } ("
+
         ucaseTblName = tableName.upper()
         if not ucaseTblName in tablesToFields:
             module.fail_json(rc=1, msg='Unable to find table name: %s' % ucaseTblName)
