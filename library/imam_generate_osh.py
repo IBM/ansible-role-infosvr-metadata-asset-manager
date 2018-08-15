@@ -190,7 +190,7 @@ def main():
         # Checksumming to identify change...
         checksum_src = module.sha1(tmpfile)
         checksum_dest = None
-        destfile = dest + os.sep + ucaseTblName + "." + ext + ".osh"
+        destfile = dest + os.sep + ucaseTblName + ext + ".osh"
         b_dest = to_bytes(destfile, errors='surrogate_or_strict')
         if os.access(b_dest, os.R_OK):
             checksum_dest = module.sha1(destfile)
