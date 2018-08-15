@@ -205,6 +205,7 @@ def main():
             result['schemas'].append(destfile)
             result['changed'] = True
         else:
+            result['schemas'].append(destfile)
             os.unlink(tmpfile)
 
     module.exit_json(**result)
