@@ -152,8 +152,8 @@ def main():
     ddlString = f.read()
     f.close()
 
-    aCreateTbls = getCreateTableStatementsFromDDL(ddlString);
-    tablesToFields = {};
+    aCreateTbls = getCreateTableStatementsFromDDL(ddlString)
+    tablesToFields = {}
     for table in aCreateTbls:
         tblObj = getColumnDefinitionsFromCreateTableStatement(table)
         if module.params['tables']:
@@ -167,13 +167,13 @@ def main():
         oshSchema += "record { " + module.params['recordfmt'] + " } ("
 
         ucaseTblName = tableName.upper()
-        if not ucaseTblName in tablesToFields:
+        if ucaseTblName not in tablesToFields:
             module.fail_json(rc=1, msg='Unable to find table name: %s' % ucaseTblName)
 
         fieldDefinitions = tablesToFields[ucaseTblName]
         for field in fieldDefinitions:
             colDefn = convertColumnDefinitionToOSHSchemaFieldDefinition(result, field)
-            oshSchema += "\n    " + colDefn;
+            oshSchema += "\n    " + colDefn
 
         oshSchema += "\n)"
 

@@ -36,6 +36,7 @@ sql_type_to_osh_type = {
 }
 regex = re.compile(r"\s\s+")
 
+
 def getOSHSchemaTypeForSQLType(result, sqlType):
     # http://www.ibm.com/support/knowledgecenter/en/SSZJPZ_11.5.0/com.ibm.swg.im.iis.ds.parjob.adref.doc/topics/r_deeadvrf_ImportExport_Properties.html
     sqlTypeAlone = sqlType
@@ -60,10 +61,10 @@ def getOSHSchemaTypeForSQLType(result, sqlType):
 def getCreateTableStatementsFromDDL(ddlString):
     tblStatments = []
     aLinesDDL = ddlString.split("\n")
-    currentTableDef = "";
+    currentTableDef = ""
     idx = 0
     for line in aLinesDDL:
-        line = line.strip().upper();
+        line = line.strip().upper()
         if line.startswith("CREATE TABLE"):
             if currentTableDef != "":
                 tblStatments.append(currentTableDef)
@@ -83,20 +84,20 @@ def getColumnDefinitionsFromCreateTableStatement(ddlCreateTable):
     tblName = ddlCreateTable[(len("CREATE TABLE ")):iDefnStart]
     tblName = tblName.replace('"', '').replace("'", "").strip()
     tblDefn = ddlCreateTable[(iDefnStart + 1):iDefnEnd]
-    aNaiveColDefns = tblDefn.split(",") # not quite so simple, since DECIMAL(5,2) will be split in the middle...
+    aNaiveColDefns = tblDefn.split(",")  # not quite so simple, since DECIMAL(5,2) will be split in the middle...
     aActualColDefns = []
     idx = 0
     while idx < len(aNaiveColDefns):
         candidateCol = aNaiveColDefns[idx]
         if candidateCol.find("(") > 0:
-            # If we find an opening (, then greedily consume into the same column until we find the corresponding closing )
+            # If we find an opening (, greedily consume into the same column until we find corresponding closing )
             while candidateCol.find(")") < 0:
                 idx += 1
                 candidateCol += "," + aNaiveColDefns[idx]
         if not candidateCol.startswith("PRIMARY KEY"):
             aActualColDefns.append(candidateCol.replace('"', '').replace('"', ""))
         idx += 1
-    return { "table": tblName, "columns": aActualColDefns }
+    return {"table": tblName, "columns": aActualColDefns}
 
 
 def convertColumnDefinitionToOSHSchemaFieldDefinition(result, ddlCol):
@@ -115,4 +116,4 @@ def convertColumnDefinitionToOSHSchemaFieldDefinition(result, ddlCol):
         extras = "not nullable"
     else:
         extras = "nullable"
-    return colName + ": " + extras + " " + getOSHSchemaTypeForSQLType(result, colType) + ";";
+    return colName + ": " + extras + " " + getOSHSchemaTypeForSQLType(result, colType) + ";"
