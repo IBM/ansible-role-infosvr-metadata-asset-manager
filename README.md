@@ -20,7 +20,7 @@ The role is primarily inteded to be imported into other playbooks as-needed for 
 
 The following example will create an import area, and run the import, for metadata of any files found in `/data/loadable` on the file system of the Information Server engine tier (and record the hostname on which they are found as 'IS-SERVER.IBM.COM').
 
-```
+```yml
 - import_role: name=IBM.infosvr-metadata-asset-manager
   vars:
     ibm_infosvr_metadata_asset_mgr_import_areas:
@@ -66,7 +66,7 @@ Finally, if you are aware of additional properties that you want to add to a par
 
 **Examples**:
 
-```
+```yml
 ibm_infosvr_metadata_asset_mgr_odbc_entries:
   - name: IADB on DB2
     description: Connection to IADB on DB2
@@ -97,7 +97,7 @@ This will create the following:
 
 **Examples**:
 
-```
+```yml
 ibm_infosvr_metadata_asset_mgr_osh_schemas:
   - ddl: /some/location/MYDB.sql
     structure: "file_format: 'delimited', header: 'false'"
