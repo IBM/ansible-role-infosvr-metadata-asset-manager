@@ -1,0 +1,72 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+- name: osh_schemas - create output directories
+  file:
+    path: "{{ item.dest }}"
+    state: directory
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  loop_control:
+    label: "{{ item.dest }}"
+
+- name: osh_schemas - copy DDL for generation
+  copy:
+    src: "{{ item.ddl }}"
+    dest: "{{ item.dest }}/{{ item.ddl | basename }}"
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  loop_control:
+    label: "{{ item.ddl }}"
+
+- name: osh_schemas - generate OSH schema for each table
+  imam_generate_osh:
+    ddl: "{{ item.dest }}/{{ item.ddl | basename }}"
+    structure: "{{ item.structure }}"
+    recordfmt: "{{ item.recordfmt }}"
+    ext: "{{ item.fileext }}"
+    tables: "{{ item.tables | default(omit) }}"
+    dest: "{{ item.dest }}"
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  register: __ibm_infosvr_metadata_asset_mgr_osh_schemas
+  loop_control:
+    label: "{{ item.ddl }}"
+
+- name: osh_schemas - check for any unmapped DDL
+  assert:
+    that:
+      - item.unmapped | length == 0
+    msg: "Unimplemented mappings in DDL: {{ item.unmapped }}"
+  with_items: "{{ __ibm_infosvr_metadata_asset_mgr_osh_schemas.results }}"
+  loop_control:
+    label: "{{ item.item.ddl }}"
+
+- name: osh_schemas - create blank data files
+  file:
+    path: "{{ item.1 | replace('.osh', '') }}"
+    state: touch
+  with_subelements:
+    - "{{ __ibm_infosvr_metadata_asset_mgr_osh_schemas.results }}"
+    - schemas
+  loop_control:
+    label: "{{ item.0.item.ddl }} - {{ item.1 | replace('.osh', '') }}"
+
+- name: osh_schemas - remove DDL used for generation
+  file:
+    path: "{{ item.dest }}/{{ item.ddl | basename }}"
+    state: absent
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  loop_control:
+    label: "{{ item.ddl }}"
