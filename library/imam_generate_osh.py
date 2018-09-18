@@ -200,8 +200,8 @@ def main():
         # leave the original file (delete the tmpfile) and that there was no change
         if checksum_src != checksum_dest:
             module.atomic_move(tmpfile,
-                            to_native(os.path.realpath(b_dest), errors='surrogate_or_strict'),
-                            unsafe_writes=module.params['unsafe_writes'])
+                               to_native(os.path.realpath(b_dest), errors='surrogate_or_strict'),
+                               unsafe_writes=module.params['unsafe_writes'])
             result['schemas'].append(destfile)
             result['changed'] = True
         else:
