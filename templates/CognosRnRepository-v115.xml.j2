@@ -18,82 +18,82 @@
 -->
 <ImportParameters bridgeDisplayName="IBM Cognos Content Manager" bridgeId="MITI/CognosRnRepository" bridgeVersion="9.1.0 - 2017-04-20 15:58:59" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <Parameter displayName="Version" id="Version">
-{% if item.cognos_version is defined %}
-    <value>{{ item.cognos_version }}</value>
+{% if item.item.cognos_version is defined %}
+    <value>{{ item.item.cognos_version }}</value>
 {% else %}
     <value>Auto detect</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Dispatcher URL" id="Dispatcher URL">
-    <value>{{ item.dispatcher_url }}</value>
+    <value>{{ item.item.dispatcher_url }}</value>
   </Parameter>
   <Parameter displayName="Namespace" id="Namespace">
-{% if item.namespace is defined %}
-    <value>{{ item.namespace }}</value>
+{% if item.item.namespace is defined %}
+    <value>{{ item.item.namespace }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="User name" id="User">
-{% if item.username is defined %}
-    <value>{{ item.username }}</value>
+{% if item.item.username is defined %}
+    <value>{{ item.item.username }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Password" id="Password">
-{% if item.password is defined %}
-    <value>{{ item.password }}</value>
+{% if item.item.password is defined %}
+    <value>{{ item.stdout | trim }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Content browsing mode" id="Content browsing mode">
-{% if item.content_browsing_mode is defined %}
-    <value>{{ item.content_browsing_mode }}</value>
+{% if item.item.content_browsing_mode is defined %}
+    <value>{{ item.item.content_browsing_mode }}</value>
 {% else %}
     <value>All</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Assets to import" id="Content">
-{% if item.assets_to_import is defined %}
-    <value>{{ item.assets_to_import|e }}</value>
+{% if item.item.assets_to_import is defined %}
+    <value>{{ item.item.assets_to_import|e }}</value>
 {% else %}
     <value>//*[@objectClass=&apos;query&apos; or @objectClass=&apos;report&apos; or @objectClass=&apos;model&apos;]</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Add dependent objects" id="Add dependent objects">
-{% if item.dependent_objects is defined %}
-    <value>{{ item.dependent_objects }}</value>
+{% if item.item.dependent_objects is defined %}
+    <value>{{ item.item.dependent_objects }}</value>
 {% else %}
     <value>Packages referenced by selected reports</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Incremental import" id="Incremental import" type="BOOLEAN">
-{% if item.incremental_import is defined %}
-    <value>{{ item.incremental_import|capitalize }}</value>
+{% if item.item.incremental_import is defined %}
+    <value>{{ item.item.incremental_import|capitalize }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Folder representation" id="Folder representation">
-{% if item.folder_representation is defined %}
-    <value>{{ item.folder_representation }}</value>
+{% if item.item.folder_representation is defined %}
+    <value>{{ item.item.folder_representation }}</value>
 {% else %}
     <value>Ignore</value>
 {% endif %}
   </Parameter>
   <!-- Name and path of input file on the metadata interchange server.  To use a local computer file, leave this parameter value empty and specify the local file input option on the command line. -->
   <Parameter displayName="Transformer import configuration" id="Transformer import configuration">
-{% if item.transformer_import_configuration_file is defined %}
-    <value>{{ item.transformer_import_configuration_file }}</value>
+{% if item.item.transformer_import_configuration_file is defined %}
+    <value>{{ item.item.transformer_import_configuration_file }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Multiple threads" id="Multiple threads">
-{% if item.number_of_threads is defined %}
-    <value>{{ item.number_of_threads }}</value>
+{% if item.item.number_of_threads is defined %}
+    <value>{{ item.item.number_of_threads }}</value>
 {% else %}
     <value></value>
 {% endif %}
@@ -103,24 +103,24 @@
     <value>115</value>
   </Parameter>
   <Parameter displayName="Import joins" id="AP_Import joins" type="BOOLEAN">
-{% if item.import_joins|capitalize %}
-    <value>{{ item.import_joins|capitalize }}</value>
+{% if item.item.import_joins|capitalize %}
+    <value>{{ item.item.import_joins|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import levels" id="AP_Import levels" type="BOOLEAN">
-{% if item.import_levels %}
-    <value>{{ item.import_levels|capitalize }}</value>
+{% if item.item.import_levels %}
+    <value>{{ item.item.import_levels|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Metadata consistency&#xa;check" id="model_consistency_check">
-{% if item.metadata_consistency_check is defined and item.metadata_consistency_check == 'detailed' %}
+{% if item.item.metadata_consistency_check is defined and item.item.metadata_consistency_check == 'detailed' %}
     <displayValue>Detailed check</displayValue>
     <value>detailed</value>
-{% elif item.metadata_consistency_check is defined and item.metadata_consistency_check == 'none' %}
+{% elif item.item.metadata_consistency_check is defined and item.item.metadata_consistency_check == 'none' %}
     <displayValue>No check</displayValue>
     <value>none</value>
 {% else %}
@@ -129,22 +129,22 @@
 {% endif %}
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.existing_asset is defined and item.existing_asset == 'Keep_existing_description' %}
+{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.existing_asset }}</value>
+    <value>{{ item.item.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Host system name" id="AP_Host system name">
-    <value>{{ item.hostname }}</value>
+    <value>{{ item.item.hostname }}</value>
   </Parameter>
   <Parameter isRequired="true" displayName="Database name" id="AP_Database name">
-    <value>{{ item.database_name }}</value>
+    <value>{{ item.item.database_name }}</value>
   </Parameter>
   <Parameter displayName="Replace incorrect or missing database&#xa;name" id="AP_Replace incorrect or missing database name">
-{% if item.database_name_override_bridge is defined and not item.database_name_override_bridge %}
+{% if item.item.database_name_override_bridge is defined and not item.item.database_name_override_bridge %}
     <displayValue>Use database name if bridge value is empty</displayValue>
     <value>Replace empty</value>
 {% else %}
@@ -153,10 +153,10 @@
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="DBMS name" id="AP_DBMS name">
-    <value>{{ item.dbms_name }}</value>
+    <value>{{ item.item.dbms_name }}</value>
   </Parameter>
   <Parameter displayName="Replace incorrect or missing&#xa;DBMS name" id="AP_Replace incorrect or missing DBMS name">
-{% if item.dbms_name_override_bridge is defined and not item.dbms_name_override_bridge %}
+{% if item.item.dbms_name_override_bridge is defined and not item.item.dbms_name_override_bridge %}
     <displayValue>Use DBMS name if bridge value is empty</displayValue>
     <value>Replace empty</value>
 {% else %}
@@ -165,21 +165,21 @@
 {% endif %}
   </Parameter>
   <Parameter displayName="DBMS server instance&#xa;name" id="AP_DBMS server instance name">
-{% if item.dbms_server_instance is defined %}
-    <value>{{ item.dbms_server_instance }}</value>
+{% if item.item.dbms_server_instance is defined %}
+    <value>{{ item.item.dbms_server_instance }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Schema name" id="AP_Schema name">
-{% if item.schema_name is defined %}
-    <value>{{ item.schema_name }}</value>
+{% if item.item.schema_name is defined %}
+    <value>{{ item.item.schema_name }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Replace incorrect or&#xa;missing schema name" id="AP_Replace incorrect or missing schema name">
-{% if item.schema_name_override_bridge is defined and not item.schema_name_override_bridge %}
+{% if item.item.schema_name_override_bridge is defined and not item.item.schema_name_override_bridge %}
     <displayValue>Use schema name if bridge value is empty</displayValue>
     <value>Replace empty</value>
 {% else %}

@@ -21,9 +21,9 @@
     <value></value>
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.existing_asset is defined and item.existing_asset == 'Keep_existing_description' %}
+{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.existing_asset }}</value>
+    <value>{{ item.item.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>

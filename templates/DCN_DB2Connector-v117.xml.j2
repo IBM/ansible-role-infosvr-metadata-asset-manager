@@ -19,27 +19,27 @@
 <ImportParameters bridgeDisplayName="IBM InfoSphere DB2 Connector" bridgeId="CAS/DB2Connector__9.1" bridgeVersion="9.1_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.name }}</value>
+      <value>{{ item.item.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.description is defined %}
-      <value>{{ item.description }}</value>
+{% if item.item.description is defined %}
+      <value>{{ item.item.description }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="Database/Location" id="Database">
-      <value>{{ item.database }}</value>
+      <value>{{ item.item.database }}</value>
     </Parameter>
     <Parameter displayName="User name" id="Username">
-      <value>{{ item.username }}</value>
+      <value>{{ item.item.username }}</value>
     </Parameter>
     <Parameter displayName="Password" id="Password">
-      <value>{{ item.password }}</value>
+      <value>{{ item.stdout | trim }}</value>
     </Parameter>
     <Parameter displayName="Instance" id="Instance">
-{% if item.instance is defined %}
-      <value>{{ item.instance }}</value>
+{% if item.item.instance is defined %}
+      <value>{{ item.item.instance }}</value>
 {% else %}
       <value></value>
 {% endif %}

@@ -32,24 +32,25 @@
   loop_control:
     label: "{{ item.name }}"
 
-# TODO: Cognos (and others?) have just item.password ...
-#- name: data_connections - encrypt any password information
-#  no_log: True
-#  shell: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh {{ item.dcn.password }}"
-#  args:
-#    executable: /bin/bash
-#  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
-#  changed_when: False
-#  register: encrypted_passwords
+- name: data_connections - encrypt any password information
+  no_log: True
+  shell: >
+          {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
+          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% elif item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
+  args:
+    executable: /bin/bash
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+  changed_when: False
+  register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn
 
 - name: data_connections - transfer data connection templates
   template:
-    src: DCN_{{ item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2
-    dest: /tmp/DCN_{{ item.name }}-{{ item.type }}.xml
+    src: DCN_{{ item.item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2
+    dest: /tmp/DCN_{{ item.item.name }}-{{ item.item.type }}.xml
     mode: 0600
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+  with_items: "{{ __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn.results }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ item.item.name }}"
 
 - name: data_connections - create data connection
   shell: >

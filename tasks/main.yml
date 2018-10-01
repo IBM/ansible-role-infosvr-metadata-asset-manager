@@ -32,16 +32,12 @@
         and ('ibm-information-server-engine' in group_names)
 
 - import_tasks: create-data-connections.yml
-  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-  become: yes
   when: >
         ibm_infosvr_metadata_asset_mgr_data_connections is defined
         and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
         and ('ibm-information-server-engine' in group_names)
 
 - import_tasks: create-and-load-import-areas.yml
-  become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
-  become: yes
   when: >
         ibm_infosvr_metadata_asset_mgr_import_areas is defined
         and ('ibm-information-server-engine' in group_names)
