@@ -36,7 +36,7 @@
   no_log: True
   shell: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
-          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% else if item.password is defined %}{{ item.password }}{% endif %}
+          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% else if item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
   args:
     executable: /bin/bash
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
