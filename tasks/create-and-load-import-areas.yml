@@ -36,12 +36,14 @@
   no_log: True
   shell: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
-          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% else if item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
+          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% elif item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
   args:
     executable: /bin/bash
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: import_areas - transfer import area templates
   template:
