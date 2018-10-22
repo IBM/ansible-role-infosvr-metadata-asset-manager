@@ -20,7 +20,7 @@
     method: POST
     user: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}"
     password: "{{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}"
-    body: '{"properties":["name"],"types":["data_connection"],"where":{"conditions":[{"value":"{{ outer_item.name }}","property":"name","operator":"="}],"operator":"and"}}'
+    body: '{"properties":["name"],"types":["data_connection"],"where":{"conditions":[{"value":"{{ outer_item.dcn }}","property":"name","operator":"="}],"operator":"and"}}'
     body_format: json
     validate_certs: no
     status_code: 200
