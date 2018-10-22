@@ -29,16 +29,3 @@ ibm_infosvr_metadata_asset_mgr_admin_user_pwd: "{% if ibm_infosvr_upwds is defin
 # import area / data connection XML files
 ibm_infosvr_metadata_asset_mgr_dsadm_user: "{% if ibm_infosvr_users is defined %}{{ ibm_infosvr_users.dsadm }}{% else %}dsadm{% endif %}"
 ibm_infosvr_metadata_asset_mgr_dsadm_group: "{% if ibm_infosvr_groups is defined %}{{ ibm_infosvr_groups.dsadm }}{% else %}dstage{% endif %}"
-
-# List of import area objects, and their parameters, for 
-# import areas that should be created and loaded.
-# See vars/ directory of the role for examples
-ibm_infosvr_metadata_asset_mgr_import_areas: []
-
-# List of data connection objects, and their parameters, 
-# for data connections that should be created and loaded
-# (Note: only available in v11.7+)
-ibm_infosvr_metadata_asset_mgr_data_connections: []
-
-# List of ODBC entries that should be added to $DSHOME/.odbc.ini
-ibm_infosvr_metadata_asset_mgr_odbc_entries: []
