@@ -55,4 +55,4 @@
   failed_when: ibm_infosvr_metadata_asset_manager_discovery_process.stdout.find('<isCreationSuccesful>false') != -1
 
 - name: discover - remove template
-  file: state=absent path=/tmp/__discover_{{ item.dcn | replace(' ', '_') }}.json
+  file: state=absent path=/tmp/__discover_{{ outer_item.dcn | replace(' ', '_') }}.json
