@@ -58,10 +58,7 @@
           cd `cat /.dshome` &&
           . dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
-          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
-          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
-          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
-          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a createDC
           -fp /tmp/DCN_{{ item.item.name }}-{{ item.item.type }}.xml
           -mn {{ ibm_infosvr_metadata_asset_mgr_engine_host }}

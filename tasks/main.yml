@@ -16,6 +16,10 @@
 ###
 
 - import_tasks: get_version.yml
+  when: ('ibm-information-server-engine' in group_names)
+
+- import_tasks: create_authfile.yml
+  when: ('ibm-information-server-engine' in group_names)
 
 - block:
     - include_tasks: create-odbc-entries.yml
@@ -60,3 +64,9 @@
         ibm_infosvr_metadata_asset_mgr_discover_sources is defined
         and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
         and ('ibm-information-server-engine' in group_names)
+
+- name: remove temporary auth file
+  file:
+    path: "{{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}"
+    state: absent
+  when: ('ibm-information-server-engine' in group_names)

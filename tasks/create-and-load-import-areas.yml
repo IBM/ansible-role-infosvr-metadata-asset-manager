@@ -20,10 +20,7 @@
           cd `cat /.dshome` &&
           . dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
-          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
-          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
-          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
-          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a list
           -t area
           -nof
@@ -60,10 +57,7 @@
           cd `cat /.dshome` &&
           . dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
-          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
-          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
-          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
-          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a import
           -i '{{ item.name }}'
           -ad '{{ item.description }}'
@@ -84,10 +78,7 @@
           cd `cat /.dshome` &&
           . dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
-          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
-          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
-          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
-          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a import
           -i '{{ item.name }}'
           -ad '{{ item.description }}'
@@ -115,10 +106,7 @@
           cd `cat /.dshome` &&
           . dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
-          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
-          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
-          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
-          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
           -i '{{ item.name }}'
   args:
@@ -146,10 +134,7 @@
           cd `cat /.dshome` &&
           . dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
-          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
-          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
-          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
-          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
           -i '{{ item.name }}'
           -l {{ item.file }}
