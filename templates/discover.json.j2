@@ -1,9 +1,9 @@
 {
   "projectName": "{{ outer_item.project }}",
 {% if outer_item.steps is defined %}
-  "jobSteps": "{{ outer_item.steps | join(',') }}"
+  "jobSteps": "{{ outer_item.steps | join(',') }}",
 {% else %}
-  "jobSteps": "columnAnalysis,termAssignment,qualityAnalysis",
+  "jobSteps": "import,columnAnalysis,termAssignment,dataQualityAnalysis",
 {% endif %}
   "dcRid": "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.json['items'][0]._id }}",
   "importParameters": {
