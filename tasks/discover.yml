@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ###
+
 - name: discover - get DCN RID
   uri:
     url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
@@ -53,6 +54,8 @@
   args:
     executable: /bin/bash
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
+  register: ibm_infosvr_metadata_asset_manager_discovery_process
+  failed_when: ibm_infosvr_metadata_asset_manager_discovery_process.stdout.find('<isCreationSuccesful>false') != -1
 
-#- name: discover - remove template
-#  file: state=absent path=/tmp/__discover_{{ item.dcn | replace(' ', '_') }}.json
+- name: discover - remove template
+  file: state=absent path=/tmp/__discover_{{ item.dcn | replace(' ', '_') }}.json
