@@ -1,0 +1,80 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
+- name: Ensure isjdbc.config file exists
+  stat:
+    path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config"
+  register: __ibm_infosvr_metadata_asset_manager_isjdbc_config
+
+- name: Create isjdbc.config if it does not exist
+  lineinfile:
+    path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config"
+    regexp: "^{{ item }}"
+    line: "{{ item }}"
+    insertafter: EOF
+    create: yes
+    mode: 0644
+  with_items:
+    - "CLASSPATH="
+    - "CLASS_NAMES="
+  when: not (__ibm_infosvr_metadata_asset_manager_isjdbc_config.stat.exists is defined and __ibm_infosvr_metadata_asset_manager_isjdbc_config.stat.exists)
+
+- name: Check existing CLASSPATHs in isjdbc.config
+  shell: >
+          grep 'CLASSPATH=' {{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config
+          | grep '{{ item }}'
+  args:
+    executable: /bin/bash
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_jdbc_entries.classpaths }}"
+  register: __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths
+  failed_when: __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths.rc > 1
+
+- name: Check existing CLASS_NAMES in isjdbc.config
+  shell: >
+          grep 'CLASS_NAMES=' {{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config
+          | grep '{{ item }}'
+  args:
+    executable: /bin/bash
+  with_items: "{{ ibm_infosvr_metadata_asset_mgr_jdbc_entries.classnames }}"
+  register: __ibm_infosvr_metadata_asset_manager_isjdbc_classnames
+  failed_when: __ibm_infosvr_metadata_asset_manager_isjdbc_classnames.rc > 1
+
+- name: Ensure CLASSPATHs are in isjdbc.config
+  lineinfile:
+    path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config"
+    regexp: "^CLASSPATH=(.*)"
+    line: "CLASSPATH={{ item.item }};\\1"
+    state: present
+    backrefs: yes
+    backup: yes
+  when: item.rc == 1
+  with_items: "{{ __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+
+- name: Ensure CLASS_NAMES are in isjdbc.config
+  lineinfile:
+    path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config"
+    regexp: "^CLASS_NAMES=(.*)"
+    line: "CLASS_NAMES={{ item.item }};\\1"
+    state: present
+    backrefs: yes
+    backup: yes
+  when: item.rc == 1
+  with_items: "{{ __ibm_infosvr_metadata_asset_manager_isjdbc_classnames.results }}"
+  loop_control:
+    label: "{{ item.item }}"

@@ -1,0 +1,58 @@
+---
+###
+# Copyright 2018 IBM Corp. All Rights Reserved.
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#      http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+- name: discover - get DCN RID
+  uri:
+    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
+    method: POST
+    user: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}"
+    password: "{{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}"
+    body: '{"properties":["name"],"types":["data_connection"],"where":{"conditions":[{"value":"{{ outer_item.name }}","property":"name","operator":"="}],"operator":"and"}}'
+    body_format: json
+    validate_certs: no
+    status_code: 200
+    headers:
+      Content-Type: "application/json"
+  register: ibm_infosvr_metadata_asset_manager_existing_dcn
+
+- name: discover - ensure DCN exists
+  assert:
+    that:
+      - ibm_infosvr_metadata_asset_manager_existing_dcn.json.paging.numTotal == 1
+    msg: "Specified DCN ({{ outer_item.dcn }}) not found -- ensure that it has first been created."
+
+- name: discover - apply template
+  template:
+    src: discover.json.j2
+    dest: /tmp/__discover_{{ outer_item.dcn | replace(' ', '_') }}.json
+
+- name: discover - start discovery process
+  shell: >
+          . dsenv &&
+          {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
+          -u {{ ibm_infosvr_metadata_asset_mgr_admin_user }}
+          -w {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
+          -s {{ ibm_infosvr_metadata_asset_mgr_services_host }}
+          -p {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}
+          -a discover
+          -cf /tmp/__discover_{{ outer_item.dcn | replace(' ', '_') }}.json
+          -redc '{{ outer_item.dcn }}'
+  args:
+    executable: /bin/bash
+    chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
+
+#- name: discover - remove template
+#  file: state=absent path=/tmp/__discover_{{ item.dcn | replace(' ', '_') }}.json
