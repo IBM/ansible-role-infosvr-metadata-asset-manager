@@ -109,6 +109,7 @@
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
           -i '{{ item.name }}'
+          --checkEventDiff
   args:
     executable: /bin/bash
   when: >
@@ -138,6 +139,7 @@
           -a reimport
           -i '{{ item.name }}'
           -l {{ item.file }}
+          --checkEventDiff
   args:
     executable: /bin/bash
   when: >
