@@ -117,7 +117,7 @@
         and (item.file is not defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
   register: __ibm_infosvr_metadata_asset_mgr_reimport
-  failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport.rc == 246)
+  failed_when: __ibm_infosvr_metadata_asset_mgr_reimport.rc not in [0, 245, 246]
   loop_control:
     label: "{{ item.name }}"
 
@@ -147,7 +147,7 @@
         and (item.file is defined)
   with_items: "{{ ibm_infosvr_metadata_asset_mgr_import_areas }}"
   register: __ibm_infosvr_metadata_asset_mgr_reimport_local
-  failed_when: not (__ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 0 or __ibm_infosvr_metadata_asset_mgr_reimport_local.rc == 246)
+  failed_when: __ibm_infosvr_metadata_asset_mgr_reimport_local.rc not in [0, 246]
   loop_control:
     label: "{{ item.name }}"
 
