@@ -9,7 +9,7 @@
   "importParameters": {
     "targetHost": "{{ outer_item.target_host }}"
 {% if outer_item.parameters is defined %}
-{% for key, value in outer_item.parameters.iteritems() %}
+{% for key, value in outer_item.parameters.items() %}
     , "{{ key }}": "{{ value }}"
 {% endfor %}
 {% endif %}
