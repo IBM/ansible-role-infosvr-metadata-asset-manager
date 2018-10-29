@@ -27,7 +27,7 @@
     status_code: 200
     headers:
       Content-Type: "application/json"
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+  with_items: "{{ data_connections }}"
   register: ibm_infosvr_metadata_asset_manager_existing_dcn
   loop_control:
     label: "{{ item.name }}"
@@ -39,7 +39,7 @@
           {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% elif item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
   args:
     executable: /bin/bash
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+  with_items: "{{ data_connections }}"
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn
 
@@ -71,6 +71,6 @@
 
 - name: data_connections - remove data connection configuration files
   file: state=absent path=/tmp/DCN_{{ item.name }}-{{ item.type }}.xml
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_data_connections }}"
+  with_items: "{{ data_connections }}"
   loop_control:
     label: "{{ item.name }}"

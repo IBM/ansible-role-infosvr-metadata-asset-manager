@@ -39,7 +39,7 @@
           | grep '{{ item }}'
   args:
     executable: /bin/bash
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_jdbc_entries.classpaths }}"
+  with_items: "{{ jdbc_entries.classpaths }}"
   register: __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths
   failed_when: __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths.rc > 1
 
@@ -49,7 +49,7 @@
           | grep '{{ item }}'
   args:
     executable: /bin/bash
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_jdbc_entries.classnames }}"
+  with_items: "{{ jdbc_entries.classnames }}"
   register: __ibm_infosvr_metadata_asset_manager_isjdbc_classnames
   failed_when: __ibm_infosvr_metadata_asset_manager_isjdbc_classnames.rc > 1
 

@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### IBM InfoSphere CSV ###############
 # The IBM InfoSphere CSV bridge imports implemented data resources and business intelligence objects from a CSV file.

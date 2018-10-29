@@ -19,7 +19,7 @@
   file:
     path: "{{ item.dest }}"
     state: directory
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  with_items: "{{ osh_schemas }}"
   loop_control:
     label: "{{ item.dest }}"
 
@@ -27,7 +27,7 @@
   copy:
     src: "{{ item.ddl }}"
     dest: "{{ item.dest }}/{{ item.ddl | basename }}"
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  with_items: "{{ osh_schemas }}"
   loop_control:
     label: "{{ item.ddl }}"
 
@@ -39,7 +39,7 @@
     ext: "{{ item.fileext }}"
     tables: "{{ item.tables | default(omit) }}"
     dest: "{{ item.dest }}"
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  with_items: "{{ osh_schemas }}"
   register: __ibm_infosvr_metadata_asset_mgr_osh_schemas
   loop_control:
     label: "{{ item.ddl }}"
@@ -67,6 +67,6 @@
   file:
     path: "{{ item.dest }}/{{ item.ddl | basename }}"
     state: absent
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_osh_schemas }}"
+  with_items: "{{ osh_schemas }}"
   loop_control:
     label: "{{ item.ddl }}"

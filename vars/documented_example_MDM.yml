@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### IBM InfoSphere Master Data Management ###############
 # The IBM InfoSphere Master Data Management bridge imports virtual and physical definitions and related database objects from XMI files that were exported from InfoSphere MDM. You can use the imported database tables and columns in InfoSphere DataStage® and QualityStage® jobs.

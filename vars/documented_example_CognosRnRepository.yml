@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### IBM Cognos Content Manager ###############
 # The IBM Cognos BI Reporting - Content Manager bridge supports Cognos BI Reporting Content Manager functionality in Cognos ReportNet and Cognos versions 8 to 8.4 and 10, 10.2 and 11. The bridge imports a complete package of business intelligence (BI) models, BI reports, and related implemented data resources, such as database tables and columns.

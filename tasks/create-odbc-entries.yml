@@ -25,7 +25,7 @@
     state: present
   check_mode: yes
   register: __ibm_infosvr_metadata_asset_mgr_odbc_entry_mgd
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  with_items: "{{ odbc_entries }}"
   loop_control:
     label: "{{ item.name }}"
 
@@ -50,7 +50,7 @@
     backup: yes
     block: |
       {{ lookup('template', 'templates/odbc/' + item.type + '.j2') }}
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  with_items: "{{ odbc_entries }}"
   loop_control:
     label: "{{ item.name }}"
 
@@ -62,6 +62,6 @@
     value: "{{ item.description | default(__ibm_infosvr_metadata_asset_mgr_odbc_drivers[item.type]) }}"
     state: present
     no_extra_spaces: yes
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_odbc_entries }}"
+  with_items: "{{ odbc_entries }}"
   loop_control:
     label: "{{ item.name }}"

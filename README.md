@@ -30,7 +30,7 @@ Note tha the order in which the variables are defined does not matter -- the rol
 ```yml
 - import_role: name=IBM.infosvr-metadata-asset-manager
   vars:
-    ibm_infosvr_metadata_asset_mgr_import_areas:
+    import_areas:
       - name: Simple_LocalFileConnector_ImportArea
         type: LocalFileConnector
         description: "A simple sample (setting only required fields) for a LocalFileConnector import area"
@@ -40,19 +40,19 @@ Note tha the order in which the variables are defined does not matter -- the rol
         assets_to_import:
           - "folder[/data/loadable]"
         hostname: "IS-SERVER.IBM.COM"
-    ibm_infosvr_metadata_asset_mgr_jdbc_entries:
+    jdbc_entries:
       classpaths:
         - /opt/IBM/InformationServer/ASBNode/lib/java/db2jcc.jar
       classnames:
         - com.ibm.db2.jcc.DB2Driver
-    ibm_infosvr_metadata_asset_mgr_data_connections:
+    data_connections:
       - name: AutoJDBC
         type: JDBCConnector
         description: Data connection for automatically discovering against a JDBC source
         url: jdbc:db2://myhost.somewhere.com:50000/MYDB
         username: db2inst1
         password: "{{ a_password_from_eg_vault }}"
-    ibm_infosvr_metadata_asset_mgr_discover_sources:
+    discover_sources:
       - dcn: AutoJDBC
         project: UGDefaultWorkspace
         target_host: myhost.somewhere.com
@@ -69,17 +69,17 @@ Note tha the order in which the variables are defined does not matter -- the rol
 
 ## Possible variables
 
-### ibm_infosvr_metadata_asset_mgr_import_areas
+### import_areas
 
 Use this variable to provide a list (array) of complex structures, each of which defines an import area for Metadata Asset Manager. If the import area does not yet exist, it will be created and then loaded; if an import area by the same name already exists its metadata will be re-imported (the import area will not be replaced).
 
 Example structures, fully documented, can be found under `vars/documented_*.yml`. Simple structures can be found under `vars/simple_examples.yml`.
 
-### ibm_infosvr_metadata_asset_mgr_data_connections
+### data_connections
 
 Available only for v11.7+, this variable can be used to define just data connections rather than a complete import area. This is useful if, for example, you want to make use of the automated Discovery capability available from v11.7+ onwards (ie. leveraging the Open Discovery Framework's ability to pipeline the harvesting of metadata, followed by automated column analysis, etc).
 
-### ibm_infosvr_metadata_asset_mgr_odbc_entries
+### odbc_entries
 
 Use this variable to define any ODBC entries that should be added to the `{DSHOME}/.odbc.ini` file. This is necessary in order to ensure appropriate connectivity via ODBC, eg. by the ODBC connections in DataStage and IMAM.
 
@@ -98,7 +98,7 @@ Finally, if you are aware of additional properties that you want to add to a par
 **Examples**:
 
 ```yml
-ibm_infosvr_metadata_asset_mgr_odbc_entries:
+odbc_entries:
   - name: IADB on DB2
     description: Connection to IADB on DB2
     type: db2
@@ -116,7 +116,7 @@ ibm_infosvr_metadata_asset_mgr_odbc_entries:
       - ColumnsAsChar: 1
 ```
 
-### ibm_infosvr_metadata_asset_mgr_jdbc_entries
+### jdbc_entries
 
 Use this variable to define any JDBC classes that should be included in the `{DSHOME}/isjdbc.config` file. This is necessary in order to ensure appropriate connectivity via JDBC, eg. by the JDBC connections in DataStage and IMAM.
 
@@ -129,14 +129,14 @@ The role will ensure that any classpaths or classnames not already included in t
 **Examples**:
 
 ```yml
-ibm_infosvr_metadata_asset_mgr_jdbc_entries:
+jdbc_entries:
   classpaths:
     - "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/lib/java/db2jcc.jar"
   classnames:
     - com.ibm.db2.jcc.DB2Driver
 ```
 
-### ibm_infosvr_metadata_asset_mgr_osh_schemas
+### osh_schemas
 
 Use this variable to define any DDL files (containing CREATE TABLE statements) that should be used to generate OSH schema files for data files that would capture the same content as the database tables.
 
@@ -149,7 +149,7 @@ This will create the following:
 **Examples**:
 
 ```yml
-ibm_infosvr_metadata_asset_mgr_osh_schemas:
+osh_schemas:
   - ddl: /some/location/MYDB.sql
     structure: "file_format: 'delimited', header: 'false'"
     recordfmt: "delim='|', final_delim=end, null_field='', charset=UTF-8"
@@ -166,7 +166,7 @@ The example above will create:
 - `/some/target/directory/TABLE2.csv`
 - `/some/target/directory/TABLE2.csv.osh`
 
-### ibm_infosvr_metadata_asset_mgr_discover_sources
+### discover_sources
 
 Use this variable to define any data sources that should be automatically discovered using the Open Discovery Framework in v11.7+
 
@@ -196,7 +196,7 @@ Also be aware that the `schema[DBNAME|SCHEMA]` format of the `rootAssets`, when 
 **Examples**:
 
 ```yml
-ibm_infosvr_metadata_asset_mgr_discover_sources:
+discover_sources:
   - dcn: AutoJDBC
     project: UGDefaultWorkspace
     target_host: myhost.somewhere.com

@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### IBM InfoSphere Data Architect MetaBroker ###############
 # The IBM InfoSphere Data Architect MetaBroker imports physical data models (DBM) and logical data models (LDM) from IBM InfoSphere Data Architect, Version 7.5.1 through 9.1.1.

@@ -26,7 +26,7 @@
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
   when: >
-        ibm_infosvr_metadata_asset_mgr_odbc_entries is defined
+        odbc_entries is defined
         and ('ibm-information-server-engine' in group_names)
 
 - block:
@@ -34,7 +34,7 @@
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
   when: >
-        ibm_infosvr_metadata_asset_mgr_jdbc_entries is defined
+        jdbc_entries is defined
         and ('ibm-information-server-engine' in group_names)
 
 - block:
@@ -42,26 +42,26 @@
   become_user: "{{ ibm_infosvr_metadata_asset_mgr_dsadm_user }}"
   become: yes
   when: >
-        ibm_infosvr_metadata_asset_mgr_osh_schemas is defined
+        osh_schemas is defined
         and ('ibm-information-server-engine' in group_names)
 
 - include_tasks: create-data-connections.yml
   when: >
-        ibm_infosvr_metadata_asset_mgr_data_connections is defined
+        data_connections is defined
         and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
         and ('ibm-information-server-engine' in group_names)
 
 - include_tasks: create-and-load-import-areas.yml
   when: >
-        ibm_infosvr_metadata_asset_mgr_import_areas is defined
+        import_areas is defined
         and ('ibm-information-server-engine' in group_names)
 
 - include_tasks: discover.yml
-  with_items: "{{ ibm_infosvr_metadata_asset_mgr_discover_sources }}"
+  with_items: "{{ discover_sources }}"
   loop_control:
     loop_var: outer_item
   when: >
-        ibm_infosvr_metadata_asset_mgr_discover_sources is defined
+        discover_sources is defined
         and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
         and ('ibm-information-server-engine' in group_names)
 

@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### IBM InfoSphere DB2 Connector ###############
 # The IBM DB2 connector imports implemented data resources, including database schemas and database tables, from supported versions of IBM DB2.

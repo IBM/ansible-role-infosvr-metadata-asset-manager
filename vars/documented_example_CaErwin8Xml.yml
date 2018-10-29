@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### ERwin 8 Data Modeler (File) ###############
 # The erwin 8 Data Modeler bridge imports logical data models and physical data models from files that are produced by erwin Data Modeler, version 8.

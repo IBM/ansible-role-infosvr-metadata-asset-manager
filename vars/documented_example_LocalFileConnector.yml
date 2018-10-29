@@ -15,7 +15,7 @@
 # limitations under the License.
 ###
 
-ibm_infosvr_metadata_asset_mgr_import_areas:
+import_areas:
 
 ############### File Connector - Engine Tier ###############
 # The File connector imports metadata about the contents of file systems from Hadoop Distributed File System(HDFS) or from files on the engine tier of InfoSphere Information Server. Selecting File Connector - Engine Tier indicates that your import source is a computer on the engine tier.
