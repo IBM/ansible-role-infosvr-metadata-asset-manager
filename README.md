@@ -2,6 +2,8 @@
 
 Ansible role for automating the deployment of metadata using IBM Metadata Asset Manager brokers and bridges.
 
+New to Ansible? This [simple introduction](https://cmgrote.github.io/ansible-tutorial/) might help.
+
 ## Requirements
 
 - Ansible v2.4.x
