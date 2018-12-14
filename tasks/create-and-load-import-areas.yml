@@ -1,13 +1,13 @@
 ---
 ###
 # Copyright 2018 IBM Corp. All Rights Reserved.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #      http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,25 +17,23 @@
 
 - name: import_areas - check existing connectivity
   shell: >
-          cd `cat /.dshome` &&
-          . dsenv &&
+          source dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a list
           -t area
           -nof
   args:
+    chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   register: ibm_infosvr_metadata_asset_manager_existing_import_areas
   changed_when: False
 
 - name: import_areas - encrypt any password information
   no_log: True
-  shell: >
+  command: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
           {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% elif item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
-  args:
-    executable: /bin/bash
   with_items: "{{ import_areas }}"
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords
@@ -54,8 +52,7 @@
 
 - name: import_areas - configure import areas via IMAM (skipping local files)
   shell: >
-          cd `cat /.dshome` &&
-          . dsenv &&
+          source dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a import
@@ -65,6 +62,7 @@
           -mn {{ item.metadata_interchange_server }}
           -pf /tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
   args:
+    chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
@@ -75,8 +73,7 @@
 
 - name: import_areas - configure import areas via IMAM (with local files)
   shell: >
-          cd `cat /.dshome` &&
-          . dsenv &&
+          source dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a import
@@ -87,6 +84,7 @@
           -pf /tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
           -l {{ item.file }}
   args:
+    chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
@@ -103,14 +101,14 @@
 
 - name: import_areas - re-import existing import areas via IMAM (skipping local files)
   shell: >
-          cd `cat /.dshome` &&
-          . dsenv &&
+          source dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
           -i '{{ item.name }}'
           --checkEventDiff
   args:
+    chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
@@ -132,8 +130,7 @@
 
 - name: import_areas - re-import existing import areas via IMAM (with local files)
   shell: >
-          cd `cat /.dshome` &&
-          . dsenv &&
+          source dsenv &&
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
@@ -141,6 +138,7 @@
           -l {{ item.file }}
           --checkEventDiff
   args:
+    chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
         ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
