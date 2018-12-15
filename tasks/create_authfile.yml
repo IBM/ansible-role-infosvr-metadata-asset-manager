@@ -26,6 +26,7 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
           {{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}
   no_log: True
+  changed_when: False
   register: __ibm_infosvr_metadata_asset_mgr_encrypted_pwd
 
 - name: create_authfile - record environment connection information
@@ -37,7 +38,12 @@
     backup: no
   no_log: True
   with_items:
-    - { key: "user", value: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}" }
-    - { key: "password", value: "{{ __ibm_infosvr_metadata_asset_mgr_encrypted_pwd.stdout | trim }}" }
-    - { key: "domain", value: "{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}" }
-    - { key: "server", value: "{{ ibm_infosvr_metadata_asset_mgr_engine_host | upper }}" }
+    - key: user
+      value: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}"
+    - key: password
+      value: "{{ __ibm_infosvr_metadata_asset_mgr_encrypted_pwd.stdout | trim }}"
+    - key: domain
+      value: "{{ ibm_infosvr_metadata_asset_mgr_services_host }}:\
+              {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}"
+    - key: server
+      value: "{{ ibm_infosvr_metadata_asset_mgr_engine_host | upper }}"

@@ -33,7 +33,13 @@
   no_log: True
   command: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
-          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% elif item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
+          {% if item.dcn is defined and item.dcn.password is defined %}
+          {{ item.dcn.password }}
+          {% elif item.password is defined %}
+          {{ item.password }}
+          {% else %}
+          empty
+          {% endif %}
   with_items: "{{ import_areas }}"
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords
@@ -121,7 +127,7 @@
 
 - name: import_areas - list any imports that require review (skipping local files)
   debug:
-    msg: "Import includes a potentially destructive change -- requires manual review in Metadata Asset Manager prior to sharing."
+    msg: "Import includes a potentially destructive change -- requires manual review in UI prior to sharing."
   changed_when: True
   when: item.rc is defined and item.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport.results }}"
@@ -151,7 +157,7 @@
 
 - name: import_areas - list any imports that require review (with local files)
   debug:
-    msg: "Import includes a potentially destructive change -- requires manual review in Metadata Asset Manager prior to sharing."
+    msg: "Import includes a potentially destructive change -- requires manual review in UI prior to sharing."
   changed_when: True
   when: item.rc is defined and item.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport_local.results }}"
