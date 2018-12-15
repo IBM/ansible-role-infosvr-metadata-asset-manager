@@ -17,11 +17,22 @@
 
 - name: data_connections - check if data connection exists
   uri:
-    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
+    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:\
+          {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
     method: POST
     user: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}"
     password: "{{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}"
-    body: '{"properties":["name"],"types":["data_connection"],"where":{"conditions":[{"value":"{{ item.name }}","property":"name","operator":"="}],"operator":"and"}}'
+    body: >
+          {
+            "properties": ["name"],
+            "types": ["data_connection"],
+            "where": {
+              "conditions": [{
+                "value": "{{ item.name }}", "property": "name", "operator": "="
+              }],
+              "operator":"and"
+            }
+          }
     body_format: json
     validate_certs: no
     status_code: 200
@@ -36,7 +47,13 @@
   no_log: True
   command: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
-          {% if item.dcn is defined and item.dcn.password is defined %}{{ item.dcn.password }}{% elif item.password is defined %}{{ item.password }}{% else %}empty{% endif %}
+          {% if item.dcn is defined and item.dcn.password is defined %}
+          {{ item.dcn.password }}
+          {% elif item.password is defined %}
+          {{ item.password }}
+          {% else %}
+          empty
+          {% endif %}
   with_items: "{{ data_connections }}"
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn

@@ -43,6 +43,7 @@
     executable: /bin/bash
   with_items: "{{ jdbc_entries.classpaths }}"
   register: __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths
+  changed_when: False
   failed_when: __ibm_infosvr_metadata_asset_manager_isjdbc_classpaths.rc > 1
 
 - name: Check existing CLASS_NAMES in isjdbc.config
@@ -53,6 +54,7 @@
     executable: /bin/bash
   with_items: "{{ jdbc_entries.classnames }}"
   register: __ibm_infosvr_metadata_asset_manager_isjdbc_classnames
+  changed_when: False
   failed_when: __ibm_infosvr_metadata_asset_manager_isjdbc_classnames.rc > 1
 
 - name: Ensure CLASSPATHs are in isjdbc.config

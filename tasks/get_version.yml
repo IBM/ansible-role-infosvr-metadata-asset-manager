@@ -15,6 +15,10 @@
 # limitations under the License.
 ###
 
+- name: get_version - setup namespace variable
+  set_fact:
+    __ibm_infosvr_mam_namespace: "{http://www.ibm.com/LocalInstallRegistry}InstallType"
+
 - name: get_version - parse version from Version.xml
   xml:
     path: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Version.xml"
@@ -23,9 +27,11 @@
       x: http://www.ibm.com/LocalInstallRegistry
     content: attribute
     attribute: x:currentVersion
-  register: ibm_infosvr_metadata_asset_mgr_installed_version_xml
+  register: __ibm_infosvr_mam_version_xml
 
 - name: get_version - register version number for reference
   set_fact:
-    ibm_infosvr_metadata_asset_mgr_installed_version_full: '{{ ibm_infosvr_metadata_asset_mgr_installed_version_xml.matches[0]["{http://www.ibm.com/LocalInstallRegistry}InstallType"].currentVersion }}'
-    ibm_infosvr_metadata_asset_mgr_installed_version: '{{ ibm_infosvr_metadata_asset_mgr_installed_version_xml.matches[0]["{http://www.ibm.com/LocalInstallRegistry}InstallType"].currentVersion[:4] }}'
+    ibm_infosvr_metadata_asset_mgr_installed_version_full: >-
+      {{ __ibm_infosvr_mam_version_xml.matches[0][__ibm_infosvr_mam_namespace].currentVersion }}
+    ibm_infosvr_metadata_asset_mgr_installed_version: >-
+      {{ __ibm_infosvr_mam_version_xml.matches[0][__ibm_infosvr_mam_namespace].currentVersion[:4] }}

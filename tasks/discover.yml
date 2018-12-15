@@ -17,11 +17,22 @@
 
 - name: discover - get DCN RID
   uri:
-    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:{{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
+    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:\
+          {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/search/"
     method: POST
     user: "{{ ibm_infosvr_metadata_asset_mgr_admin_user }}"
     password: "{{ ibm_infosvr_metadata_asset_mgr_admin_user_pwd }}"
-    body: '{"properties":["name"],"types":["data_connection"],"where":{"conditions":[{"value":"{{ outer_item.dcn }}","property":"name","operator":"="}],"operator":"and"}}'
+    body: >
+          {
+            "properties": ["name"],
+            "types": ["data_connection"],
+            "where": {
+              "conditions": [{
+                "value": "{{ outer_item.dcn }}", "property": "name", "operator": "="
+              }],
+              "operator":"and"
+            }
+          }
     body_format: json
     validate_certs: no
     status_code: 200
@@ -51,6 +62,7 @@
   args:
     executable: /bin/bash
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
+  when: ibm_infosvr_metadata_asset_manager_existing_dcn.json.paging.numTotal == 1
   register: ibm_infosvr_metadata_asset_manager_discovery_process
   failed_when: ibm_infosvr_metadata_asset_manager_discovery_process.stdout.find('<isCreationSuccesful>false') != -1
 
