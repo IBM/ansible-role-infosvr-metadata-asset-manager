@@ -142,7 +142,7 @@
           -a reimport
           -i '{{ item.name }}'
           -l {{ item.file }}
-          --checkEventDiff
+          {% if ibm_infosvr_metadata_asset_mgr_installed_version_full != "11.5.0.1" %}--checkEventDiff{% endif %}
   args:
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
