@@ -1,0 +1,19 @@
+
+[{{ item.name }}]
+Driver=/usr/lib64/libmyodbc5.so
+Description={{ item.description | default('Open Source MySQL ODBC Driver') }}
+SERVER={{ item.host }}
+PORT={{ item.port | default('3306') }}
+USER={{ item.USER | default('') }}
+Password={{ item.Password | default('') }}
+Database={{ item.database }}
+OPTION={{ item.OPTION | default('3') }}
+SOCKET={{ item.SOCKET | default('') }}
+DriverUnicodeType={{ item.DriverUnicodeType | default('1') }}
+{% if item.extras is defined %}
+{% for param in item.extras %}
+{% for key, value in param.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}
