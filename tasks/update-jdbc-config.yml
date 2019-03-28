@@ -37,6 +37,7 @@
 
 - name: Check existing CLASSPATHs in isjdbc.config
   shell: >
+          set -o pipefail &&
           grep 'CLASSPATH=' {{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config
           | grep '{{ item }}'
   args:
@@ -48,6 +49,7 @@
 
 - name: Check existing CLASS_NAMES in isjdbc.config
   shell: >
+          set -o pipefail &&
           grep 'CLASS_NAMES=' {{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine/isjdbc.config
           | grep '{{ item }}'
   args:
