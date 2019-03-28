@@ -48,8 +48,8 @@
 - include_tasks: create-data-connections.yml
   when: >
         data_connections is defined
-        and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
         and ('ibm-information-server-engine' in group_names)
+        and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
 
 - include_tasks: create-and-load-import-areas.yml
   when: >
@@ -62,8 +62,8 @@
     loop_var: outer_item
   when: >
         discover_sources is defined
-        and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
         and ('ibm-information-server-engine' in group_names)
+        and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
 
 - name: remove temporary auth file
   file:
