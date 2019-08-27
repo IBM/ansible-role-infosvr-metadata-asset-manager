@@ -16,10 +16,10 @@
 ###
 
 - import_tasks: get_version.yml
-  when: ('ibm-information-server-engine' in group_names)
+  when: ('ibm_information_server_engine' in group_names)
 
 - import_tasks: create_authfile.yml
-  when: ('ibm-information-server-engine' in group_names)
+  when: ('ibm_information_server_engine' in group_names)
 
 - block:
     - include_tasks: create-odbc-entries.yml
@@ -27,7 +27,7 @@
   become: yes
   when: >
         odbc_entries is defined
-        and ('ibm-information-server-engine' in group_names)
+        and ('ibm_information_server_engine' in group_names)
 
 - block:
     - include_tasks: update-jdbc-config.yml
@@ -35,7 +35,7 @@
   become: yes
   when: >
         jdbc_entries is defined
-        and ('ibm-information-server-engine' in group_names)
+        and ('ibm_information_server_engine' in group_names)
 
 - block:
     - include_tasks: generate-osh-schemas.yml
@@ -43,18 +43,18 @@
   become: yes
   when: >
         osh_schemas is defined
-        and ('ibm-information-server-engine' in group_names)
+        and ('ibm_information_server_engine' in group_names)
 
 - include_tasks: create-data-connections.yml
   when: >
         data_connections is defined
-        and ('ibm-information-server-engine' in group_names)
+        and ('ibm_information_server_engine' in group_names)
         and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
 
 - include_tasks: create-and-load-import-areas.yml
   when: >
         import_areas is defined
-        and ('ibm-information-server-engine' in group_names)
+        and ('ibm_information_server_engine' in group_names)
 
 - include_tasks: discover.yml
   with_items: "{{ discover_sources }}"
@@ -62,11 +62,11 @@
     loop_var: outer_item
   when: >
         discover_sources is defined
-        and ('ibm-information-server-engine' in group_names)
+        and ('ibm_information_server_engine' in group_names)
         and (ibm_infosvr_metadata_asset_mgr_installed_version == "11.7")
 
 - name: remove temporary auth file
   file:
     path: "{{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}"
     state: absent
-  when: ('ibm-information-server-engine' in group_names)
+  when: ('ibm_information_server_engine' in group_names)
