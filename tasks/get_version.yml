@@ -26,7 +26,6 @@
     namespaces:
       x: http://www.ibm.com/LocalInstallRegistry
     content: attribute
-    attribute: x:currentVersion
   register: __ibm_infosvr_mam_version_xml
 
 - name: get_version - register version number for reference
