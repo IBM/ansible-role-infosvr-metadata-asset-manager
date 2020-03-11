@@ -40,6 +40,14 @@
       Content-Type: "application/json"
   register: ibm_infosvr_metadata_asset_manager_existing_dcn
 
+- name: discover - close session
+  uri:
+    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:\
+          {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/logout/"
+    method: GET
+    headers:
+      Cookie: "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.set_cookie }}"
+
 - name: discover - ensure DCN exists
   assert:
     that:

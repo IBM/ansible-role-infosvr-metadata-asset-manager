@@ -43,6 +43,14 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: data_connections - close session
+  uri:
+    url: "https://{{ ibm_infosvr_metadata_asset_mgr_services_host }}:\
+          {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}/ibm/iis/igc-rest/v1/logout/"
+    method: GET
+    headers:
+      Cookie: "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.set_cookie }}"
+
 - name: data_connections - encrypt any password information
   no_log: True
   command: >
