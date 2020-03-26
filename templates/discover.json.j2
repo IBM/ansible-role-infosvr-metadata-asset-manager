@@ -1,15 +1,15 @@
 {
-  "projectName": "{{ outer_item.project }}",
-{% if outer_item.steps is defined %}
-  "jobSteps": "{{ outer_item.steps | join(',') }}",
+  "projectName": "{{ __iimam_ds.project }}",
+{% if __iimam_ds.steps is defined %}
+  "jobSteps": "{{ __iimam_ds.steps | join(',') }}",
 {% else %}
   "jobSteps": "import,columnAnalysis,termAssignment,dataQualityAnalysis",
 {% endif %}
   "dcRid": "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.json['items'][0]._id }}",
   "importParameters": {
-    "targetHost": "{{ outer_item.target_host }}"
-{% if outer_item.parameters is defined %}
-{% for key, value in outer_item.parameters.items() %}
+    "targetHost": "{{ __iimam_ds.target_host }}"
+{% if __iimam_ds.parameters is defined %}
+{% for key, value in __iimam_ds.parameters.items() %}
     , "{{ key }}": "{{ value }}"
 {% endfor %}
 {% endif %}

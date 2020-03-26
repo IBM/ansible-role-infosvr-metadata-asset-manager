@@ -1,24 +1,24 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMimpala00.so
-Description={{ item.description | default('DataDirect Impala Wire Protocol Driver') }}
-ArraySize={{ item.ArraySize | default('16384') }}
-Database={{ item.database }}
-DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
-DefaultOrderByLimit={{ item.DefaultOrderByLimit | default('-1') }}
-EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
-HostName={{ item.host }}
-LoginTimeout={{ item.LoginTimeout | default('30') }}
-LogonID={{ item.LogonID | default('') }}
-MaxVarcharSize={{ item.MaxVarcharSize | default('') }}
-Password={{ item.Password | default('') }}
-PortNumber={{ item.PortNumber | default('10000') }}
-RemoveColumnQualifiers={{ item.RemoveColumnQualifiers | default('0') }}
-StringDescribeType={{ item.StringDescribeType | default('12') }}
-TransactionMode={{ item.TransactionMode | default('0') }}
-UseCurrentSchema={{ item.UseCurrentSchema | default('0') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Impala Wire Protocol Driver') }}
+ArraySize={{ __iimam_odbc.ArraySize | default('16384') }}
+Database={{ __iimam_odbc.database }}
+DefaultLongDataBuffLen={{ __iimam_odbc.DefaultLongDataBuffLen | default('1024') }}
+DefaultOrderByLimit={{ __iimam_odbc.DefaultOrderByLimit | default('-1') }}
+EnableDescribeParam={{ __iimam_odbc.EnableDescribeParam | default('0') }}
+HostName={{ __iimam_odbc.host }}
+LoginTimeout={{ __iimam_odbc.LoginTimeout | default('30') }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+MaxVarcharSize={{ __iimam_odbc.MaxVarcharSize | default('') }}
+Password={{ __iimam_odbc.Password | default('') }}
+PortNumber={{ __iimam_odbc.PortNumber | default('10000') }}
+RemoveColumnQualifiers={{ __iimam_odbc.RemoveColumnQualifiers | default('0') }}
+StringDescribeType={{ __iimam_odbc.StringDescribeType | default('12') }}
+TransactionMode={{ __iimam_odbc.TransactionMode | default('0') }}
+UseCurrentSchema={{ __iimam_odbc.UseCurrentSchema | default('0') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

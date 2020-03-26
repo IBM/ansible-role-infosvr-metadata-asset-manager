@@ -1,15 +1,15 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMmsss00.so
-Description={{ item.description | default('DataDirect SQL Server Wire Protocol driver') }}
-Database={{ item.database }}
-LogonID={{ item.LogonID | default('') }}
-Password={{ item.Password | default('') }}
-Address={{ item.host }},{{ item.port | default('1433') }}
-QuotedId={{ item.QuotedId | default('No') }}
-AnsiNPW={{ item.AnsiNPW | default('No') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect SQL Server Wire Protocol driver') }}
+Database={{ __iimam_odbc.database }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+Password={{ __iimam_odbc.Password | default('') }}
+Address={{ __iimam_odbc.host }},{{ __iimam_odbc.port | default('1433') }}
+QuotedId={{ __iimam_odbc.QuotedId | default('No') }}
+AnsiNPW={{ __iimam_odbc.AnsiNPW | default('No') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

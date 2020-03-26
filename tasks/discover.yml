@@ -28,7 +28,7 @@
             "types": ["data_connection"],
             "where": {
               "conditions": [{
-                "value": "{{ outer_item.dcn }}", "property": "name", "operator": "="
+                "value": "{{ __iimam_ds.dcn }}", "property": "name", "operator": "="
               }],
               "operator":"and"
             }
@@ -53,12 +53,12 @@
   assert:
     that:
       - ibm_infosvr_metadata_asset_manager_existing_dcn.json.paging.numTotal == 1
-    msg: "Specified DCN ({{ outer_item.dcn }}) not found -- ensure that it has first been created."
+    msg: "Specified DCN ({{ __iimam_ds.dcn }}) not found -- ensure that it has first been created."
 
 - name: discover - apply template
   template:
     src: discover.json.j2
-    dest: /tmp/__discover_{{ outer_item.dcn | replace(' ', '_') }}.json
+    dest: /tmp/__discover_{{ __iimam_ds.dcn | replace(' ', '_') }}.json
 
 - name: discover - start discovery process
   shell: >
@@ -66,8 +66,8 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a discover
-          -cf /tmp/__discover_{{ outer_item.dcn | replace(' ', '_') }}.json
-          -redc '{{ outer_item.dcn }}'
+          -cf /tmp/__discover_{{ __iimam_ds.dcn | replace(' ', '_') }}.json
+          -redc '{{ __iimam_ds.dcn }}'
   args:
     executable: /bin/bash
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
@@ -76,4 +76,4 @@
   failed_when: ibm_infosvr_metadata_asset_manager_discovery_process.stdout.find('<isCreationSuccesful>false') != -1
 
 - name: discover - remove template
-  file: state=absent path=/tmp/__discover_{{ outer_item.dcn | replace(' ', '_') }}.json
+  file: state=absent path=/tmp/__discover_{{ __iimam_ds.dcn | replace(' ', '_') }}.json

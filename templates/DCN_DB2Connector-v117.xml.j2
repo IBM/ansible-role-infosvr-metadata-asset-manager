@@ -19,27 +19,27 @@
 <ImportParameters bridgeDisplayName="IBM InfoSphere DB2 Connector" bridgeId="CAS/DB2Connector__9.1" bridgeVersion="9.1_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.item.name }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.item.description is defined %}
-      <value>{{ item.item.description }}</value>
+{% if __iimam_dcr.__iimam_dc.description is defined %}
+      <value>{{ __iimam_dcr.__iimam_dc.description }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="Database/Location" id="Database">
-      <value>{{ item.item.database }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.database }}</value>
     </Parameter>
     <Parameter displayName="User name" id="Username">
-      <value>{{ item.item.username }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.username }}</value>
     </Parameter>
     <Parameter displayName="Password" id="Password">
-      <value>{{ item.stdout | trim }}</value>
+      <value>{{ __iimam_dcr.stdout | trim }}</value>
     </Parameter>
     <Parameter displayName="Instance" id="Instance">
-{% if item.item.instance is defined %}
-      <value>{{ item.item.instance }}</value>
+{% if __iimam_dcr.__iimam_dc.instance is defined %}
+      <value>{{ __iimam_dcr.__iimam_dc.instance }}</value>
 {% else %}
       <value></value>
 {% endif %}

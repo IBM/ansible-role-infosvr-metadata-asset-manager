@@ -28,7 +28,7 @@
             "types": ["data_connection"],
             "where": {
               "conditions": [{
-                "value": "{{ item.name }}", "property": "name", "operator": "="
+                "value": "{{ __iimam_dc.name }}", "property": "name", "operator": "="
               }],
               "operator":"and"
             }
@@ -41,7 +41,8 @@
   with_items: "{{ data_connections }}"
   register: ibm_infosvr_metadata_asset_manager_existing_dcn
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_dc
+    label: "{{ __iimam_dc.name }}"
 
 - name: data_connections - close session
   uri:
@@ -56,25 +57,29 @@
   no_log: True
   command: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
-          {% if item.dcn is defined and item.dcn.password is defined %}
-          {{ item.dcn.password }}
-          {% elif item.password is defined %}
-          {{ item.password }}
+          {% if __iimam_dc.dcn is defined and __iimam_dc.dcn.password is defined %}
+          {{ __iimam_dc.dcn.password }}
+          {% elif __iimam_dc.password is defined %}
+          {{ __iimam_dc.password }}
           {% else %}
           empty
           {% endif %}
   with_items: "{{ data_connections }}"
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn
+  loop_control:
+    loop_var: __iimam_dc
 
 - name: data_connections - transfer data connection templates
   template:
-    src: DCN_{{ item.item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2
-    dest: /tmp/DCN_{{ item.item.name }}-{{ item.item.type }}.xml
+    src: "DCN_{{ __iimam_dcr.__iimam_dc.type }}-\
+          v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2"
+    dest: /tmp/DCN_{{ __iimam_dcr.__iimam_dc.name }}-{{ __iimam_dcr.__iimam_dc.type }}.xml
     mode: 0600
   with_items: "{{ __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn.results }}"
   loop_control:
-    label: "{{ item.item.name }}"
+    loop_var: __iimam_dcr
+    label: "{{ __iimam_dcr.__iimam_dc.name }}"
 
 - name: data_connections - create data connection
   shell: >
@@ -83,18 +88,22 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a createDC
-          -fp /tmp/DCN_{{ item.item.name }}-{{ item.item.type }}.xml
+          -fp /tmp/DCN_{{ __iimam_dcr.__iimam_dc.name }}-{{ __iimam_dcr.__iimam_dc.type }}.xml
           -mn {{ ibm_infosvr_metadata_asset_mgr_engine_host }}
   args:
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
-  when: item.json.paging.numTotal == 0
+  when: __iimam_dcr.json.paging.numTotal == 0
   with_items: "{{ ibm_infosvr_metadata_asset_manager_existing_dcn.results }}"
   loop_control:
-    label: "{{ item.item.name }}"
+    loop_var: __iimam_dcr
+    label: "{{ __iimam_dcr.__iimam_dc.name }}"
 
 - name: data_connections - remove data connection configuration files
-  file: state=absent path=/tmp/DCN_{{ item.name }}-{{ item.type }}.xml
+  file:
+    state: absent
+    path: /tmp/DCN_{{ __iimam_dc.name }}-{{ __iimam_dc.type }}.xml
   with_items: "{{ data_connections }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_dc
+    label: "{{ __iimam_dc.name }}"

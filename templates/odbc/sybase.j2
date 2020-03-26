@@ -1,28 +1,28 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMase00.so
-Description={{ item.description | default('DataDirect Sybase Wire Protocol Driver') }}
-ApplicationName={{ item.ApplicationName | default('') }}
-ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
-ArraySize={{ item.ArraySize | default('50') }}
-Charset={{ item.Charset | default('') }}
-CursorCacheSize={{ item.CursorCacheSize | default('1') }}
-Database={{ item.database }}
-DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
-EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
-EnableQuotedIdentifiers={{ item.EnableQuotedIdentifiers | default('0') }}
-InitializationString={{ item.InitializationString | default('') }}
-Language={{ item.Language | default('') }}
-LogonID={{ item.LogonID | default('') }}
-NetworkAddress={{ item.host }},{{ item.port | default('2638') }}
-OptimizePrepare={{ item.OptimizePrepare | default('1') }}
-PacketSize={{ item.PacketSize | default('0') }}
-Password={{ item.Password | default('') }}
-RaiseErrorPositionBehavior={{ item.RaiseErrorPositionBehavior | default('0') }}
-SelectMethod={{ item.SelectMethod | default('0') }}
-WorkStationID={{ item.WorkStationID | default('') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Sybase Wire Protocol Driver') }}
+ApplicationName={{ __iimam_odbc.ApplicationName | default('') }}
+ApplicationUsingThreads={{ __iimam_odbc.ApplicationUsingThreads | default('1') }}
+ArraySize={{ __iimam_odbc.ArraySize | default('50') }}
+Charset={{ __iimam_odbc.Charset | default('') }}
+CursorCacheSize={{ __iimam_odbc.CursorCacheSize | default('1') }}
+Database={{ __iimam_odbc.database }}
+DefaultLongDataBuffLen={{ __iimam_odbc.DefaultLongDataBuffLen | default('1024') }}
+EnableDescribeParam={{ __iimam_odbc.EnableDescribeParam | default('0') }}
+EnableQuotedIdentifiers={{ __iimam_odbc.EnableQuotedIdentifiers | default('0') }}
+InitializationString={{ __iimam_odbc.InitializationString | default('') }}
+Language={{ __iimam_odbc.Language | default('') }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+NetworkAddress={{ __iimam_odbc.host }},{{ __iimam_odbc.port | default('2638') }}
+OptimizePrepare={{ __iimam_odbc.OptimizePrepare | default('1') }}
+PacketSize={{ __iimam_odbc.PacketSize | default('0') }}
+Password={{ __iimam_odbc.Password | default('') }}
+RaiseErrorPositionBehavior={{ __iimam_odbc.RaiseErrorPositionBehavior | default('0') }}
+SelectMethod={{ __iimam_odbc.SelectMethod | default('0') }}
+WorkStationID={{ __iimam_odbc.WorkStationID | default('') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

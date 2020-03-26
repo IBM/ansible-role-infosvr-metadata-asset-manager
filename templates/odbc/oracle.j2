@@ -1,29 +1,29 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMor800.so
-Description={{ item.description | default('DataDirect Oracle driver') }}
-ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
-ArraySize={{ item.ArraySize | default('60000') }}
-CatalogIncludesSynonyms={{ item.CatalogIncludesSynonyms | default('1') }}
-CatalogOptions={{ item.CatalogOptions | default('0') }}
-CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
-DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
-DescribeAtPrepare={{ item.DescribeAtPrepare | default('0') }}
-EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
-EnableNcharSupport={{ item.EnableNcharSupport | default('0') }}
-EnableScrollableCursors={{ item.EnableScrollableCursors | default('1') }}
-EnableStaticCursorsForLongData={{ item.EnableStaticCursorsForLongData | default('0') }}
-EnableTimestampWithTimeZone={{ item.EnableTimestampWithTimeZone | default('0') }}
-LocalTimeZoneOffset={{ item.LocalTimeZoneOffset | default('') }}
-LockTimeOut={{ item.LockTimeOut | default('-1') }}
-LogonID={{ item.LogonID | default('') }}
-OptimizeLongPerformance={{ item.OptimizeLongPerformance | default('0') }}
-Password={{ item.Password | default('') }}
-ProcedureRetResults={{ item.ProcedureRetResults | default('0') }}
-ServerName={{ item.host }}
-UseCurrentSchema={{ item.UseCurrentSchema | default('1') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Oracle driver') }}
+ApplicationUsingThreads={{ __iimam_odbc.ApplicationUsingThreads | default('1') }}
+ArraySize={{ __iimam_odbc.ArraySize | default('60000') }}
+CatalogIncludesSynonyms={{ __iimam_odbc.CatalogIncludesSynonyms | default('1') }}
+CatalogOptions={{ __iimam_odbc.CatalogOptions | default('0') }}
+CipherList={{ __iimam_odbc.CipherList | default('DEFAULT:!RC4') }}
+DefaultLongDataBuffLen={{ __iimam_odbc.DefaultLongDataBuffLen | default('1024') }}
+DescribeAtPrepare={{ __iimam_odbc.DescribeAtPrepare | default('0') }}
+EnableDescribeParam={{ __iimam_odbc.EnableDescribeParam | default('0') }}
+EnableNcharSupport={{ __iimam_odbc.EnableNcharSupport | default('0') }}
+EnableScrollableCursors={{ __iimam_odbc.EnableScrollableCursors | default('1') }}
+EnableStaticCursorsForLongData={{ __iimam_odbc.EnableStaticCursorsForLongData | default('0') }}
+EnableTimestampWithTimeZone={{ __iimam_odbc.EnableTimestampWithTimeZone | default('0') }}
+LocalTimeZoneOffset={{ __iimam_odbc.LocalTimeZoneOffset | default('') }}
+LockTimeOut={{ __iimam_odbc.LockTimeOut | default('-1') }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+OptimizeLongPerformance={{ __iimam_odbc.OptimizeLongPerformance | default('0') }}
+Password={{ __iimam_odbc.Password | default('') }}
+ProcedureRetResults={{ __iimam_odbc.ProcedureRetResults | default('0') }}
+ServerName={{ __iimam_odbc.host }}
+UseCurrentSchema={{ __iimam_odbc.UseCurrentSchema | default('1') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

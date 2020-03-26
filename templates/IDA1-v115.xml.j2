@@ -19,53 +19,53 @@
 <ImportParameters bridgeDisplayName="IBM InfoSphere Data Architect MetaBroker" bridgeId="BROKER/IDA1" bridgeVersion="1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <!-- Name and path of input file on the metadata interchange server.  To use a local computer file, leave this parameter value empty and specify the local file input option on the command line. -->
   <Parameter isRequired="true" displayName="DBM or LDM file" id="DBM or LDM">
-    <value>{{ item.item.model_file }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.model_file }}</value>
   </Parameter>
   <Parameter displayName="IDA version" id="IDA Tool Version">
-    <value>{{ item.item.model_version }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.model_version }}</value>
   </Parameter>
   <Parameter displayName="Import&#xa;LDM assets with DBM" id="Import LDM assets with DBM" type="BOOLEAN">
-{% if item.item.import_ldm_with_dbm is defined %}
-    <value>{{ item.item.import_ldm_with_dbm }}</value>
+{% if __iimam_cred.__iimam_ia.import_ldm_with_dbm is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_ldm_with_dbm }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
+{% if __iimam_cred.__iimam_ia.existing_asset is defined and __iimam_cred.__iimam_ia.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.item.existing_asset }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Model namespace" id="Model namespace">
-    <value>{{ item.item.model_namespace }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.model_namespace }}</value>
   </Parameter>
   <Parameter displayName="Create&#xa;database schema from physical model" id="Generate database schema">
-{% if item.item.create_schema_from_pdm is defined %}
-    <value>{{ item.item.create_schema_from_pdm|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.create_schema_from_pdm is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.create_schema_from_pdm|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Host system name" id="HostSystem Name">
-{% if item.item.hostname is defined %}
-    <value>{{ item.item.hostname }}</value>
+{% if __iimam_cred.__iimam_ia.hostname is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.hostname }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Database name" id="Database Name">
-{% if item.item.database_name is defined %}
-    <value>{{ item.item.database_name }}</value>
+{% if __iimam_cred.__iimam_ia.database_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.database_name }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Replace&#xa;incorrect or missing database name" id="Replace incorrect or missing database name">
-{% if item.item.database_name_override_bridge is defined and item.item.database_name_override_bridge %}
+{% if __iimam_cred.__iimam_ia.database_name_override_bridge is defined and __iimam_cred.__iimam_ia.database_name_override_bridge %}
     <displayValue>Use database name to override bridge value</displayValue>
     <value>Use database name to override bridge value</value>
 {% else %}
@@ -74,14 +74,14 @@
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="DBMS name" id="DBMS Name">
-{% if item.item.dbms_name is defined %}
-    <value>{{ item.item.dbms_name }}</value>
+{% if __iimam_cred.__iimam_ia.dbms_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.dbms_name }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Replace&#xa;incorrect or missing DBMS name" id="Replace incorrect or missing DBMS name">
-{% if item.item.dbms_name_override_bridge is defined and item.item.dbms_name_override_bridge %}
+{% if __iimam_cred.__iimam_ia.dbms_name_override_bridge is defined and __iimam_cred.__iimam_ia.dbms_name_override_bridge %}
     <displayValue>Use DBMS name to override bridge value</displayValue>
     <value>Use DBMS name to override bridge value</value>
 {% else %}
@@ -90,8 +90,8 @@
 {% endif %}
   </Parameter>
   <Parameter displayName="DBMS server instance&#xa;name" id="DBMS Server Instance Name">
-{% if item.item.dbms_server_instance is defined %}
-    <value>{{ item.item.dbms_server_instance }}</value>
+{% if __iimam_cred.__iimam_ia.dbms_server_instance is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.dbms_server_instance }}</value>
 {% else %}
     <value></value>
 {% endif %}

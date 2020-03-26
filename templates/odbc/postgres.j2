@@ -1,46 +1,46 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMpsql00.so
-Description={{ item.description | default('DataDirect 7.0 PostgreSQL Wire Protocol') }}
-AlternateServers={{ item.AlternateServers | default('') }}
-ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
-ConnectionReset={{ item.ConnectionReset | default('0') }}
-ConnectionRetryCount={{ item.ConnectionRetryCount | default('0') }}
-ConnectionRetryDelay={{ item.ConnectionRetryDelay | default('3') }}
-CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
-Database={{ item.database }}
-DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('2048') }}
-EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
-EncryptionMethod={{ item.EncryptionMethod | default('0') }}
-ExtendedColumnMetaData={{ item.ExtendedColumnMetaData | default('0') }}
-FailoverGranularity={{ item.FailoverGranularity | default('0') }}
-FailoverMode={{ item.FailoverMode | default('0') }}
-FailoverPreconnect={{ item.FailoverPreconnect | default('0') }}
-FetchTSWTZasTimestamp={{ item.FetchTSWTZasTimestamp | default('0') }}
-FetchTWFSasTime={{ item.FetchTWFSasTime | default('0') }}
-HostName={{ item.host }}
-HostNameInCertificate={{ item.HostNameInCertificate | default('') }}
-InitializationString={{ item.InitializationString | default('') }}
-KeyPassword={{ item.KeyPassword | default('') }}
-KeyStore={{ item.KeyStore | default('') }}
-KeyStorePassword={{ item.KeyStorePassword | default('') }}
-LoadBalanceTimeout={{ item.LoadBalanceTimeout | default('0') }}
-LoadBalancing={{ item.LoadBalancing | default('0') }}
-LoginTimeout={{ item.LoginTimeout | default('15') }}
-LogonID={{ item.LogonID | default('') }}
-MaxPoolSize={{ item.MaxPoolSize | default('100') }}
-MinPoolSize={{ item.MinPoolSize | default('0') }}
-Password={{ item.Password | default('') }}
-Pooling={{ item.Pooling | default('0') }}
-PortNumber={{ item.port | default('5432') }}
-QueryTimeout={{ item.QueryTimeout | default('0') }}
-ReportCodepageConversionErrors={{ item.ReportCodepageConversionErrors | default('0') }}
-TrustStore={{ item.TrustStore | default('') }}
-TrustStorePassword={{ item.TrustStorePassword | default('') }}
-ValidateServerCertificate={{ item.ValidateServerCertificate | default('1') }}
-XMLDescribeType={{ item.XMLDescribeType | default('-10') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect 7.0 PostgreSQL Wire Protocol') }}
+AlternateServers={{ __iimam_odbc.AlternateServers | default('') }}
+ApplicationUsingThreads={{ __iimam_odbc.ApplicationUsingThreads | default('1') }}
+ConnectionReset={{ __iimam_odbc.ConnectionReset | default('0') }}
+ConnectionRetryCount={{ __iimam_odbc.ConnectionRetryCount | default('0') }}
+ConnectionRetryDelay={{ __iimam_odbc.ConnectionRetryDelay | default('3') }}
+CipherList={{ __iimam_odbc.CipherList | default('DEFAULT:!RC4') }}
+Database={{ __iimam_odbc.database }}
+DefaultLongDataBuffLen={{ __iimam_odbc.DefaultLongDataBuffLen | default('2048') }}
+EnableDescribeParam={{ __iimam_odbc.EnableDescribeParam | default('0') }}
+EncryptionMethod={{ __iimam_odbc.EncryptionMethod | default('0') }}
+ExtendedColumnMetaData={{ __iimam_odbc.ExtendedColumnMetaData | default('0') }}
+FailoverGranularity={{ __iimam_odbc.FailoverGranularity | default('0') }}
+FailoverMode={{ __iimam_odbc.FailoverMode | default('0') }}
+FailoverPreconnect={{ __iimam_odbc.FailoverPreconnect | default('0') }}
+FetchTSWTZasTimestamp={{ __iimam_odbc.FetchTSWTZasTimestamp | default('0') }}
+FetchTWFSasTime={{ __iimam_odbc.FetchTWFSasTime | default('0') }}
+HostName={{ __iimam_odbc.host }}
+HostNameInCertificate={{ __iimam_odbc.HostNameInCertificate | default('') }}
+InitializationString={{ __iimam_odbc.InitializationString | default('') }}
+KeyPassword={{ __iimam_odbc.KeyPassword | default('') }}
+KeyStore={{ __iimam_odbc.KeyStore | default('') }}
+KeyStorePassword={{ __iimam_odbc.KeyStorePassword | default('') }}
+LoadBalanceTimeout={{ __iimam_odbc.LoadBalanceTimeout | default('0') }}
+LoadBalancing={{ __iimam_odbc.LoadBalancing | default('0') }}
+LoginTimeout={{ __iimam_odbc.LoginTimeout | default('15') }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+MaxPoolSize={{ __iimam_odbc.MaxPoolSize | default('100') }}
+MinPoolSize={{ __iimam_odbc.MinPoolSize | default('0') }}
+Password={{ __iimam_odbc.Password | default('') }}
+Pooling={{ __iimam_odbc.Pooling | default('0') }}
+PortNumber={{ __iimam_odbc.port | default('5432') }}
+QueryTimeout={{ __iimam_odbc.QueryTimeout | default('0') }}
+ReportCodepageConversionErrors={{ __iimam_odbc.ReportCodepageConversionErrors | default('0') }}
+TrustStore={{ __iimam_odbc.TrustStore | default('') }}
+TrustStorePassword={{ __iimam_odbc.TrustStorePassword | default('') }}
+ValidateServerCertificate={{ __iimam_odbc.ValidateServerCertificate | default('1') }}
+XMLDescribeType={{ __iimam_odbc.XMLDescribeType | default('-10') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

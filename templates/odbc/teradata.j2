@@ -1,29 +1,29 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMtera00.so
-Description={{ item.description | default('DataDirect Teradata') }}
-AccountString={{ item.AccountString | default('') }}
-CharacterSet={{ item.CharacterSet | default('ASCII') }}
-DBCName={{ item.host }}
-Database={{ item.database }}
-EnableDataEncryption={{ item.EnableDataEncryption | default('No') }}
-EnableLOBs={{ item.EnableLOBs | default('Yes') }}
-EnableReconnect={{ item.EnableReconnect | default('No') }}
-IntegratedSecurity={{ item.IntegratedSecurity | default('No') }}
-LoginTimeout={{ item.LoginTimeout | default('20') }}
-MapCallEscapeToExec={{ item.MapCallEscapeToExec | default('No') }}
-MaxRespSize={{ item.MaxRespSize | default('8192') }}
-Password={{ item.Password | default('') }}
-PortNumber={{ item.port | default('1025') }}
-PrintOption={{ item.PrintOption | default('N') }}
-ProcedureWithSplSource={{ item.ProcedureWithSplSource | default('Y') }}
-ReportCodePageConversionErrors={{ item.ReportCodePageConversionErrors | default('0') }}
-SecurityMechanism={{ item.SecurityMechanism | default('') }}
-SecurityParameter={{ item.SecurityParameter | default('') }}
-ShowSelectableTables={{ item.ShowSelectableTables | default('Yes') }}
-UserID={{ item.UserID | default('') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Teradata') }}
+AccountString={{ __iimam_odbc.AccountString | default('') }}
+CharacterSet={{ __iimam_odbc.CharacterSet | default('ASCII') }}
+DBCName={{ __iimam_odbc.host }}
+Database={{ __iimam_odbc.database }}
+EnableDataEncryption={{ __iimam_odbc.EnableDataEncryption | default('No') }}
+EnableLOBs={{ __iimam_odbc.EnableLOBs | default('Yes') }}
+EnableReconnect={{ __iimam_odbc.EnableReconnect | default('No') }}
+IntegratedSecurity={{ __iimam_odbc.IntegratedSecurity | default('No') }}
+LoginTimeout={{ __iimam_odbc.LoginTimeout | default('20') }}
+MapCallEscapeToExec={{ __iimam_odbc.MapCallEscapeToExec | default('No') }}
+MaxRespSize={{ __iimam_odbc.MaxRespSize | default('8192') }}
+Password={{ __iimam_odbc.Password | default('') }}
+PortNumber={{ __iimam_odbc.port | default('1025') }}
+PrintOption={{ __iimam_odbc.PrintOption | default('N') }}
+ProcedureWithSplSource={{ __iimam_odbc.ProcedureWithSplSource | default('Y') }}
+ReportCodePageConversionErrors={{ __iimam_odbc.ReportCodePageConversionErrors | default('0') }}
+SecurityMechanism={{ __iimam_odbc.SecurityMechanism | default('') }}
+SecurityParameter={{ __iimam_odbc.SecurityParameter | default('') }}
+ShowSelectableTables={{ __iimam_odbc.ShowSelectableTables | default('Yes') }}
+UserID={{ __iimam_odbc.UserID | default('') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

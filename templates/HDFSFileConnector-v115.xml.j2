@@ -19,20 +19,20 @@
 <ImportParameters bridgeDisplayName="File Connector - HDFS" bridgeId="CAS/HDFSFileConnector__1.6" bridgeVersion="1.6_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.item.dcn.name }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.item.dcn.description is defined %}
-      <value>{{ item.item.dcn.description }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.description is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.dcn.description }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="File system" id="FileSystem">
-      <displayValue>{{ item.item.dcn.file_system }}</displayValue>
-{% if item.item.dcn.file_system == 'WebHDFS' %}
+      <displayValue>{{ __iimam_cred.__iimam_ia.dcn.file_system }}</displayValue>
+{% if __iimam_cred.__iimam_ia.dcn.file_system == 'WebHDFS' %}
       <value>1</value>
-{% elif item.item.dcn.file_system == 'HttpFS' %}
+{% elif __iimam_cred.__iimam_ia.dcn.file_system == 'HttpFS' %}
       <value>2</value> <!-- CONFIRM THIS IS CORRECT? -->
 {% endif %}
     </Parameter>
@@ -43,101 +43,101 @@
       <value>false</value>
     </Parameter>
     <Parameter displayName="Use keytab" id="UseKeytab" type="BOOLEAN">
-{% if item.item.dcn.keytab is defined and item.item.dcn.keytab != "" %}
+{% if __iimam_cred.__iimam_ia.dcn.keytab is defined and __iimam_cred.__iimam_ia.dcn.keytab != "" %}
       <value>true</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="Keytab" id="Keytab">
-{% if item.item.dcn.keytab is defined %}
-      <value>{{ item.item.dcn.keytab }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.keytab is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.dcn.keytab }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter displayName="Service principal" id="ServicePrincipal">
-{% if item.item.dcn.service_principal is defined %}
-      <value>{{ item.item.service_principal }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.service_principal is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.service_principal }}</value>
 {% endif %}
     </Parameter>
     <Parameter displayName="Use custom URL" id="UseCustomURL" type="BOOLEAN">
-{% if item.item.dcn.custom_url is defined and item.item.dcn.custom_url != "" %}
+{% if __iimam_cred.__iimam_ia.dcn.custom_url is defined and __iimam_cred.__iimam_ia.dcn.custom_url != "" %}
       <value>true</value>
 {% else %}
       <value>false</value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="Custom URL" id="CustomURL">
-{% if item.item.dcn.custom_url is defined %}
-      <value>{{ item.item.dcn.custom_url }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.custom_url is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.dcn.custom_url }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="Host" id="Host">
-      <value>{{ item.item.dcn.host }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.host }}</value>
     </Parameter>
     <Parameter displayName="Port" id="Port">
-{% if item.item.dcn.port is defined %}
-      <value>{{ item.item.dcn.port }}</value>
-{% elif item.item.dcn.use_ssl is defined and item.item.dcn.use_ssl and item.item.dcn.file_system == 'WebHDFS' %}
+{% if __iimam_cred.__iimam_ia.dcn.port is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.dcn.port }}</value>
+{% elif __iimam_cred.__iimam_ia.dcn.use_ssl is defined and __iimam_cred.__iimam_ia.dcn.use_ssl and __iimam_cred.__iimam_ia.dcn.file_system == 'WebHDFS' %}
       <value>50470</value>
-{% elif item.item.dcn.use_ssl is defined and item.item.dcn.use_ssl and item.item.dcn.file_system == 'HttpFS' }
+{% elif __iimam_cred.__iimam_ia.dcn.use_ssl is defined and __iimam_cred.__iimam_ia.dcn.use_ssl and __iimam_cred.__iimam_ia.dcn.file_system == 'HttpFS' }
       <value>14443</value>
 {% else %}
       <value>50070</value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="User name" id="Username">
-      <value>{{ item.item.dcn.username }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.username }}</value>
     </Parameter>
     <Parameter displayName="Password" id="Password">
-{% if item.item.dcn.password is defined %}
-      <value>{{ item.stdout | trim }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.password is defined %}
+      <value>{{ __iimam_cred.stdout | trim }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
   </CompositeParameter>
   <Parameter displayName="File types filter" id="FileTypeFilter">
-{% if item.item.file_types is defined %}
-    <value>{{ item.item.file_types|join(",") }}</value>
+{% if __iimam_cred.__iimam_ia.file_types is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.file_types|join(",") }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Assets to import" id="DirectoryContents">
-{% if item.item.assets_to_import is defined %}
-    <value>{{ item.item.assets_to_import|join(";") }}</value>
+{% if __iimam_cred.__iimam_ia.assets_to_import is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.assets_to_import|join(";") }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import file structure" id="ImportFileStructure" type="BOOLEAN">
-{% if item.item.import_file_structure is defined %}
-    <value>{{ item.item.import_file_structure|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.import_file_structure is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_file_structure|capitalize }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Ignore metadata access errors" id="IgnoreAccessError" type="BOOLEAN">
-{% if item.item.ignore_access_errors is defined %}
-    <value>{{ item.item.ignore_access_errors|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.ignore_access_errors is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.ignore_access_errors|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
+{% if __iimam_cred.__iimam_ia.existing_asset is defined and __iimam_cred.__iimam_ia.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.item.existing_asset }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Host system name" id="Identity_HostSystem">
-    <value>{{ item.item.hostname }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.hostname }}</value>
   </Parameter>
 </ImportParameters>

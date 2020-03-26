@@ -59,7 +59,7 @@
 - include_tasks: discover.yml
   with_items: "{{ discover_sources }}"
   loop_control:
-    loop_var: outer_item
+    loop_var: __iimam_ds
   when: >
         discover_sources is defined
         and ('ibm_information_server_engine' in group_names)

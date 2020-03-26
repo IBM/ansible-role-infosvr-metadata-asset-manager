@@ -1,23 +1,23 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMtxt00.so
-Description={{ item.description | default('DataDirect TextFile(*.*) Driver') }}
-AllowUpdateAndDelete={{ item.AllowUpdateAndDelete | default('0') }}
-ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
-CacheSize={{ item.CacheSize | default('4') }}
-CenturyBoundary={{ item.CenturyBoundary | default('20') }}
-Database={{ item.database }}
-DataFileExtension={{ item.DataFileExtension | default('TXT') }}
-DecimalSymbol={{ item.DecimalSymbol | default('.') }}
-Delimiter={{ item.Delimiter | default('') }}
-FileOpenCache={{ item.FileOpenCache | default('0') }}
-FirstLineNames={{ item.FirstLineNames | default('0') }}
-IntlSort={{ item.IntlSort | default('0') }}
-ScanRows={{ item.ScanRows | default('25') }}
-TableType={{ item.TableType | default('Comma') }}
-UndefinedTable={{ item.UndefinedTable | default('GUESS') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect TextFile(*.*) Driver') }}
+AllowUpdateAndDelete={{ __iimam_odbc.AllowUpdateAndDelete | default('0') }}
+ApplicationUsingThreads={{ __iimam_odbc.ApplicationUsingThreads | default('1') }}
+CacheSize={{ __iimam_odbc.CacheSize | default('4') }}
+CenturyBoundary={{ __iimam_odbc.CenturyBoundary | default('20') }}
+Database={{ __iimam_odbc.database }}
+DataFileExtension={{ __iimam_odbc.DataFileExtension | default('TXT') }}
+DecimalSymbol={{ __iimam_odbc.DecimalSymbol | default('.') }}
+Delimiter={{ __iimam_odbc.Delimiter | default('') }}
+FileOpenCache={{ __iimam_odbc.FileOpenCache | default('0') }}
+FirstLineNames={{ __iimam_odbc.FirstLineNames | default('0') }}
+IntlSort={{ __iimam_odbc.IntlSort | default('0') }}
+ScanRows={{ __iimam_odbc.ScanRows | default('25') }}
+TableType={{ __iimam_odbc.TableType | default('Comma') }}
+UndefinedTable={{ __iimam_odbc.UndefinedTable | default('GUESS') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

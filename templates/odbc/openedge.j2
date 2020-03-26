@@ -1,16 +1,16 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMoe00.so
-Description={{ item.description | default('DataDirect Progress OpenEdge Wire Protocol') }}
-DatabaseName={{ item.database }}
-EnableTimestampWithTimezone={{ item.EnableTimestampWithTimezone | default('1') }}
-HostName={{ item.host }}
-LogonID={{ item.LogonID | default('') }}
-Password={{ item.Password | default('') }}
-PortNumber={{ item.port | default('20931') }}
-CipherList={{ item.CipherList | default('DEFAULT:!RC4') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Progress OpenEdge Wire Protocol') }}
+DatabaseName={{ __iimam_odbc.database }}
+EnableTimestampWithTimezone={{ __iimam_odbc.EnableTimestampWithTimezone | default('1') }}
+HostName={{ __iimam_odbc.host }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+Password={{ __iimam_odbc.Password | default('') }}
+PortNumber={{ __iimam_odbc.port | default('20931') }}
+CipherList={{ __iimam_odbc.CipherList | default('DEFAULT:!RC4') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

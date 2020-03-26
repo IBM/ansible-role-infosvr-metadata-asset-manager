@@ -1,18 +1,18 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMifcl00.so
-Description={{ item.description | default('DataDirect Informix Wire Protocol driver') }}
-Database={{ item.database }}
-LogonID={{ item.LogonID | default('') }}
-Password={{ item.Password | default('') }}
-HostName={{ item.host }}
-PortNumber={{ item.port | default('1500') }}
-ServerName={{ item.ServerName | default('informixserver') }}
-CancelDetectInterval={{ item.CancelDetectInterval | default('0') }}
-TrimBlankFromIndexName={{ item.TrimBlankFromIndexName | default('1') }}
-ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Informix Wire Protocol driver') }}
+Database={{ __iimam_odbc.database }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+Password={{ __iimam_odbc.Password | default('') }}
+HostName={{ __iimam_odbc.host }}
+PortNumber={{ __iimam_odbc.port | default('1500') }}
+ServerName={{ __iimam_odbc.ServerName | default('informixserver') }}
+CancelDetectInterval={{ __iimam_odbc.CancelDetectInterval | default('0') }}
+TrimBlankFromIndexName={{ __iimam_odbc.TrimBlankFromIndexName | default('1') }}
+ApplicationUsingThreads={{ __iimam_odbc.ApplicationUsingThreads | default('1') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

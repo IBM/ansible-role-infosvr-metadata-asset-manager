@@ -1,17 +1,17 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver=/usr/lib64/libmyodbc5.so
-Description={{ item.description | default('Open Source MySQL ODBC Driver') }}
-SERVER={{ item.host }}
-PORT={{ item.port | default('3306') }}
-USER={{ item.USER | default('') }}
-Password={{ item.Password | default('') }}
-Database={{ item.database }}
-OPTION={{ item.OPTION | default('3') }}
-SOCKET={{ item.SOCKET | default('') }}
-DriverUnicodeType={{ item.DriverUnicodeType | default('1') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('Open Source MySQL ODBC Driver') }}
+SERVER={{ __iimam_odbc.host }}
+PORT={{ __iimam_odbc.port | default('3306') }}
+USER={{ __iimam_odbc.USER | default('') }}
+Password={{ __iimam_odbc.Password | default('') }}
+Database={{ __iimam_odbc.database }}
+OPTION={{ __iimam_odbc.OPTION | default('3') }}
+SOCKET={{ __iimam_odbc.SOCKET | default('') }}
+DriverUnicodeType={{ __iimam_odbc.DriverUnicodeType | default('1') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

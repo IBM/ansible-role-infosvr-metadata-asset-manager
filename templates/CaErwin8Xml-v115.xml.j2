@@ -18,53 +18,53 @@
 -->
 <ImportParameters bridgeDisplayName="ERwin 8 Data Modeler (File)" bridgeId="MITI/CaErwin8Xml" bridgeVersion="9.1.0 - 2017-04-12 13:25:46" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <Parameter isRequired="true" displayName="File" id="File">
-    <value>{{ item.item.model_file }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.model_file }}</value>
   </Parameter>
   <Parameter displayName="Import user-defined properties&#xa;(UDPs)" id="Import UDPs">
-{% if item.item.import_user_defined_properties is defined %}
-    <value>{{ item.item.import_user_defined_properties }}</value>
+{% if __iimam_cred.__iimam_ia.import_user_defined_properties is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_user_defined_properties }}</value>
 {% else %}
     <value>As metadata</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import relationship&#xa;names" id="Import relationship name">
-{% if item.item.import_relationship_names is defined %}
-    <value>{{ item.item.import_relationship_names }}</value>
+{% if __iimam_cred.__iimam_ia.import_relationship_names is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_relationship_names }}</value>
 {% else %}
     <value>From relationship name</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Select column order" id="Import column order from">
-{% if item.item.column_order is defined %}
-    <value>{{ item.item.column_order }}</value>
+{% if __iimam_cred.__iimam_ia.column_order is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.column_order }}</value>
 {% else %}
     <value>Physical order</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import parent schemas" id="Import owner schemas" type="BOOLEAN">
-{% if item.item.import_parent_schemas is defined %}
-    <value>{{ item.item.import_parent_schemas|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.import_parent_schemas is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_parent_schemas|capitalize }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import diagrams" id="Import diagrams">
-{% if item.item.import_diagrams is defined %}
-    <value>{{ item.item.import_diagrams }}</value>
+{% if __iimam_cred.__iimam_ia.import_diagrams is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_diagrams }}</value>
 {% else %}
     <value>None</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Move logical&#xa;entities to subject areas" id="Move entities to subject areas" type="BOOLEAN">
-{% if item.item.move_logical_entities_to_subject_areas is defined %}
-    <value>{{ item.item.move_logical_entities_to_subject_areas|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.move_logical_entities_to_subject_areas is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.move_logical_entities_to_subject_areas|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Miscellaneous" id="Miscellaneous">
-{% if item.item.misc_opts is defined %}
-    <value>{{ item.item.misc_opts }}</value>
+{% if __iimam_cred.__iimam_ia.misc_opts is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.misc_opts }}</value>
 {% else %}
     <value></value>
 {% endif %}
@@ -74,17 +74,17 @@
     <value>115</value>
   </Parameter>
   <Parameter displayName="Qualify table names" id="AP_Qualify table names" type="BOOLEAN">
-{% if item.item.qualify_table_names is defined %}
-    <value>{{ item.item.qualify_table_names|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.qualify_table_names is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.qualify_table_names|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Metadata consistency&#xa;check" id="model_consistency_check">
-{% if item.item.metadata_consistency_check is defined and item.item.metadata_consistency_check == 'detailed' %}
+{% if __iimam_cred.__iimam_ia.metadata_consistency_check is defined and __iimam_cred.__iimam_ia.metadata_consistency_check == 'detailed' %}
     <displayValue>Detailed check</displayValue>
     <value>detailed</value>
-{% elif item.item.metadata_consistency_check is defined and item.item.metadata_consistency_check == 'none' %}
+{% elif __iimam_cred.__iimam_ia.metadata_consistency_check is defined and __iimam_cred.__iimam_ia.metadata_consistency_check == 'none' %}
     <displayValue>No check</displayValue>
     <value>none</value>
 {% else %}
@@ -93,40 +93,40 @@
 {% endif %}
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
+{% if __iimam_cred.__iimam_ia.existing_asset is defined and __iimam_cred.__iimam_ia.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.item.existing_asset }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Model namespace" id="AP_Model namespace">
-    <value>{{ item.item.model_namespace }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.model_namespace }}</value>
   </Parameter>
   <Parameter displayName="Create&#xa;database schema from physical model" id="AP_Generate database schema">
-{% if item.item.create_schema_from_pdm is defined %}
-    <value>{{ item.item.create_schema_from_pdm }}</value>
+{% if __iimam_cred.__iimam_ia.create_schema_from_pdm is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.create_schema_from_pdm }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Host system name" id="AP_Host system name">
-{% if item.item.hostname is defined %}
-    <value>{{ item.item.hostname }}</value>
+{% if __iimam_cred.__iimam_ia.hostname is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.hostname }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Database name" id="AP_Database name">
-{% if item.item.database_name is defined %}
-    <value>{{ item.item.database_name }}</value>
+{% if __iimam_cred.__iimam_ia.database_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.database_name }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Replace incorrect or missing database&#xa;name" id="AP_Replace incorrect or missing database name">
-{% if item.item.database_name_override_bridge is defined and not item.item.database_name_override_bridge %}
+{% if __iimam_cred.__iimam_ia.database_name_override_bridge is defined and not __iimam_cred.__iimam_ia.database_name_override_bridge %}
     <displayValue>Use database name if bridge value is empty</displayValue>
     <value>Replace empty</value>
 {% else %}
@@ -135,14 +135,14 @@
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="DBMS name" id="AP_DBMS name">
-{% if item.item.dbms_name is defined %}
-    <value>{{ item.item.dbms_name }}</value>
+{% if __iimam_cred.__iimam_ia.dbms_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.dbms_name }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Replace incorrect or missing&#xa;DBMS name" id="AP_Replace incorrect or missing DBMS name">
-{% if item.item.dbms_name_override_bridge is defined and not item.item.dbms_name_override_bridge %}
+{% if __iimam_cred.__iimam_ia.dbms_name_override_bridge is defined and not __iimam_cred.__iimam_ia.dbms_name_override_bridge %}
     <displayValue>Use DBMS name if bridge value is empty</displayValue>
     <value>Replace empty</value>
 {% else %}
@@ -151,15 +151,15 @@
 {% endif %}
   </Parameter>
   <Parameter displayName="DBMS server instance&#xa;name" id="AP_DBMS server instance name">
-{% if item.item.dbms_server_instance is defined %}
-    <value>{{ item.item.dbms_server_instance }}</value>
+{% if __iimam_cred.__iimam_ia.dbms_server_instance is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.dbms_server_instance }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Schema name" id="AP_Schema name">
-{% if item.item.schema_name is defined %}
-    <value>{{ item.item.schema_name }}</value>
+{% if __iimam_cred.__iimam_ia.schema_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.schema_name }}</value>
 {% else %}
     <value></value>
 {% endif %}

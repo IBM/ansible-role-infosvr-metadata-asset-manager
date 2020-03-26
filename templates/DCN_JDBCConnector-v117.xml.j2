@@ -19,27 +19,27 @@
 <ImportParameters bridgeDisplayName="JDBC Connector" bridgeId="CAS/JDBCConnector__1.0" bridgeVersion="1.0_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.item.name }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.item.description is defined %}
-      <value>{{ item.item.description }}</value>
+{% if __iimam_dcr.__iimam_dc.description is defined %}
+      <value>{{ __iimam_dcr.__iimam_dc.description }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="URL" id="URL">
-      <value>{{ item.item.url }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.url }}</value>
     </Parameter>
     <Parameter displayName="User name" id="Username">
-      <value>{{ item.item.username }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.username }}</value>
     </Parameter>
     <Parameter displayName="Password" id="Password">
-      <value>{{ item.stdout | trim }}</value>
+      <value>{{ __iimam_dcr.stdout | trim }}</value>
     </Parameter>
     <Parameter displayName="Attributes" id="Attributes">
-{% if item.item.attributes is defined %}
-      <value>{{ item.item.attributes | join('\n') }}</value>
+{% if __iimam_dcr.__iimam_dc.attributes is defined %}
+      <value>{{ __iimam_dcr.__iimam_dc.attributes | join('\n') }}</value>
 {% else %}
       <value></value>
 {% endif %}

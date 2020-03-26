@@ -19,11 +19,11 @@
 <ImportParameters bridgeDisplayName="File Connector - Engine tier" bridgeId="CAS/LocalFileConnector__1.6" bridgeVersion="1.6_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.item.name }}</value>
+      <value>{{ __iimam_dcr.__iimam_dc.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.item.description is defined %}
-      <value>{{ item.item.description }}</value>
+{% if __iimam_dcr.__iimam_dc.description is defined %}
+      <value>{{ __iimam_dcr.__iimam_dc.description }}</value>
 {% else %}
       <value></value>
 {% endif %}

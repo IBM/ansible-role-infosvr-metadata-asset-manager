@@ -19,110 +19,110 @@
 <ImportParameters bridgeDisplayName="ODBC Connector" bridgeId="CAS/ODBCConnector__3.5" bridgeVersion="3.5_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.item.dcn.name }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.item.dcn.description is defined %}
-      <value>{{ item.item.dcn.description }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.description is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.dcn.description }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
     <Parameter isRequired="true" displayName="Data source" id="DataSource">
-      <value>{{ item.item.dcn.data_source }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.data_source }}</value>
     </Parameter>
     <Parameter displayName="Username" id="Username">
-      <value>{{ item.item.dcn.username }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.username }}</value>
     </Parameter>
     <Parameter displayName="Password" id="Password">
-      <value>{{ item.stdout | trim }}</value>
+      <value>{{ __iimam_cred.stdout | trim }}</value>
     </Parameter>
   </CompositeParameter>
   <Parameter displayName="Include system objects" id="IncludeSystemObjects" type="BOOLEAN">
-{% if item.item.include_system_objects is defined %}
-    <value>{{ item.item.include_system_objects|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.include_system_objects is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.include_system_objects|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Include views" id="IncludeViews" type="BOOLEAN">
-{% if item.item.include_views is defined %}
-    <value>{{ item.item.include_views|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.include_views is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.include_views|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Schema name filter" id="SchemaNameFilter">
-{% if item.item.schema_name_filter is defined %}
-    <value>{{ item.item.schema_name_filter }}</value>
+{% if __iimam_cred.__iimam_ia.schema_name_filter is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.schema_name_filter }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Use regular expression in schema&#xa;name filter" id="UseRegexInSchemaNameFilter" type="BOOLEAN">
-{% if item.item.use_regex_for_schema_name_filter is defined %}
-    <value>{{ item.item.use_regex_for_schema_name_filter|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.use_regex_for_schema_name_filter is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.use_regex_for_schema_name_filter|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Table name filter" id="TableNameFilter">
-{% if item.item.table_name_filter is defined %}
-    <value>{{ item.item.table_name_filter }}</value>
+{% if __iimam_cred.__iimam_ia.table_name_filter is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.table_name_filter }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Assets to import" id="AssetsToImport">
-{% if item.item.assets_to_import is defined %}
-    <value>{{ item.item.assets_to_import|join(";") }}</value>
+{% if __iimam_cred.__iimam_ia.assets_to_import is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.assets_to_import|join(";") }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import schema structure" id="ImportSchemaStructure" type="BOOLEAN">
-{% if item.item.import_schema_structure is defined %}
-    <value>{{ item.item.import_schema_structure|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.import_schema_structure is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_schema_structure|capitalize }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import table structure" id="ImportTableStructure" type="BOOLEAN">
-{% if item.item.import_table_structure is defined %}
-    <value>{{ item.item.import_table_structure|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.import_table_structure is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_table_structure|capitalize }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Ignore table access&#xa;errors" id="IgnoreTableAccessErrors" type="BOOLEAN">
-{% if item.item.ignore_table_access_errors is defined %}
-    <value>{{ item.item.ignore_table_access_errors|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.ignore_table_access_errors is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.ignore_table_access_errors|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
+{% if __iimam_cred.__iimam_ia.existing_asset is defined and __iimam_cred.__iimam_ia.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.item.existing_asset }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Host system name" id="AP_Host system name">
-    <value>{{ item.item.hostname }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.hostname }}</value>
   </Parameter>
   <Parameter displayName="Database name" id="AP_Database name">
-{% if item.item.database_name is defined %}
-    <value>{{ item.item.database_name }}</value>
+{% if __iimam_cred.__iimam_ia.database_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.database_name }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="DBMS server instance&#xa;name" id="AP_DBMS server instance name">
-{% if item.item.instance_name is defined %}
-    <value>{{ item.item.instance_name }}</value>
+{% if __iimam_cred.__iimam_ia.instance_name is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.instance_name }}</value>
 {% else %}
     <value></value>
 {% endif %}

@@ -1,21 +1,21 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMdbf00.so
-Description={{ item.description | default('DataDirect dBaseFile(*.dbf) Driver') }}
-ApplicationUsingThreads={{ item.ApplicationUsingThreads | default('1') }}
-CacheSize={{ item.CacheSize | default('4') }}
-CreateType={{ item.CreateType | default('dBASE5') }}
-Database={{ item.database }}
-IntlSort={{ item.IntlSort | default('0') }}
-Locking={{ item.Locking | default('RECORD') }}
-UseLongNames={{ item.UseLongNames | default('0') }}
-UseLongQualifiers={{ item.UseLongQualifiers | default('') }}
-DataFileExtension={{ item.DataFileExtension | default('DBF') }}
-ExtensionCase={{ item.ExtensionCase | default('UPPER') }}
-FileOpenCache={{ item.FileOpenCache | default('0') }}
-LockCompatibility={{ item.LockCompatibility | default('dBASE') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect dBaseFile(*.dbf) Driver') }}
+ApplicationUsingThreads={{ __iimam_odbc.ApplicationUsingThreads | default('1') }}
+CacheSize={{ __iimam_odbc.CacheSize | default('4') }}
+CreateType={{ __iimam_odbc.CreateType | default('dBASE5') }}
+Database={{ __iimam_odbc.database }}
+IntlSort={{ __iimam_odbc.IntlSort | default('0') }}
+Locking={{ __iimam_odbc.Locking | default('RECORD') }}
+UseLongNames={{ __iimam_odbc.UseLongNames | default('0') }}
+UseLongQualifiers={{ __iimam_odbc.UseLongQualifiers | default('') }}
+DataFileExtension={{ __iimam_odbc.DataFileExtension | default('DBF') }}
+ExtensionCase={{ __iimam_odbc.ExtensionCase | default('UPPER') }}
+FileOpenCache={{ __iimam_odbc.FileOpenCache | default('0') }}
+LockCompatibility={{ __iimam_odbc.LockCompatibility | default('dBASE') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

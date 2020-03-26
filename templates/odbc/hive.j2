@@ -1,29 +1,29 @@
 
-[{{ item.name }}]
+[{{ __iimam_odbc.name }}]
 Driver={{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/branded_odbc/lib/VMhive00.so
-Description={{ item.description | default('DataDirect Apache Hive Wire Protocol') }}
-ArraySize={{ item.ArraySize | default('16384') }}
-AuthenticationMethod={{ item.AuthenticationMethod | default('0') }}
-Database={{ item.database | default('default') }}
-DefaultLongDataBuffLen={{ item.DefaultLongDataBuffLen | default('1024') }}
-EnableDescribeParam={{ item.EnableDescribeParam | default('0') }}
-GSSClient={{ item.GSSClient | default('native') }}
-HostName={{ item.host }}
-LoginTimeout={{ item.LoginTimeout | default('30') }}
-LogonID={{ item.LogonID | default('') }}
-MaxVarcharSize={{ item.MaxVarcharSize | default('8192') }}
-Password={{ item.Password | default('') }}
-PortNumber={{ item.port | default('10000') }}
-ProxyUser={{ item.ProxyUser | default('') }}
-RemoveColumnQualifiers={{ item.RemoveColumnQualifiers | default('0') }}
-ServicePrincipalName={{ item.ServicePrincipalName | default('') }}
-StringDescribeType={{ item.StringDescribeType | default('12') }}
-TransactionMode={{ item.TransactionMode | default('0') }}
-UseNativeCatalogFunctions={{ item.UseNativeCatalogFunctions | default('0') }}
-UseCurrentSchema={{ item.UseCurrentSchema | default('0') }}
-WireProtocolVersion={{ item.WireProtocolVersion | default('0') }}
-{% if item.extras is defined %}
-{% for param in item.extras %}
+Description={{ __iimam_odbc.description | default('DataDirect Apache Hive Wire Protocol') }}
+ArraySize={{ __iimam_odbc.ArraySize | default('16384') }}
+AuthenticationMethod={{ __iimam_odbc.AuthenticationMethod | default('0') }}
+Database={{ __iimam_odbc.database | default('default') }}
+DefaultLongDataBuffLen={{ __iimam_odbc.DefaultLongDataBuffLen | default('1024') }}
+EnableDescribeParam={{ __iimam_odbc.EnableDescribeParam | default('0') }}
+GSSClient={{ __iimam_odbc.GSSClient | default('native') }}
+HostName={{ __iimam_odbc.host }}
+LoginTimeout={{ __iimam_odbc.LoginTimeout | default('30') }}
+LogonID={{ __iimam_odbc.LogonID | default('') }}
+MaxVarcharSize={{ __iimam_odbc.MaxVarcharSize | default('8192') }}
+Password={{ __iimam_odbc.Password | default('') }}
+PortNumber={{ __iimam_odbc.port | default('10000') }}
+ProxyUser={{ __iimam_odbc.ProxyUser | default('') }}
+RemoveColumnQualifiers={{ __iimam_odbc.RemoveColumnQualifiers | default('0') }}
+ServicePrincipalName={{ __iimam_odbc.ServicePrincipalName | default('') }}
+StringDescribeType={{ __iimam_odbc.StringDescribeType | default('12') }}
+TransactionMode={{ __iimam_odbc.TransactionMode | default('0') }}
+UseNativeCatalogFunctions={{ __iimam_odbc.UseNativeCatalogFunctions | default('0') }}
+UseCurrentSchema={{ __iimam_odbc.UseCurrentSchema | default('0') }}
+WireProtocolVersion={{ __iimam_odbc.WireProtocolVersion | default('0') }}
+{% if __iimam_odbc.extras is defined %}
+{% for param in __iimam_odbc.extras %}
 {% for key, value in param.items() %}
 {{ key }}={{ value }}
 {% endfor %}

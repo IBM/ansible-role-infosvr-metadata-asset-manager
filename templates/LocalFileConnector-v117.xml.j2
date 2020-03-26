@@ -19,54 +19,54 @@
 <ImportParameters bridgeDisplayName="File Connector - Engine tier" bridgeId="CAS/LocalFileConnector__1.6" bridgeVersion="1.6_1.0" release="{{ ibm_infosvr_metadata_asset_mgr_installed_version_full }}">
   <CompositeParameter isRequired="true" displayName="Data connection" id="DataConnection" type="DATA_CONNECTION">
     <Parameter isRequired="true" displayName="Name" id="dcName_">
-      <value>{{ item.item.dcn.name }}</value>
+      <value>{{ __iimam_cred.__iimam_ia.dcn.name }}</value>
     </Parameter>
     <Parameter displayName="Description" id="dcDescription_">
-{% if item.item.dcn.description is defined %}
-      <value>{{ item.item.dcn.description }}</value>
+{% if __iimam_cred.__iimam_ia.dcn.description is defined %}
+      <value>{{ __iimam_cred.__iimam_ia.dcn.description }}</value>
 {% else %}
       <value></value>
 {% endif %}
     </Parameter>
   </CompositeParameter>
   <Parameter displayName="File types filter" id="FileTypeFilter">
-{% if item.item.file_types is defined %}
-    <value>{{ item.item.file_types|join(",") }}</value>
+{% if __iimam_cred.__iimam_ia.file_types is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.file_types|join(",") }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Assets to import" id="DirectoryContents">
-{% if item.item.assets_to_import is defined %}
-    <value>{{ item.item.assets_to_import|join(";") }}</value>
+{% if __iimam_cred.__iimam_ia.assets_to_import is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.assets_to_import|join(";") }}</value>
 {% else %}
     <value></value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Import file structure" id="ImportFileStructure" type="BOOLEAN">
-{% if item.item.import_file_structure is defined %}
-    <value>{{ item.item.import_file_structure|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.import_file_structure is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.import_file_structure|capitalize }}</value>
 {% else %}
     <value>True</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="Ignore metadata access errors" id="IgnoreAccessError" type="BOOLEAN">
-{% if item.item.ignore_access_errors is defined %}
-    <value>{{ item.item.ignore_access_errors|capitalize }}</value>
+{% if __iimam_cred.__iimam_ia.ignore_access_errors is defined %}
+    <value>{{ __iimam_cred.__iimam_ia.ignore_access_errors|capitalize }}</value>
 {% else %}
     <value>False</value>
 {% endif %}
   </Parameter>
   <Parameter displayName="If an asset description already exists" id="Asset_description_already_exists">
-{% if item.item.existing_asset is defined and item.item.existing_asset == 'Keep_existing_description' %}
+{% if __iimam_cred.__iimam_ia.existing_asset is defined and __iimam_cred.__iimam_ia.existing_asset == 'Keep_existing_description' %}
     <displayValue>Keep the existing description</displayValue>
-    <value>{{ item.item.existing_asset }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.existing_asset }}</value>
 {% else %}
     <displayValue>Replace the existing description</displayValue>
     <value>Replace_existing_description</value>
 {% endif %}
   </Parameter>
   <Parameter isRequired="true" displayName="Host system name" id="Identity_HostSystem">
-    <value>{{ item.item.hostname }}</value>
+    <value>{{ __iimam_cred.__iimam_ia.hostname }}</value>
   </Parameter>
 </ImportParameters>
