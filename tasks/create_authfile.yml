@@ -32,8 +32,8 @@
 - name: create_authfile - record environment connection information
   lineinfile:
     path: "{{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}"
-    regexp: "^{{ item.key }}="
-    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ __iimam_cd.key }}="
+    line: "{{ __iimam_cd.key }}={{ __iimam_cd.value }}"
     create: no
     backup: no
   no_log: True
@@ -47,3 +47,5 @@
               {{ ibm_infosvr_metadata_asset_mgr_services_console_port }}"
     - key: server
       value: "{{ ibm_infosvr_metadata_asset_mgr_engine_host | upper }}"
+  loop_control:
+    loop_var: __iimam_cd

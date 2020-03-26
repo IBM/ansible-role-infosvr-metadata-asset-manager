@@ -33,10 +33,10 @@
   no_log: True
   command: >
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/encrypt.sh
-          {% if item.dcn is defined and item.dcn.password is defined %}
-          {{ item.dcn.password }}
-          {% elif item.password is defined %}
-          {{ item.password }}
+          {% if __iimam_import_areas.dcn is defined and __iimam_import_areas.dcn.password is defined %}
+          {{ __iimam_import_areas.dcn.password }}
+          {% elif __iimam_import_areas.password is defined %}
+          {{ __iimam_import_areas.password }}
           {% else %}
           empty
           {% endif %}
@@ -44,17 +44,19 @@
   changed_when: False
   register: __ibm_infosvr_metadata_asset_manager_encrypted_passwords
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_import_areas
+    label: "{{ __iimam_import_areas.name }}"
 
 - name: import_areas - transfer import area templates
   template:
-    src: "{{ item.item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace('.', '') }}.xml.j2"
-    dest: "/tmp/{{ item.item.name|replace(' ', '_') }}-{{ item.item.type }}.xml"
+    src: "{{ __iimam_cred.item.type }}-v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace('.', '') }}.xml.j2"
+    dest: "/tmp/{{ __iimam_cred.item.name|replace(' ', '_') }}-{{ __iimam_cred.item.type }}.xml"
     mode: 0600
-  when: ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.item.name) == -1
+  when: ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(__iimam_cred.item.name) == -1
   with_items: "{{ __ibm_infosvr_metadata_asset_manager_encrypted_passwords.results }}"
   loop_control:
-    label: "{{ item.item.name }}"
+    loop_var: __iimam_cred
+    label: "{{ __iimam_cred.item.name }}"
 
 - name: import_areas - configure import areas via IMAM (skipping local files)
   shell: >
@@ -62,20 +64,21 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a import
-          -i '{{ item.name }}'
-          -ad '{{ item.description }}'
-          -id '{{ item.description }}'
-          -mn {{ item.metadata_interchange_server }}
-          -pf /tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
+          -i '{{ __iimam_import_areas.name }}'
+          -ad '{{ __iimam_import_areas.description }}'
+          -id '{{ __iimam_import_areas.description }}'
+          -mn {{ __iimam_import_areas.metadata_interchange_server }}
+          -pf /tmp/{{ __iimam_import_areas.name|replace(' ', '_') }}-{{ __iimam_import_areas.type }}.xml
   args:
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
-        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
-        and (item.file is not defined)
+        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(__iimam_import_areas.name) == -1
+        and (__iimam_import_areas.file is not defined)
   with_items: "{{ import_areas }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_import_areas
+    label: "{{ __iimam_import_areas.name }}"
 
 - name: import_areas - configure import areas via IMAM (with local files)
   shell: >
@@ -83,27 +86,31 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a import
-          -i '{{ item.name }}'
-          -ad '{{ item.description }}'
-          -id '{{ item.description }}'
-          -mn {{ item.metadata_interchange_server }}
-          -pf /tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
-          -l {{ item.file }}
+          -i '{{ __iimam_import_areas.name }}'
+          -ad '{{ __iimam_import_areas.description }}'
+          -id '{{ __iimam_import_areas.description }}'
+          -mn {{ __iimam_import_areas.metadata_interchange_server }}
+          -pf /tmp/{{ __iimam_import_areas.name|replace(' ', '_') }}-{{ __iimam_import_areas.type }}.xml
+          -l {{ __iimam_import_areas.file }}
   args:
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
-        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) == -1
-        and (item.file is defined)
+        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(__iimam_import_areas.name) == -1
+        and (__iimam_import_areas.file is defined)
   with_items: "{{ import_areas }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_import_areas
+    label: "{{ __iimam_import_areas.name }}"
 
 - name: import_areas - remove connectivity configuration files
-  file: state=absent path=/tmp/{{ item.name|replace(' ', '_') }}-{{ item.type }}.xml
+  file:
+    state: absent
+    path: /tmp/{{ __iimam_import_areas.name|replace(' ', '_') }}-{{ __iimam_import_areas.type }}.xml
   with_items: "{{ import_areas }}"
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_import_areas
+    label: "{{ __iimam_import_areas.name }}"
 
 - name: import_areas - re-import existing import areas via IMAM (skipping local files)
   shell: >
@@ -111,28 +118,30 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
-          -i '{{ item.name }}'
+          -i '{{ __iimam_import_areas.name }}'
           {% if ibm_infosvr_metadata_asset_mgr_installed_version_full != "11.5.0.1" %}--checkEventDiff{% endif %}
   args:
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
-        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
-        and (item.file is not defined)
+        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(__iimam_import_areas.name) != -1
+        and (__iimam_import_areas.file is not defined)
   with_items: "{{ import_areas }}"
   register: __ibm_infosvr_metadata_asset_mgr_reimport
   failed_when: __ibm_infosvr_metadata_asset_mgr_reimport.rc not in [0, 245, 246]
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_import_areas
+    label: "{{ __iimam_import_areas.name }}"
 
 - name: import_areas - list any imports that require review (skipping local files)
   debug:
     msg: "Import includes a potentially destructive change -- requires manual review in UI prior to sharing."
   changed_when: True
-  when: item.rc is defined and item.rc == 246
+  when: __iimam_reimport.rc is defined and __iimam_reimport.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport.results }}"
   loop_control:
-    label: "{{ item.item.name }}"
+    loop_var: __iimam_reimport
+    label: "{{ __iimam_reimport.item.name }}"
 
 - name: import_areas - re-import existing import areas via IMAM (with local files)
   shell: >
@@ -140,26 +149,28 @@
           {{ ibm_infosvr_metadata_asset_mgr_install_location }}/ASBNode/bin/imam.sh
           -af {{ __ibm_infosvr_metadata_asset_mgr_auth_file.path }}
           -a reimport
-          -i '{{ item.name }}'
-          -l {{ item.file }}
+          -i '{{ __iimam_import_areas.name }}'
+          -l {{ __iimam_import_areas.file }}
           {% if ibm_infosvr_metadata_asset_mgr_installed_version_full != "11.5.0.1" %}--checkEventDiff{% endif %}
   args:
     chdir: "{{ ibm_infosvr_metadata_asset_mgr_install_location }}/Server/DSEngine"
     executable: /bin/bash
   when: >
-        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(item.name) != -1
-        and (item.file is defined)
+        ibm_infosvr_metadata_asset_manager_existing_import_areas.stdout.find(__iimam_import_areas.name) != -1
+        and (__iimam_import_areas.file is defined)
   with_items: "{{ import_areas }}"
   register: __ibm_infosvr_metadata_asset_mgr_reimport_local
   failed_when: __ibm_infosvr_metadata_asset_mgr_reimport_local.rc not in [0, 246]
   loop_control:
-    label: "{{ item.name }}"
+    loop_var: __iimam_import_areas
+    label: "{{ __iimam_import_areas.name }}"
 
 - name: import_areas - list any imports that require review (with local files)
   debug:
     msg: "Import includes a potentially destructive change -- requires manual review in UI prior to sharing."
   changed_when: True
-  when: item.rc is defined and item.rc == 246
+  when: __iimam_reimport.rc is defined and __iimam_reimport.rc == 246
   with_items: "{{ __ibm_infosvr_metadata_asset_mgr_reimport_local.results }}"
   loop_control:
-    label: "{{ item.item.name }}"
+    loop_var: __iimam_reimport
+    label: "{{ __iimam_reimport.item.name }}"
