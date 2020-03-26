@@ -73,7 +73,7 @@
 - name: data_connections - transfer data connection templates
   template:
     src: "DCN_{{ __iimam_dcr.__iimam_dc.type }}-\
-          v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace(".", "") }}.xml.j2"
+          v{{ ibm_infosvr_metadata_asset_mgr_installed_version|replace('.', '') }}.xml.j2"
     dest: /tmp/DCN_{{ __iimam_dcr.__iimam_dc.name }}-{{ __iimam_dcr.__iimam_dc.type }}.xml
     mode: 0600
   with_items: "{{ __ibm_infosvr_metadata_asset_manager_encrypted_passwords_dcn.results }}"
